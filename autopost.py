@@ -44,6 +44,7 @@ class Ctx:
         self.tz = ZoneInfo(cfg.get("timezone") or "Asia/Karachi")
         self.now = datetime.datetime.now(self.tz)
         self.tokens = {}
+        self.make_hook = ""
         self.scanned = set()
 
     def ts(self):
@@ -170,6 +171,18 @@ def _fb(resp):
     return data
 
 
+def fb_list_pages(ver, user_token):
+    url = f"https://graph.facebook.com/{ver}/me/accounts"
+    params = {"fields": "id,name,access_token", "limit": 100, "access_token": user_token}
+    pages = []
+    while url:
+        d = _fb(requests.get(url, params=params, timeout=TIMEOUT))
+        pages.extend(d.get("data", []))
+        url = (d.get("paging") or {}).get("next")
+        params = None
+    return pages
+
+
 def fb_upload_reel(ver, page_id, token, path, desc):
     g = f"https://graph.facebook.com/{ver}"
     start = _fb(requests.post(f"{g}/{page_id}/video_reels",
@@ -202,6 +215,114 @@ def fb_upload(ver, page_id, token, path, desc, mode):
         return fb_upload_reel(ver, page_id, token, path, desc), "reel"
     except FBError:
         return fb_upload_video(ver, page_id, token, path, desc), "video (reel failed)"
+
+
+# ------------------------------------------------------------------ Make.com (no developer app needed)
+MAKE_LIMIT = int(4.8 * 1024 * 1024)   # Make free plan file limit is 5 MB
+
+
+def gh_token():
+    """GitHub Actions token: from env, or from the credential that actions/checkout saved in git config."""
+    tok = os.environ.get("GITHUB_TOKEN") or os.environ.get("GH_TOKEN")
+    if tok:
+        return tok
+    import subprocess
+    try:
+        out = subprocess.run(["git", "config", "--get-all", "http.https://github.com/.extraheader"],
+                             cwd=ROOT, capture_output=True, text=True).stdout
+        for line in out.splitlines():
+            if "basic" in line.lower():
+                raw = base64.b64decode(line.split()[-1]).decode()
+                return raw.split(":", 1)[1]
+    except Exception:
+        pass
+    raise RuntimeError("GitHub token not available inside the workflow")
+
+
+def gh_api(method, url, **kw):
+    headers = kw.pop("headers", {})
+    headers.update({"Authorization": f"Bearer {gh_token()}", "Accept": "application/vnd.github+json",
+                    "X-GitHub-Api-Version": "2022-11-28"})
+    r = requests.request(method, url, headers=headers, timeout=kw.pop("timeout", 120), **kw)
+    if r.status_code >= 400 and r.status_code != 404:
+        raise RuntimeError(f"GitHub {method} failed ({r.status_code}): {r.text[:200]}")
+    return r
+
+
+def media_release(repo):
+    r = gh_api("GET", f"https://api.github.com/repos/{repo}/releases/tags/media")
+    if r.status_code == 200:
+        return r.json()
+    r = gh_api("POST", f"https://api.github.com/repos/{repo}/releases",
+               json={"tag_name": "media", "name": "media (temporary videos)", "prerelease": True,
+                     "body": "Temporary video files for Faisal Auto Poster. Deleted automatically after 2 days."})
+    return r.json()
+
+
+def cleanup_media(ctx):
+    """Delete temporary videos older than 2 days."""
+    repo = os.environ.get("GITHUB_REPOSITORY")
+    if not repo or not ctx.make_hook:
+        return
+    try:
+        rel = gh_api("GET", f"https://api.github.com/repos/{repo}/releases/tags/media")
+        if rel.status_code != 200:
+            return
+        cutoff = datetime.datetime.now(datetime.timezone.utc) - datetime.timedelta(days=2)
+        for a in rel.json().get("assets", []):
+            created = datetime.datetime.fromisoformat(a["created_at"].replace("Z", "+00:00"))
+            if created < cutoff:
+                gh_api("DELETE", f"https://api.github.com/repos/{repo}/releases/assets/{a['id']}")
+    except Exception as e:
+        print("cleanup skipped:", e)
+
+
+def shrink_video(path):
+    """Make's free plan only accepts files up to 5 MB, so bigger videos are re-encoded smaller."""
+    import shutil
+    import subprocess
+    if os.path.getsize(path) <= MAKE_LIMIT or not shutil.which("ffmpeg"):
+        return path
+    try:
+        dur = float(subprocess.run(["ffprobe", "-v", "error", "-show_entries", "format=duration",
+                                    "-of", "default=nw=1:nk=1", path], capture_output=True, text=True).stdout.strip())
+    except ValueError:
+        dur = 60.0
+    out = path.rsplit(".", 1)[0] + "_small.mp4"
+    factor = 0.92
+    for _ in range(3):
+        total_kbps = (MAKE_LIMIT * 8 / 1024) / max(dur, 1) * factor
+        v_kbps = max(150, int(total_kbps - 64))
+        subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-i", path,
+                        "-vf", "scale='if(gt(ih,1280),-2,iw)':'if(gt(ih,1280),1280,ih)'",
+                        "-c:v", "libx264", "-preset", "veryfast", "-b:v", f"{v_kbps}k",
+                        "-maxrate", f"{int(v_kbps * 1.2)}k", "-bufsize", f"{v_kbps * 2}k",
+                        "-c:a", "aac", "-b:a", "64k", "-movflags", "+faststart", out], check=True)
+        if os.path.getsize(out) <= MAKE_LIMIT:
+            return out
+        factor *= 0.8
+    return out
+
+
+def make_upload(ctx, page_id, path, caption, vid):
+    repo = os.environ.get("GITHUB_REPOSITORY")
+    if not repo:
+        raise RuntimeError("GITHUB_REPOSITORY not set (must run inside GitHub Actions)")
+    if ctx.cfg.get("make_compress", True):
+        path = shrink_video(path)
+    rel = media_release(repo)
+    name = f"{vid}_{int(datetime.datetime.now().timestamp())}.mp4"
+    with open(path, "rb") as f:
+        up = gh_api("POST", f"https://uploads.github.com/repos/{repo}/releases/{rel['id']}/assets",
+                    params={"name": name}, headers={"Content-Type": "video/mp4"}, data=f, timeout=600)
+    if up.status_code >= 400:
+        raise RuntimeError(f"temporary video upload failed ({up.status_code})")
+    video_url = up.json()["browser_download_url"]
+    r = requests.post(ctx.make_hook, json={"page_id": str(page_id), "video_url": video_url, "caption": caption},
+                      timeout=60)
+    if r.status_code >= 400:
+        raise RuntimeError(f"Make webhook error ({r.status_code}): {r.text[:150]}. Is the Make scenario ON?")
+    return "make", "via Make"
 
 
 # ------------------------------------------------------------------ core
@@ -240,10 +361,13 @@ def scan(ctx, acc):
 
 def process(ctx, acc, video):
     page_id = str(acc.get("page_id") or "")
+    if not page_id:
+        ctx.log("no Facebook Page selected for this account (Edit the account and choose a Page)", "error", acc)
+        return None
     token = ctx.tokens.get(page_id)
-    if not token:
-        ctx.log("no token for this account's Page. In the app go to Pages and connect Facebook.", "error", acc)
-        return False
+    if not token and not ctx.make_hook:
+        ctx.log("Facebook is not connected. In the app go to Pages and connect via Make.", "error", acc)
+        return None
     max_attempts = int(ctx.cfg.get("max_attempts") or 3)
     ver = ctx.cfg.get("graph_version") or "v23.0"
     with tempfile.TemporaryDirectory() as tmp:
@@ -251,7 +375,10 @@ def process(ctx, acc, video):
             path, cap = tiktok_download(video["url"], tmp)
             cap = cap or video.get("caption") or ""
             video["caption"] = cap[:300]
-            post_id, kind = fb_upload(ver, page_id, token, path, build_caption(cap, acc), acc.get("mode", "reel"))
+            if token:
+                post_id, kind = fb_upload(ver, page_id, token, path, build_caption(cap, acc), acc.get("mode", "reel"))
+            else:
+                post_id, kind = make_upload(ctx, page_id, path, build_caption(cap, acc), video["id"])
             video.update(status="uploaded", fb=str(post_id), uploaded=ctx.ts(), error="")
             page_name = next((p["name"] for p in ctx.cfg.get("pages", []) if str(p["id"]) == page_id), page_id)
             ctx.log(f"video {video['id'][-6:]} -> {page_name} uploaded ({kind})", "success", acc)
@@ -275,7 +402,10 @@ def post_next(ctx, acc, count):
                 continue
             ctx.log("no new videos in queue", "info", acc)
             break
-        if process(ctx, acc, video):
+        ok = process(ctx, acc, video)
+        if ok is None:      # setup problem (no Page / not connected): don't retry this run
+            break
+        if ok:
             done += 1
     return done
 
@@ -335,12 +465,29 @@ def main():
         a["username"] = username_from_url(normalize_url(a.get("tiktok", "")))
         accounts.append(a)
 
+    key = os.environ.get("APP_KEY", "")
     if cfg.get("tokens_enc"):
         try:
-            ctx.tokens = {str(k): v for k, v in decrypt_tokens(cfg["tokens_enc"], os.environ.get("APP_KEY", "")).items()}
+            ctx.tokens = {str(k): v for k, v in decrypt_tokens(cfg["tokens_enc"], key).items()}
         except Exception:
             ctx.log("Could not unlock Facebook tokens: GitHub Secret 'APP_KEY' must match the app password", "error")
-    else:
+    if cfg.get("make_enc"):
+        try:
+            ctx.make_hook = (decrypt_tokens(cfg["make_enc"], key) or {}).get("webhook", "")
+        except Exception:
+            ctx.log("Could not unlock the Make webhook: GitHub Secret 'APP_KEY' must match the app password", "error")
+    if cfg.get("fb_user_enc"):
+        # Find all Pages of the connected Facebook account (new Pages appear automatically)
+        try:
+            ut = (decrypt_tokens(cfg["fb_user_enc"], key) or {}).get("user_token", "")
+            found = fb_list_pages(cfg.get("graph_version") or "v23.0", ut)
+            for p in found:
+                ctx.tokens[str(p["id"])] = p["access_token"]
+            state["fb_pages"] = [{"id": str(p["id"]), "name": p.get("name", "")} for p in found]
+            state.pop("fb_error", None)
+        except Exception as e:
+            state["fb_error"] = f"Facebook connection needs a refresh (tap Reconnect Facebook in the app): {str(e)[:150]}"
+    if not ctx.tokens and not ctx.make_hook:
         ctx.log("Facebook is not connected yet (see the Pages tab in the app)", "error")
 
     try:
@@ -388,6 +535,7 @@ def main():
             del state["accounts"][aid]
     for st in state.get("accounts", {}).values():
         trim(st)
+    cleanup_media(ctx)
     state["last_run"] = ctx.ts()
     state["last_action"] = action
     save_state(state)

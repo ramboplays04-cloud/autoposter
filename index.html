@@ -187,7 +187,8 @@ function accStats(id){
   return { queue: v.filter(x=>x.status==="new"||x.status==="retry").length, up: v.filter(x=>x.status==="uploaded").length,
            fail: v.filter(x=>x.status==="failed").length, last: ((STATE.accounts||{})[id]||{}).last_checked };
 }
-function pageName(id){ const p = CFG.pages.find(p => String(p.id)===String(id)); return p ? p.name : ""; }
+function allPages(){ const out = [], seen = new Set(); (CFG.pages||[]).concat(STATE.fb_pages||[]).forEach(p => { const k = String(p.id); if (!seen.has(k)) { seen.add(k); out.push(p); } }); return out; }
+function pageName(id){ const p = allPages().find(p => String(p.id)===String(id)); return p ? p.name : ""; }
 
 // ---------------------------------------------------------------- views
 const V = {};
@@ -211,7 +212,7 @@ V.setup.bind = () => {
     if (!S.repo || !S.token || !S.pass) throw new Error("Please fill in all three fields");
     await gh(`/repos/${S.repo}`);
     LS.set("repo", S.repo); LS.set("token", S.token); LS.set("pass", S.pass);
-    await loadAll(); toast("Connected ✓"); location.hash = "#home"; render();
+    await loadAll(); toast("Connected ✓"); location.hash = "#home"; render(); await finishFacebookLogin();
   }, e.target);
 };
 
@@ -230,7 +231,8 @@ V.home = () => {
     <div class="card stat"><div class="n">${qu}</div><div class="l">In queue</div></div>
     <div class="card stat"><div class="n" style="color:var(--bad)">${fa}</div><div class="l">Failed</div></div>
   </div>
-  ${!CFG.pages.length ? `<div class="card notice"><b>First step:</b> Connect Facebook. <a class="btn small primary" style="margin-left:6px" href="#pages">Connect</a></div>` : ""}
+  ${!(CFG.fb_user_enc || CFG.tokens_enc || CFG.make_enc) ? `<div class="card notice"><b>First step:</b> Connect Facebook. <a class="btn small primary" style="margin-left:6px" href="#pages">Connect</a></div>` : (!allPages().length ? `<div class="card notice"><b>Next step:</b> Create a Facebook Page, then tap Refresh my Pages. <a class="btn small primary" style="margin-left:6px" href="#pages">Pages</a></div>` : "")}
+  ${STATE.fb_error ? `<div class="card notice lv-error">${esc(STATE.fb_error)}</div>` : ""}
   ${errs.map(l => `<div class="card notice lv-error">${esc(l.m)}</div>`).join("")}
   <div class="row" style="margin:6px 0 4px"><button class="btn small" id="h_run">▶ Run full check now</button><button class="btn small" id="h_ref">↻ Refresh</button></div>
   <h2>Accounts (${CFG.accounts.length})</h2>
@@ -259,7 +261,7 @@ V.home.bind = () => {
 };
 
 function accountForm(a){
-  const p = CFG.pages;
+  const p = allPages();
   return `
   <div class="card">
     <label>TikTok account link <div class="hint">${a ? "" : "For multiple accounts, put each on a new line. "}e.g. <code>@username</code> or the full link</div></label>
@@ -353,49 +355,118 @@ V.acc.bind = (id) => {
   }, e.target);
 };
 
-V.pages = () => `
-  <h1>Facebook Pages</h1>
-  <p class="sub">Tokens are saved locked with your password.</p>
-  <div class="card">${CFG.pages.length ? CFG.pages.map(p => `
-    <div class="vid"><div class="name">${esc(p.name)}</div><div class="meta">ID ${esc(p.id)} · ${CFG.accounts.filter(a => String(a.page_id)===String(p.id)).length} accounts</div>
-    <div class="row" style="margin-top:6px"><button class="btn small" data-pt="${esc(p.id)}">Test</button><button class="btn small danger" data-pd="${esc(p.id)}">Remove</button></div></div>`).join("") : `<div class="empty">No Pages connected yet</div>`}</div>
-  <h2>Connect a Facebook account</h2>
-  <div class="card">
-    <div class="meta">Steps are in the GUIDE: create an App on developers.facebook.com, then get a token from Graph API Explorer (permissions: <code>pages_show_list</code>, <code>pages_read_engagement</code>, <code>pages_manage_posts</code>).</div>
-    <label>App ID</label><input id="p_app" value="${esc(LS.get("fb_app"))}" inputmode="numeric">
-    <label>App Secret <div class="hint">Stays on this phone only, never sent to GitHub</div></label><input id="p_sec" type="password" value="${esc(LS.get("fb_sec"))}">
-    <label>User Access Token</label><textarea id="p_tok" placeholder="EAAG..." autocapitalize="off" autocorrect="off" style="min-height:70px"></textarea>
-    <div style="margin-top:14px"><button class="btn primary full" id="p_go">Connect</button></div>
-    <p class="hint">For another Facebook account, paste its token and Connect again. Create new Pages on Facebook yourself, then tap Connect again.</p>
-  </div>`;
+const FB_SCOPES = "pages_show_list,pages_read_engagement,pages_manage_posts,business_management";
+function redirectUri(){ return location.origin + location.pathname; }
+async function fbJSON(u){ const r = await fetch(u); const d = await r.json(); if (d.error) throw new Error("Facebook: " + d.error.message); return d; }
+async function fbPagesFor(userToken){
+  const ver = CFG.graph_version || "v23.0";
+  let url = `https://graph.facebook.com/${ver}/me/accounts?fields=id,name,access_token&limit=100&access_token=${encodeURIComponent(userToken)}`, pages = [];
+  while (url){ const d = await fbJSON(url); pages = pages.concat(d.data || []); url = (d.paging||{}).next; }
+  return pages;
+}
+async function savePagesFromFacebook(pages, userToken){
+  const tokens = await getTokens();
+  pages.forEach(p => {
+    tokens[p.id] = p.access_token;
+    const ex = CFG.pages.find(x => String(x.id) === String(p.id));
+    if (ex) { ex.name = p.name; ex.via = "facebook"; } else CFG.pages.push({ id: p.id, name: p.name, via: "facebook" });
+  });
+  CFG.tokens_enc = await encryptJSON(tokens, S.pass);
+  if (userToken) CFG.fb_user_enc = await encryptJSON({ user_token: userToken }, S.pass);
+}
+function startFacebookLogin(){
+  const ver = CFG.graph_version || "v23.0";
+  try { sessionStorage.setItem("ap_fb_state", String(Date.now())); } catch(e){}
+  location.href = `https://www.facebook.com/${ver}/dialog/oauth?client_id=${encodeURIComponent(CFG.fb_app_id)}` +
+    `&redirect_uri=${encodeURIComponent(redirectUri())}&response_type=token&scope=${FB_SCOPES}` +
+    `&state=${encodeURIComponent(sessionStorage.getItem("ap_fb_state")||"x")}`;
+}
+async function finishFacebookLogin(){
+  let short = ""; try { short = sessionStorage.getItem("ap_fb_token") || ""; } catch(e){}
+  if (!short) return;
+  try { sessionStorage.removeItem("ap_fb_token"); } catch(e){}
+  const ver = CFG.graph_version || "v23.0";
+  let userToken = short;
+  if (CFG.fb_secret_enc){
+    const sec = (await decryptJSON(CFG.fb_secret_enc, S.pass)).secret;
+    userToken = (await fbJSON(`https://graph.facebook.com/${ver}/oauth/access_token?grant_type=fb_exchange_token&client_id=${encodeURIComponent(CFG.fb_app_id)}&client_secret=${encodeURIComponent(sec)}&fb_exchange_token=${encodeURIComponent(short)}`)).access_token;
+  }
+  const pages = await fbPagesFor(userToken);
+  await savePagesFromFacebook(pages, userToken);
+  CFG.fb_connected_at = new Date().toISOString().slice(0, 10);
+  await saveConfig("connect facebook");
+  toast(`Your Facebook account is connected ✓ ${pages.length} Page${pages.length===1?"":"s"} found`);
+  location.hash = "#pages"; render();
+}
+
+V.pages = () => {
+  const connected = !!(CFG.fb_user_enc || CFG.tokens_enc);
+  const ready = !!CFG.fb_app_id;
+  const pages = allPages();
+  return `
+  <h1>Facebook</h1>
+  <p class="sub">Connect your Facebook once. All your Pages show up here automatically, including new ones you create later.</p>
+
+  <div class="card ${connected ? "" : "notice"}" style="text-align:center">
+    <div style="font-size:40px;line-height:1.2">${connected ? "✅" : "📘"}</div>
+    <div class="name" style="margin:6px 0 4px">${connected ? "Your Facebook account is connected" : "Connect your Facebook account"}</div>
+    <div class="meta" style="margin-bottom:12px">${connected ? `Connected ${esc(CFG.fb_connected_at || "")}. Reconnect anytime if something stops working.` : "Tap the button, log in to Facebook and allow access to your Pages."}</div>
+    <button class="btn primary full" id="fb_connect" style="background:#1877f2;border-color:#1877f2">${connected ? "Reconnect Facebook" : "Connect Facebook"}</button>
+    ${connected ? `<div style="margin-top:8px"><button class="btn full" id="fb_refresh">↻ Refresh my Pages</button></div>` : ""}
+  </div>
+
+  <h2>Your Pages (${pages.length})</h2>
+  <div class="card">${pages.length ? pages.map(p => `
+    <div class="vid"><div class="name">${esc(p.name)}</div><div class="meta">ID ${esc(p.id)} · ${CFG.accounts.filter(a => String(a.page_id)===String(p.id)).length} TikTok accounts</div>
+    <div class="row" style="margin-top:6px"><button class="btn small" data-pt="${esc(p.id)}">Test</button>${CFG.pages.find(x => String(x.id)===String(p.id)) ? `<button class="btn small danger" data-pd="${esc(p.id)}">Hide</button>` : ""}</div></div>`).join("")
+    : `<div class="empty">${connected ? "No Pages found yet. Create a Page on Facebook, then tap “Refresh my Pages”." : "Connect Facebook to see your Pages here."}</div>`}</div>
+
+  <details style="margin-top:18px" ${ready ? "" : "open"}><summary class="meta"><b>${ready ? "Facebook app settings" : "One-time setup (needed before the Connect button works)"}</b></summary>
+  <div class="card" style="margin-top:10px">
+    ${ready ? `<div class="meta">✅ App ID saved: <code>${esc(CFG.fb_app_id)}</code></div>` : `<div class="meta">The Connect button needs your own free Facebook app (from a verified Facebook developer account). Do this once:</div>`}
+    <ol class="meta" style="padding-left:18px;margin:10px 0">
+      <li>Open <a href="https://developers.facebook.com/apps" target="_blank">developers.facebook.com/apps</a> → <b>Create App</b> → choose the Pages use case (“Manage everything on your Page”).</li>
+      <li>In the app go to <b>Facebook Login</b> settings → <b>Valid OAuth Redirect URIs</b> and add this link:<br><code style="word-break:break-all">${esc(redirectUri())}</code> <button class="btn small" id="fb_copyuri">Copy</button></li>
+      <li><b>App settings → Basic</b>: copy the <b>App ID</b> and <b>App Secret</b> below and Save.</li>
+    </ol>
+    <label>App ID</label><input id="fb_appid" inputmode="numeric" value="${esc(CFG.fb_app_id || "")}">
+    <label>App Secret <div class="hint">Saved locked with your password</div></label><input id="fb_secret" type="password" placeholder="${CFG.fb_secret_enc ? "•••••• saved" : ""}">
+    <div style="margin-top:12px"><button class="btn full" id="fb_saveapp">Save app settings</button></div>
+  </div></details>`;
+};
 V.pages.bind = () => {
-  $("#p_go").onclick = (e) => act(async () => {
-    const ver = CFG.graph_version || "v23.0", app = $("#p_app").value.trim(), sec = $("#p_sec").value.trim();
-    let tok = $("#p_tok").value.trim(); if (!tok) throw new Error("Paste the token");
-    LS.set("fb_app", app); LS.set("fb_sec", sec);
-    const fb = async (u) => { const r = await fetch(u); const d = await r.json(); if (d.error) throw new Error("Facebook: " + d.error.message); return d; };
-    let pakka = false;
-    if (app && sec){ tok = (await fb(`https://graph.facebook.com/${ver}/oauth/access_token?grant_type=fb_exchange_token&client_id=${encodeURIComponent(app)}&client_secret=${encodeURIComponent(sec)}&fb_exchange_token=${encodeURIComponent(tok)}`)).access_token; pakka = true; }
-    let url = `https://graph.facebook.com/${ver}/me/accounts?fields=id,name,access_token&limit=100&access_token=${encodeURIComponent(tok)}`, pages = [];
-    while (url){ const d = await fb(url); pages = pages.concat(d.data || []); url = (d.paging||{}).next; }
-    if (!pages.length) throw new Error("No Pages found on this account (or Pages were not selected when creating the token)");
-    const tokens = await getTokens();
-    pages.forEach(p => { tokens[p.id] = p.access_token; const ex = CFG.pages.find(x => String(x.id)===String(p.id)); if (ex) ex.name = p.name; else CFG.pages.push({ id: p.id, name: p.name }); });
-    CFG.tokens_enc = await encryptJSON(tokens, S.pass);
-    await saveConfig("facebook connect"); $("#p_tok").value = "";
-    toast(pages.length + " Pages connected ✓" + (pakka ? " (permanent token)" : " (without App ID + Secret the token will expire soon)")); render();
+  $("#fb_connect").onclick = (e) => act(async () => {
+    if (!CFG.fb_app_id) { const d = document.querySelector("details"); if (d) d.open = true; d && d.scrollIntoView({behavior:"smooth"});
+      throw new Error("First do the one-time setup below (it needs a verified Facebook developer account)"); }
+    if (!CFG.fb_secret_enc) throw new Error("Add the App Secret in the setup below, otherwise the connection expires in 1 hour");
+    startFacebookLogin();
+  }, e.target);
+  const rf = $("#fb_refresh"); if (rf) rf.onclick = (e) => act(async () => {
+    if (!CFG.fb_user_enc) throw new Error("Please tap Reconnect Facebook");
+    const ut = (await decryptJSON(CFG.fb_user_enc, S.pass)).user_token;
+    let pages;
+    try { pages = await fbPagesFor(ut); } catch(err){ throw new Error("Facebook connection expired, please tap Reconnect Facebook"); }
+    await savePagesFromFacebook(pages, null);
+    await saveConfig("refresh pages"); toast(`${pages.length} Page${pages.length===1?"":"s"} found ✓`); render();
+  }, e.target);
+  const cu = $("#fb_copyuri"); if (cu) cu.onclick = () => { try { navigator.clipboard.writeText(redirectUri()); toast("Link copied ✓"); } catch(e){ toast(redirectUri()); } };
+  $("#fb_saveapp").onclick = (e) => act(async () => {
+    const id = $("#fb_appid").value.replace(/\D/g, ""), sec = $("#fb_secret").value.trim();
+    if (id.length < 8) throw new Error("Enter the App ID (numbers only)");
+    CFG.fb_app_id = id;
+    if (sec) CFG.fb_secret_enc = await encryptJSON({ secret: sec }, S.pass);
+    if (!CFG.fb_secret_enc) throw new Error("Enter the App Secret too");
+    await saveConfig("facebook app settings"); toast("Saved ✓ Now tap Connect Facebook"); render();
   }, e.target);
   document.querySelectorAll("[data-pt]").forEach(b => b.onclick = () => act(async () => {
-    const t = (await getTokens())[b.dataset.pt]; if (!t) throw new Error("No token for this Page, please Connect again");
-    const d = await (await fetch(`https://graph.facebook.com/${CFG.graph_version||"v23.0"}/${b.dataset.pt}?fields=name&access_token=${encodeURIComponent(t)}`)).json();
-    if (d.error) throw new Error("Problem: " + d.error.message); toast(`'${d.name}' is connected correctly ✓`);
+    const t = (await getTokens())[b.dataset.pt]; if (!t) throw new Error("No access for this Page yet. Tap Refresh my Pages or Reconnect Facebook");
+    const d = await fbJSON(`https://graph.facebook.com/${CFG.graph_version||"v23.0"}/${b.dataset.pt}?fields=name&access_token=${encodeURIComponent(t)}`);
+    toast(`'${d.name}' is connected correctly ✓`);
   }, b));
-  document.querySelectorAll("[data-pd]").forEach(b => b.onclick = () => { if (!confirm("Remove this Page?")) return; act(async () => {
-    const tokens = await getTokens(); delete tokens[b.dataset.pd];
+  document.querySelectorAll("[data-pd]").forEach(b => b.onclick = () => { if (!confirm("Hide this Page from the list?")) return; act(async () => {
     CFG.pages = CFG.pages.filter(p => String(p.id) !== b.dataset.pd);
     CFG.accounts.forEach(a => { if (String(a.page_id) === b.dataset.pd) a.page_id = ""; });
-    CFG.tokens_enc = Object.keys(tokens).length ? await encryptJSON(tokens, S.pass) : "";
-    await saveConfig("remove page"); toast("Page removed"); render();
+    await saveConfig("hide page"); toast("Page hidden"); render();
   }, b); });
 };
 
@@ -454,9 +525,21 @@ window.addEventListener("touchstart", e => { y0 = window.scrollY === 0 ? e.touch
 window.addEventListener("touchend", e => { if (y0 !== null && e.changedTouches[0].clientY - y0 > 110 && S.token && route().name!=="setup") act(async () => { await loadAll(); render(); toast("Refreshed ✓"); }); y0 = null; });
 document.addEventListener("visibilitychange", () => { if (!document.hidden && CFG) loadAll().then(render).catch(()=>{}); });
 
+(function captureFacebookRedirect(){
+  const h = location.hash || "", q = new URLSearchParams(location.search);
+  if (h.includes("access_token=")) {
+    const p = new URLSearchParams(h.slice(1));
+    try { sessionStorage.setItem("ap_fb_token", p.get("access_token") || ""); } catch(e){}
+    history.replaceState(null, "", location.pathname + "#pages");
+  } else if (q.get("error") || q.get("error_reason")) {
+    history.replaceState(null, "", location.pathname + "#pages");
+    setTimeout(() => toast("Facebook login was cancelled", true), 800);
+  }
+})();
 (async () => {
   if (S.token && S.repo && S.pass){
     try { await loadAll(); } catch(e){ toast(e.message, true); location.hash = "#setup"; }
+    if (CFG) { try { await finishFacebookLogin(); } catch(e){ toast(e.message, true); } }
   }
   render();
 })();
