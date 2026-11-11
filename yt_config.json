@@ -1,0 +1,11 @@
+{
+  "timezone": "Asia/Karachi",
+  "check_minutes": 60,
+  "scan_limit": 30,
+  "first_import": 200,
+  "max_attempts": 3,
+  "daily_cap": 6,
+  "google_client_id": "",
+  "channels": [],
+  "accounts": []
+}

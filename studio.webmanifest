@@ -1,0 +1,10 @@
+{
+  "name": "Velora Studio",
+  "short_name": "Velora",
+  "start_url": "./studio.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#0b0a12",
+  "theme_color": "#0b0a12",
+  "icons": [{"src": "studio-icon.png", "sizes": "512x512", "type": "image/png"}]
+}

@@ -1,0 +1,564 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Velora Studio</title>
+<link rel="manifest" href="studio.webmanifest">
+<meta name="theme-color" content="#0b0a12">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Velora">
+<link rel="apple-touch-icon" href="studio-icon.png">
+<link rel="icon" href="studio-icon.png">
+<style>
+:root{--bg:#0b0a12;--panel:#14121f;--panel2:#1c1930;--line:#2a2642;--text:#f1eefc;--muted:#a49fbf;
+--a1:#8b5cf6;--a2:#ec4899;--a3:#f97316;--grad:linear-gradient(135deg,var(--a1),var(--a2) 55%,var(--a3));
+--ok:#34d399;--warn:#fbbf24;--bad:#fb7185;--yt:#ff0033}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;background:var(--bg);color:var(--text);font:16px/1.5 -apple-system,"SF Pro Text","Segoe UI",system-ui,sans-serif}
+body{background:radial-gradient(900px 500px at 110% -10%,rgba(236,72,153,.16),transparent 60%),radial-gradient(800px 500px at -20% 0%,rgba(139,92,246,.18),transparent 60%),var(--bg);min-height:100vh}
+a{color:#c4b5fd;text-decoration:none}
+header{position:sticky;top:0;z-index:5;background:rgba(11,10,18,.82);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--line);padding:12px 16px;padding-top:max(12px,env(safe-area-inset-top));display:flex;align-items:center;justify-content:space-between}
+.brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:19px;letter-spacing:.2px}
+.logo{width:30px;height:30px;border-radius:9px;background:var(--grad);display:grid;place-items:center;font-weight:900;font-size:16px;color:#fff;box-shadow:0 6px 18px rgba(236,72,153,.35)}
+.brand em{font-style:normal;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+#sync{font-size:12px;color:var(--muted)}
+main{padding:16px 16px calc(96px + env(safe-area-inset-bottom));max-width:720px;margin:0 auto}
+h1{font-size:28px;margin:6px 0 4px;letter-spacing:-.4px}h2{font-size:18px;margin:24px 0 10px}
+.sub{color:var(--muted);margin:0 0 16px}
+.card{background:linear-gradient(180deg,rgba(255,255,255,.03),transparent),var(--panel);border:1px solid var(--line);border-radius:18px;padding:16px;margin-bottom:12px}
+.hero{border:0;background:var(--grad);color:#fff;position:relative;overflow:hidden}
+.hero:after{content:"";position:absolute;right:-40px;top:-40px;width:180px;height:180px;border-radius:50%;background:rgba(255,255,255,.12)}
+.hero .big{font-size:42px;font-weight:900;line-height:1}.hero .lbl{opacity:.9;font-weight:600}
+.stats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:12px}
+.stat{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:12px}
+.stat b{display:block;font-size:24px}.stat span{font-size:13px;color:var(--muted)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;border:1px solid var(--line);background:var(--panel2);color:var(--text);padding:11px 15px;border-radius:12px;font-weight:650;font-size:15px;cursor:pointer;font-family:inherit}
+.btn.primary{background:var(--grad);border:0;color:#fff;box-shadow:0 8px 22px rgba(236,72,153,.28)}
+.btn.yt{background:var(--yt);border:0;color:#fff}
+.btn.danger{color:var(--bad)}.btn.small{padding:8px 12px;font-size:14px}.btn.full{width:100%}
+.btn:disabled{opacity:.6}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.pill{font-size:12px;padding:3px 10px;border-radius:99px;background:var(--panel2);border:1px solid var(--line);color:var(--muted)}
+.pill.ok{color:var(--ok);border-color:#1f5b47}.pill.bad{color:var(--bad);border-color:#6b2a3a}.pill.warn{color:var(--warn);border-color:#6b5320}.pill.info{color:#c4b5fd;border-color:#4c3a86}
+.pills{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0}
+.name{font-weight:750;font-size:17px}.meta{color:var(--muted);font-size:14px}
+.chan{display:flex;gap:12px;align-items:center}
+.av{width:44px;height:44px;border-radius:50%;background:var(--panel2);object-fit:cover;flex:none;border:2px solid transparent;background-clip:padding-box}
+.avring{padding:2px;border-radius:50%;background:var(--grad);flex:none}
+label{display:block;font-weight:650;margin:16px 0 6px}
+.hint{font-weight:400;color:var(--muted);font-size:13px;margin-top:2px}
+input,select,textarea{width:100%;background:#0e0c18;border:1px solid var(--line);color:var(--text);border-radius:12px;padding:12px;font:inherit;font-size:16px}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--a1);box-shadow:0 0 0 3px rgba(139,92,246,.25)}
+textarea{min-height:84px;resize:vertical}
+.check{display:flex;gap:12px;align-items:flex-start;font-weight:500}.check input{width:22px;height:22px;flex:none;margin-top:2px;accent-color:var(--a2)}
+.log{font-family:ui-monospace,Menlo,monospace;font-size:12.5px;padding:8px 0;border-bottom:1px solid var(--line);word-break:break-word}
+.log .t{color:var(--muted);margin-right:6px}.lv-error{color:#fda4af}.lv-success{color:#6ee7b7}
+.vid{border-bottom:1px solid var(--line);padding:11px 0}.vid:last-child{border:0}
+.empty{text-align:center;color:var(--muted);padding:26px 10px}
+.tabs{display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap}
+.notice{border-color:#6b5320}
+.steps{margin:6px 0 0;padding-left:20px}.steps li{margin:8px 0}
+code{background:var(--panel2);padding:1px 6px;border-radius:6px;font-size:13px;word-break:break-all}
+details summary{cursor:pointer;font-weight:700;color:var(--muted);margin:14px 0}
+nav.bottom{position:fixed;left:0;right:0;bottom:0;background:rgba(14,12,24,.9);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-top:1px solid var(--line);display:flex;z-index:10;padding-bottom:env(safe-area-inset-bottom)}
+nav.bottom a{flex:1;text-align:center;color:var(--muted);font-size:11.5px;padding:9px 0 7px;font-weight:600}
+nav.bottom a .i{display:block;font-size:21px;line-height:1.2;filter:grayscale(1);opacity:.7}
+nav.bottom a.on{color:#fff}nav.bottom a.on .i{filter:none;opacity:1}
+#toast{position:fixed;left:14px;right:14px;bottom:calc(86px + env(safe-area-inset-bottom));background:#1f1b33;border:1px solid var(--line);color:var(--text);padding:12px 14px;border-radius:14px;z-index:20;display:none;font-size:14px;box-shadow:0 10px 30px rgba(0,0,0,.4)}
+#toast.err{border-color:#6b2a3a;color:#fecdd3}
+.spin{display:inline-block;width:14px;height:14px;border:2px solid var(--muted);border-top-color:transparent;border-radius:50%;animation:s 1s linear infinite;vertical-align:-2px}
+@keyframes s{to{transform:rotate(360deg)}}
+.off{opacity:.55}
+</style>
+</head>
+<body>
+<header><div class="brand"><div class="logo">V</div><div>Velora <em>Studio</em></div></div><div id="sync"></div></header>
+<main id="app"><div class="empty"><span class="spin"></span> Loading…</div></main>
+<nav class="bottom" id="nav">
+  <a href="#home" data-r="home"><span class="i">🏠</span>Home</a>
+  <a href="#add" data-r="add"><span class="i">➕</span>Add</a>
+  <a href="#channels" data-r="channels"><span class="i">▶️</span>Channels</a>
+  <a href="#logs" data-r="logs"><span class="i">📋</span>Logs</a>
+  <a href="#settings" data-r="settings"><span class="i">⚙️</span>Settings</a>
+</nav>
+<div id="toast"></div>
+
+<script>
+"use strict";
+// ---------------------------------------------------------------- storage
+const LS = {
+  get(k){ try{ return localStorage.getItem("vs_"+k) || localStorage.getItem("ap_"+k) || ""; }catch(e){ return ""; } },
+  set(k,v){ try{ localStorage.setItem("vs_"+k, v); }catch(e){} }
+};
+function guessRepo(){
+  const h = location.hostname, seg = location.pathname.split("/").filter(Boolean)[0];
+  if (h.endsWith(".github.io")) return h.replace(".github.io","") + "/" + (seg || h);
+  return "";
+}
+const S = { token: LS.get("token"), repo: LS.get("repo") || guessRepo(), pass: LS.get("pass") };
+const REDIRECT = location.origin + location.pathname;
+const SCOPES = "https://www.googleapis.com/auth/youtube.upload https://www.googleapis.com/auth/youtube.readonly";
+const WORKFLOW = "ytpost.yml";
+let CFG = null, CFG_SHA = null, STATE = {}, RUNS = [], LF = "";
+
+// ---------------------------------------------------------------- utils
+const $ = (s) => document.querySelector(s);
+const esc = (s) => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const short = (s, n=80) => { s = String(s||"").replace(/\s+/g," "); return s.length>n ? s.slice(0,n)+"…" : s; };
+const enc = (s) => new TextEncoder().encode(s);
+const b64e = (u8) => { let s=""; u8.forEach(b => s += String.fromCharCode(b)); return btoa(s); };
+const b64d = (s) => Uint8Array.from(atob(s), c => c.charCodeAt(0));
+const b64url = (u8) => b64e(u8).replace(/\+/g,"-").replace(/\//g,"_").replace(/=+$/,"");
+const utf8b64e = (str) => b64e(enc(str));
+const utf8b64d = (b) => new TextDecoder().decode(b64d(b.replace(/\s/g,"")));
+let toastT;
+function toast(msg, err){ const t=$("#toast"); t.textContent=msg; t.className=err?"err":""; t.style.display="block"; clearTimeout(toastT); toastT=setTimeout(()=>t.style.display="none", err?6500:3500); }
+function uid(){ return "y" + Date.now().toString(36) + Math.random().toString(36).slice(2,6); }
+function userOf(url){ const m=String(url||"").match(/tiktok\.com\/@([^/?#]+)/); return m ? m[1] : String(url||"").replace(/^@/,""); }
+function normUrl(t){ t=String(t||"").trim(); if(!t) return ""; if(t.startsWith("http")) return t.split("?")[0].replace(/\/$/,""); return "https://www.tiktok.com/@"+t.replace(/^@/,""); }
+function parseTimes(t){ return [...new Set(String(t||"").split(/[,\s]+/).map(p=>{const m=p.match(/^(\d{1,2}):(\d{2})$/); if(!m) return null; const h=+m[1], mi=+m[2]; if(h>23||mi>59) return null; return String(h).padStart(2,"0")+":"+String(mi).padStart(2,"0");}).filter(Boolean))].sort(); }
+function todayPK(){ return new Date(Date.now() + 5*3600e3).toISOString().slice(0,10); }
+
+// ---------------------------------------------------------------- crypto (logins password se lock)
+async function deriveKey(pass, salt){
+  const km = await crypto.subtle.importKey("raw", enc(pass), "PBKDF2", false, ["deriveKey"]);
+  return crypto.subtle.deriveKey({name:"PBKDF2", salt, iterations:200000, hash:"SHA-256"}, km, {name:"AES-GCM", length:256}, false, ["encrypt","decrypt"]);
+}
+async function encryptJSON(obj, pass){
+  const salt = crypto.getRandomValues(new Uint8Array(16)), iv = crypto.getRandomValues(new Uint8Array(12));
+  const ct = new Uint8Array(await crypto.subtle.encrypt({name:"AES-GCM", iv}, await deriveKey(pass, salt), enc(JSON.stringify(obj))));
+  const out = new Uint8Array(28 + ct.length); out.set(salt,0); out.set(iv,16); out.set(ct,28);
+  return b64e(out);
+}
+async function decryptJSON(b64, pass){
+  const raw = b64d(b64);
+  const pt = await crypto.subtle.decrypt({name:"AES-GCM", iv: raw.slice(16,28)}, await deriveKey(pass, raw.slice(0,16)), raw.slice(28));
+  return JSON.parse(new TextDecoder().decode(pt));
+}
+async function unlock(field, fallback){
+  if (!CFG[field]) return fallback;
+  try { return await decryptJSON(CFG[field], S.pass); }
+  catch(e){ throw new Error("Wrong password: use the same password as your GitHub Secret APP_KEY (Settings → Connection)"); }
+}
+
+// ---------------------------------------------------------------- GitHub API
+async function gh(path, opt={}){
+  const r = await fetch("https://api.github.com" + path, {
+    ...opt, cache: "no-store",
+    headers: { "Authorization": "Bearer " + S.token, "Accept": "application/vnd.github+json",
+               "X-GitHub-Api-Version": "2022-11-28", ...(opt.headers||{}) }
+  });
+  if (!r.ok){
+    let msg = r.status + "";
+    try { msg = (await r.json()).message || msg; } catch(e){}
+    if (r.status === 401) msg = "GitHub token is wrong or expired (Settings → Connection)";
+    if (r.status === 404) msg = "File not found: upload yt_config.json, ytpost.py and the workflow to your repo first";
+    if (r.status === 403) msg = "GitHub token has no permission: " + msg;
+    const e = new Error(msg); e.status = r.status; throw e;
+  }
+  return r.status === 204 ? null : r.json();
+}
+async function readJSONFile(name){
+  const d = await gh(`/repos/${S.repo}/contents/${name}?ref=main&_=${Date.now()}`);
+  return { sha: d.sha, data: JSON.parse(utf8b64d(d.content) || "{}") };
+}
+async function loadAll(){
+  $("#sync").innerHTML = '<span class="spin"></span>';
+  try {
+    const [c, s] = await Promise.all([readJSONFile("yt_config.json"), readJSONFile("yt_state.json").catch(()=>({data:{}}))]);
+    CFG = c.data; CFG_SHA = c.sha; STATE = s.data || {};
+    CFG.accounts = CFG.accounts || []; CFG.channels = CFG.channels || [];
+    gh(`/repos/${S.repo}/actions/workflows/${WORKFLOW}/runs?per_page=6&_=${Date.now()}`).then(r => { RUNS = r.workflow_runs || []; const n = route().name; if (n==="home"||n==="logs") render(); }).catch(()=>{});
+    $("#sync").textContent = STATE.last_run ? "Synced " + STATE.last_run.slice(11) : "";
+  } catch(e){ $("#sync").textContent = ""; throw e; }
+}
+async function saveConfig(msg){
+  const body = JSON.stringify(CFG, null, 2) + "\n";
+  const put = () => gh(`/repos/${S.repo}/contents/yt_config.json`, { method:"PUT", body: JSON.stringify({ message: msg || "yt config (app)", content: utf8b64e(body), sha: CFG_SHA, branch:"main" }) });
+  let r;
+  try { r = await put(); }
+  catch(e){
+    if (e.status === 409 || e.status === 422){ const fresh = await readJSONFile("yt_config.json"); CFG_SHA = fresh.sha; r = await put(); }
+    else throw e;
+  }
+  CFG_SHA = r.content.sha;
+}
+async function dispatch(action, account="", video=""){
+  await gh(`/repos/${S.repo}/actions/workflows/${WORKFLOW}/dispatches`, { method:"POST", body: JSON.stringify({ ref:"main", inputs:{ action, account, video } }) });
+  toast("Sent ✓ GitHub starts in 1-3 minutes. Pull down to refresh.");
+}
+
+// ---------------------------------------------------------------- Google
+async function googleToken(params){
+  const sec = (await unlock("google_secret_enc", {})).secret;
+  if (!CFG.google_client_id || !sec) throw new Error("Add your Google Client ID and Secret first (Channels → Google app)");
+  const r = await fetch("https://oauth2.googleapis.com/token", { method:"POST",
+    headers:{ "Content-Type":"application/x-www-form-urlencoded" },
+    body: new URLSearchParams({ client_id: CFG.google_client_id, client_secret: sec, ...params }) });
+  const d = await r.json();
+  if (!r.ok) throw new Error("Google: " + (d.error_description || d.error || r.status));
+  return d;
+}
+async function ytGet(path, access){
+  const r = await fetch("https://www.googleapis.com/youtube/v3/" + path, { headers:{ Authorization: "Bearer " + access } });
+  const d = await r.json();
+  if (!r.ok) throw new Error("YouTube: " + ((d.error && d.error.message) || r.status));
+  return d;
+}
+async function startGoogle(){
+  if (!CFG.google_client_id || !CFG.google_secret_enc) throw new Error("First add your Google Client ID and Secret below");
+  const verifier = b64url(crypto.getRandomValues(new Uint8Array(32)));
+  const challenge = b64url(new Uint8Array(await crypto.subtle.digest("SHA-256", enc(verifier))));
+  const stateTok = b64url(crypto.getRandomValues(new Uint8Array(12)));
+  try { localStorage.setItem("vs_pkce", verifier); localStorage.setItem("vs_state", stateTok); } catch(e){}
+  location.href = "https://accounts.google.com/o/oauth2/v2/auth?" + new URLSearchParams({
+    client_id: CFG.google_client_id, redirect_uri: REDIRECT, response_type: "code", scope: SCOPES,
+    access_type: "offline", prompt: "consent select_account", include_granted_scopes: "true",
+    state: stateTok, code_challenge: challenge, code_challenge_method: "S256" });
+}
+async function finishGoogle(){
+  let code = "", st = "", verifier = "", expect = "";
+  try { code = localStorage.getItem("vs_code") || ""; st = localStorage.getItem("vs_code_state") || "";
+        verifier = localStorage.getItem("vs_pkce") || ""; expect = localStorage.getItem("vs_state") || "";
+        ["vs_code","vs_code_state","vs_pkce","vs_state"].forEach(k => localStorage.removeItem(k)); } catch(e){}
+  if (!code) return;
+  if (expect && st !== expect) throw new Error("Google login check failed, please try again");
+  toast("Connecting your channel…");
+  const params = { code, redirect_uri: REDIRECT, grant_type: "authorization_code" };
+  if (verifier) params.code_verifier = verifier;
+  const tok = await googleToken(params);
+  if (!tok.refresh_token) throw new Error("Google gave no permanent login. Remove Velora from myaccount.google.com/permissions, then connect again.");
+  const d = await ytGet("channels?part=snippet&mine=true", tok.access_token);
+  const ch = (d.items || [])[0];
+  if (!ch) throw new Error("This Google account has no YouTube channel yet. Create the channel on YouTube first.");
+  const tokens = await unlock("tokens_enc", {});
+  tokens[ch.id] = tok.refresh_token;
+  CFG.tokens_enc = await encryptJSON(tokens, S.pass);
+  const info = { id: ch.id, title: ch.snippet.title, thumb: ((ch.snippet.thumbnails||{}).default||{}).url || "", connected_at: todayPK() };
+  CFG.channels = CFG.channels.filter(c => c.id !== ch.id).concat([info]);
+  await saveConfig("connect channel " + ch.snippet.title);
+  toast("✓ " + ch.snippet.title + " connected");
+  location.hash = "#channels";
+}
+
+// ---------------------------------------------------------------- router
+function route(){ const [name, id] = (location.hash.replace("#","") || "home").split("/"); return { name, id }; }
+window.addEventListener("hashchange", render);
+async function act(fn, btn){
+  if (btn){ btn.disabled = true; btn.dataset.t = btn.innerHTML; btn.innerHTML = '<span class="spin"></span>'; }
+  try { await fn(); } catch(e){ toast(e.message || String(e), true); }
+  finally { if (btn && btn.isConnected){ btn.disabled = false; btn.innerHTML = btn.dataset.t; } }
+}
+
+const ST_LABEL = {uploaded:["Uploaded","ok"], failed:["Failed","bad"], retry:["Will retry","warn"], new:["Queue","info"], skipped:["Skipped",""], duplicate:["Used on another channel",""]};
+function accStats(id){
+  const s = (STATE.accounts||{})[id] || {}, v = s.videos || [];
+  return { queue: v.filter(x=>x.status==="new"||x.status==="retry").length, up: v.filter(x=>x.status==="uploaded").length,
+           fail: v.filter(x=>x.status==="failed").length, last: s.last_checked };
+}
+function chan(id){ return CFG.channels.find(c => c.id === id); }
+function chStatus(id){ return (STATE.channels_status||{})[id]; }
+function avatar(c, size=44){ return `<div class="avring"><img class="av" style="width:${size}px;height:${size}px" src="${esc(c && c.thumb || "studio-icon.png")}" alt="" onerror="this.src='studio-icon.png'"></div>`; }
+
+// ---------------------------------------------------------------- views
+const V = {};
+
+V.setup = () => `
+  <h1>Welcome ✨</h1>
+  <p class="sub">Connect Velora Studio to your GitHub once. Use the same GitHub token and password as your Facebook tool.</p>
+  <div class="card">
+    <label>GitHub repo <div class="hint">e.g. <code>ramboplays04-cloud/autoposter</code></div></label>
+    <input id="s_repo" value="${esc(S.repo)}" autocapitalize="off" autocorrect="off">
+    <label>GitHub token <div class="hint">Fine-grained token with Contents + Actions: Read and write</div></label>
+    <input id="s_token" value="${esc(S.token)}" type="password" autocapitalize="off" autocorrect="off" placeholder="github_pat_...">
+    <label>Your password <div class="hint">The same one saved in the GitHub Secret <code>APP_KEY</code></div></label>
+    <input id="s_pass" value="${esc(S.pass)}" type="password">
+    <div style="margin-top:16px"><button class="btn primary full" id="s_go">Save &amp; open</button></div>
+  </div>`;
+V.setup.bind = () => {
+  $("#s_go").onclick = (e) => act(async () => {
+    S.repo = $("#s_repo").value.trim().replace(/^https?:\/\/github\.com\//,"").replace(/\/$/,"");
+    S.token = $("#s_token").value.trim(); S.pass = $("#s_pass").value;
+    if (!S.repo || !S.token || !S.pass) throw new Error("Fill all three boxes");
+    LS.set("repo", S.repo); LS.set("token", S.token); LS.set("pass", S.pass);
+    await loadAll(); location.hash = CFG.channels.length ? "#home" : "#channels"; render();
+  }, e.target);
+};
+
+V.home = () => {
+  const all = Object.values(STATE.accounts||{}).flatMap(s => s.videos||[]);
+  const today = todayPK();
+  const upToday = all.filter(v => v.status==="uploaded" && (v.uploaded||"").startsWith(today)).length;
+  const run = RUNS[0], running = run && run.status !== "completed";
+  const bad = Object.entries(STATE.channels_status||{}).filter(([k,v]) => !v.ok && chan(k));
+  return `
+  <div class="card hero"><div class="lbl">Uploaded today</div><div class="big">${upToday}</div>
+    <div style="margin-top:8px;opacity:.92;font-size:14px">${running ? "⚡ Running now…" : STATE.last_run ? "Last run " + esc(STATE.last_run.slice(5)) : "Waiting for the first run"}${STATE.last_ip ? " · IP " + esc(STATE.last_ip) : ""}</div></div>
+  <div class="stats">
+    <div class="stat"><b>${all.filter(v=>v.status==="uploaded").length}</b><span>Total</span></div>
+    <div class="stat"><b>${all.filter(v=>v.status==="new"||v.status==="retry").length}</b><span>In queue</span></div>
+    <div class="stat"><b style="color:var(--bad)">${all.filter(v=>v.status==="failed").length}</b><span>Failed</span></div>
+  </div>
+  ${bad.map(([k,v]) => `<div class="card notice"><b>⚠ ${esc(chan(k).title)}</b><div class="meta">${esc(v.error||"needs reconnect")}</div><div style="margin-top:8px"><a class="btn small" href="#channels">Reconnect</a></div></div>`).join("")}
+  <div class="row" style="margin-bottom:6px"><button class="btn primary" id="h_run">▶ Run now</button><button class="btn" id="h_ref">↻ Refresh</button></div>
+  <h2>Accounts (${CFG.accounts.length})</h2>
+  ${CFG.accounts.length ? "" : `<div class="card empty">No accounts yet.<br><br><a class="btn primary" href="${CFG.channels.length ? "#add" : "#channels"}">${CFG.channels.length ? "Add TikTok account" : "Connect a channel first"}</a></div>`}
+  ${CFG.accounts.map(a => { const s = accStats(a.id), c = chan(a.channel_id); return `
+    <div class="card ${a.enabled===false?"off":""}">
+      <div class="chan">${avatar(c)}<div style="min-width:0"><div class="name"><a href="#acc/${a.id}">@${esc(userOf(a.tiktok))}</a> ${a.enabled===false?'<span class="pill warn">Paused</span>':""}</div>
+      <div class="meta">→ ${esc(c ? c.title : "⚠ No channel")} · ${esc((a.times||[]).join(", "))} · ${a.per_slot||1} per time</div></div></div>
+      <div class="pills"><span class="pill info">Queue ${s.queue}</span><span class="pill ok">Uploaded ${s.up}</span>${s.fail?`<span class="pill bad">Failed ${s.fail}</span>`:""}<span class="pill">Checked ${esc(s.last ? s.last.slice(5) : "not yet")}</span></div>
+      <div class="row">
+        <button class="btn small primary" data-up="${a.id}">Upload now</button>
+        <button class="btn small" data-scan="${a.id}">Check now</button>
+        <a class="btn small" href="#edit/${a.id}">Edit</a>
+        <button class="btn small" data-tog="${a.id}">${a.enabled===false?"Resume":"Pause"}</button>
+      </div>
+    </div>`; }).join("")}`;
+};
+V.home.bind = () => {
+  $("#h_run").onclick = (e) => act(() => dispatch("auto"), e.target);
+  $("#h_ref").onclick = (e) => act(async () => { await loadAll(); render(); }, e.target);
+  document.querySelectorAll("[data-up]").forEach(b => b.onclick = () => act(() => dispatch("upload_now", b.dataset.up), b));
+  document.querySelectorAll("[data-scan]").forEach(b => b.onclick = () => act(() => dispatch("scan", b.dataset.scan), b));
+  document.querySelectorAll("[data-tog]").forEach(b => b.onclick = () => act(async () => {
+    const a = CFG.accounts.find(x => x.id === b.dataset.tog); a.enabled = a.enabled === false; await saveConfig("pause/resume"); render();
+  }, b));
+};
+
+function accountForm(a){
+  const opts = CFG.channels.map(c => `<option value="${esc(c.id)}" ${a && a.channel_id===c.id?"selected":""}>${esc(c.title)}</option>`).join("");
+  const sel = (v, cur) => cur === v ? "selected" : "";
+  return `<div class="card">
+    <label>TikTok account <div class="hint">${a ? "" : "One account per channel. "}e.g. <code>@username</code> or the full link</div></label>
+    <input id="f_tt" value="${esc(a ? a.tiktok : "")}" autocapitalize="off" autocorrect="off" placeholder="@username">
+    <label>YouTube channel</label>
+    ${opts ? `<select id="f_ch">${opts}</select>` : `<div class="meta">No channel connected. <a href="#channels">Connect one</a></div><select id="f_ch" style="display:none"></select>`}
+    <label>Daily upload times <div class="hint">24-hour Pakistan time, e.g. <code>23:00</code>. Starts up to 30-45 min later.</div></label>
+    <input id="f_times" value="${esc(a ? (a.times||[]).join(", ") : "23:00")}">
+    <label>Videos each time</label>
+    <input id="f_per" type="number" min="1" max="5" value="${a ? a.per_slot||1 : 2}">
+    <label>Which videos first</label>
+    <select id="f_order"><option value="oldest" ${sel("oldest", a&&a.order)}>Oldest first</option><option value="newest" ${sel("newest", a&&a.order)}>Newest first</option><option value="views" ${sel("views", a&&a.order)}>Most viewed first (when TikTok shows views)</option></select>
+    <label>Visibility</label>
+    <select id="f_priv"><option value="public">Public</option><option value="unlisted" ${sel("unlisted", a&&a.privacy)}>Unlisted</option><option value="private" ${sel("private", a&&a.privacy)}>Private</option></select>
+    <h2>Title &amp; description</h2>
+    <label>Title <div class="hint">Empty = TikTok caption (without hashtags). You can use <code>{caption}</code> and <code>{n}</code> (video number).</div></label>
+    <input id="f_title" value="${esc(a ? a.title_template||"" : "")}" placeholder="{caption}">
+    <label class="check"><input type="checkbox" id="f_shorts" ${!a || a.shorts_tag!==false ? "checked":""}><span>Add #Shorts to the title</span></label>
+    <label class="check"><input type="checkbox" id="f_cap" ${!a || a.use_caption!==false ? "checked":""}><span>Copy the TikTok caption to the description</span></label>
+    <label class="check"><input type="checkbox" id="f_hash" ${a && a.remove_hashtags ? "checked":""}><span>Remove hashtags from the description</span></label>
+    <label>Add below every description (optional)</label>
+    <textarea id="f_extra" placeholder="Subscribe for more 🔔">${esc(a ? a.extra||"" : "")}</textarea>
+    <label class="check"><input type="checkbox" id="f_notify" ${!a || a.notify!==false ? "checked":""}><span>Notify subscribers</span></label>
+    <label class="check"><input type="checkbox" id="f_kids" ${a && a.kids ? "checked":""}><span>Made for kids<div class="hint">Tick only if the video is made for children (YouTube rule)</div></span></label>
+    <label class="check"><input type="checkbox" id="f_old" ${!a || a.import_old!==false ? "checked":""}><span>Also upload old videos<div class="hint">Untick to upload only new videos (first check only)</div></span></label>
+    <div style="margin-top:18px"><button class="btn primary full" id="f_save">${a ? "Save changes" : "Add account"}</button></div>
+    ${a ? `<div style="margin-top:10px"><button class="btn danger full" id="f_del">Delete this account</button></div>` : ""}
+  </div>`;
+}
+function formValues(){
+  return { tiktok: normUrl($("#f_tt").value), channel_id: $("#f_ch").value, times: parseTimes($("#f_times").value),
+           per_slot: Math.max(1, Math.min(5, +$("#f_per").value || 1)), order: $("#f_order").value, privacy: $("#f_priv").value,
+           title_template: $("#f_title").value.trim(), shorts_tag: $("#f_shorts").checked, use_caption: $("#f_cap").checked,
+           remove_hashtags: $("#f_hash").checked, extra: $("#f_extra").value.trim(), notify: $("#f_notify").checked,
+           kids: $("#f_kids").checked, import_old: $("#f_old").checked };
+}
+function validate(v, selfId){
+  if (!v.tiktok) throw new Error("Enter the TikTok account");
+  if (!v.channel_id) throw new Error("Connect and choose a YouTube channel");
+  if (!v.times.length) throw new Error("Enter a valid time, e.g. 23:00");
+  const same = CFG.accounts.find(x => x.id !== selfId && userOf(x.tiktok).toLowerCase() === userOf(v.tiktok).toLowerCase());
+  if (same) throw new Error("This TikTok account is already used for " + ((chan(same.channel_id)||{}).title || "another channel") + ". Use a different TikTok on each channel.");
+}
+V.add = () => `<h1>Add account</h1><p class="sub">TikTok → YouTube Shorts. Pick a channel and a time, Velora does the rest every day.</p>` + accountForm(null);
+V.add.bind = () => {
+  $("#f_save").onclick = (e) => act(async () => {
+    const v = formValues(); validate(v, null);
+    CFG.accounts.push({ id: uid(), enabled: true, ...v });
+    await saveConfig("add account"); toast("Added ✓ Tap 'Check now' to build the queue"); location.hash = "#home";
+  }, e.target);
+};
+V.edit = (id) => { const a = CFG.accounts.find(x => x.id === id); return a ? `<h1>Edit @${esc(userOf(a.tiktok))}</h1>` + accountForm(a) : `<div class="empty">Not found</div>`; };
+V.edit.bind = (id) => {
+  const a = CFG.accounts.find(x => x.id === id); if (!a) return;
+  const btn = $("#f_save"); if (!btn) return;
+  btn.onclick = (e) => act(async () => { const v = formValues(); validate(v, id); Object.assign(a, v); await saveConfig("edit account"); toast("Saved ✓"); location.hash = "#home"; }, e.target);
+  $("#f_del").onclick = (e) => act(async () => {
+    if (!confirm("Delete @" + userOf(a.tiktok) + "?")) return;
+    CFG.accounts = CFG.accounts.filter(x => x.id !== id); await saveConfig("delete account"); location.hash = "#home";
+  }, e.target);
+};
+
+V.acc = (id) => {
+  const a = CFG.accounts.find(x => x.id === id); if (!a) return `<div class="empty">Not found</div>`;
+  const vids = (((STATE.accounts||{})[id]||{}).videos || []).slice().reverse(), c = chan(a.channel_id);
+  return `<div class="chan" style="margin:8px 0 14px">${avatar(c, 52)}<div><h1 style="margin:0">@${esc(userOf(a.tiktok))}</h1><div class="meta">→ ${esc(c ? c.title : "No channel")}</div></div></div>
+  <div class="row" style="margin-bottom:12px"><button class="btn small primary" id="d_up">Upload next now</button><button class="btn small" id="d_scan">Check now</button><a class="btn small" href="#edit/${a.id}">Edit</a></div>
+  <div class="card">${vids.length ? vids.slice(0,150).map(v => { const [lbl, cls] = ST_LABEL[v.status] || [v.status,""]; return `
+    <div class="vid"><div class="row" style="justify-content:space-between"><span class="pill ${cls}">${lbl}</span><span class="meta">${esc((v.uploaded||v.found||"").slice(5))}${v.views?` · ${v.views.toLocaleString()} views`:""}</span></div>
+      <div class="meta" style="margin-top:6px">${esc(short(v.caption, 90)) || "—"}</div>
+      ${v.error ? `<div class="meta" style="color:var(--bad)">${esc(short(v.error,140))}</div>` : ""}
+      <div class="row" style="margin-top:6px">${v.yt ? `<a class="btn small" target="_blank" href="https://youtube.com/shorts/${esc(v.yt)}">Open on YouTube</a>` : ""}
+        ${v.status==="failed"||v.status==="skipped" ? `<button class="btn small" data-retry="${esc(v.id)}">Retry</button>` : ""}
+        ${v.status==="new"||v.status==="retry" ? `<button class="btn small" data-now="${esc(v.id)}">Upload this</button><button class="btn small" data-skip="${esc(v.id)}">Skip</button>` : ""}</div></div>`; }).join("")
+    : `<div class="empty">Queue is empty. Tap “Check now”.</div>`}</div>`;
+};
+V.acc.bind = (id) => {
+  if (!$("#d_up")) return;
+  $("#d_up").onclick = (e) => act(() => dispatch("upload_now", id), e.target);
+  $("#d_scan").onclick = (e) => act(() => dispatch("scan", id), e.target);
+  document.querySelectorAll("[data-retry]").forEach(b => b.onclick = () => act(() => dispatch("retry", id, b.dataset.retry), b));
+  document.querySelectorAll("[data-now]").forEach(b => b.onclick = () => act(() => dispatch("upload_video", id, b.dataset.now), b));
+  document.querySelectorAll("[data-skip]").forEach(b => b.onclick = () => act(() => dispatch("skip", id, b.dataset.skip), b));
+};
+
+V.channels = () => {
+  const ready = CFG.google_client_id && CFG.google_secret_enc;
+  return `
+  <h1>Channels</h1><p class="sub">Connect each YouTube channel once. If a Gmail has several channels, Google lets you pick one.</p>
+  <div class="card">
+    <button class="btn yt full" id="g_connect" ${ready?"":"disabled"}>▶ Connect a YouTube channel</button>
+    ${ready ? "" : `<div class="meta" style="margin-top:10px">First finish the Google app setup below.</div>`}
+  </div>
+  <h2>Your channels (${CFG.channels.length})</h2>
+  <div class="card">${CFG.channels.length ? CFG.channels.map(c => { const s = chStatus(c.id); const n = CFG.accounts.filter(a => a.channel_id===c.id).length; return `
+    <div class="vid"><div class="chan">${avatar(c)}<div style="min-width:0"><div class="name">${esc(c.title)}</div>
+      <div class="meta">${n} account(s) · connected ${esc(c.connected_at||"")}</div></div></div>
+      <div class="pills">${s && !s.ok ? `<span class="pill bad">Reconnect needed</span>` : `<span class="pill ok">Connected</span>`}</div>
+      <div class="row"><button class="btn small" data-test="${esc(c.id)}">Test</button><button class="btn small danger" data-rm="${esc(c.id)}">Remove</button></div></div>`; }).join("")
+    : `<div class="empty">No channels yet</div>`}</div>
+  <details ${ready?"":"open"}><summary>Google app settings (one-time)</summary>
+  <div class="card">
+    <ol class="steps">
+      <li>Open <a target="_blank" href="https://console.cloud.google.com/projectcreate">console.cloud.google.com</a> → create a project named <b>Velora</b>.</li>
+      <li>APIs &amp; Services → Library → enable <b>YouTube Data API v3</b>.</li>
+      <li>OAuth consent screen → External → app name <b>Velora Studio</b> → add your Gmail as a test user, then press <b>Publish app</b> (otherwise logins expire every 7 days).</li>
+      <li>Credentials → Create credentials → OAuth client ID → <b>Web application</b>. Under <b>Authorized redirect URIs</b> add:<br><code>${esc(REDIRECT)}</code> <button class="btn small" id="g_copy">Copy</button></li>
+      <li>Copy the <b>Client ID</b> and <b>Client secret</b> here and Save.</li>
+    </ol>
+    <label>Client ID</label><input id="g_id" value="${esc(CFG.google_client_id||"")}" autocapitalize="off" autocorrect="off" placeholder="....apps.googleusercontent.com">
+    <label>Client secret <div class="hint">Locked with your password</div></label><input id="g_sec" type="password" autocapitalize="off" autocorrect="off" placeholder="${CFG.google_secret_enc ? "•••••• saved" : "GOCSPX-..."}">
+    <div style="margin-top:14px"><button class="btn primary full" id="g_save">Save</button></div>
+  </div></details>`;
+};
+V.channels.bind = () => {
+  $("#g_connect").onclick = (e) => act(startGoogle, e.target);
+  $("#g_copy").onclick = () => { navigator.clipboard.writeText(REDIRECT).then(() => toast("Copied ✓")); };
+  $("#g_save").onclick = (e) => act(async () => {
+    const id = $("#g_id").value.trim(), sec = $("#g_sec").value.trim();
+    if (!id.endsWith(".apps.googleusercontent.com")) throw new Error("Client ID should end with .apps.googleusercontent.com");
+    CFG.google_client_id = id;
+    if (sec) CFG.google_secret_enc = await encryptJSON({ secret: sec }, S.pass);
+    if (!CFG.google_secret_enc) throw new Error("Paste the Client secret too");
+    await saveConfig("google app"); toast("Saved ✓ Now tap Connect"); render();
+  }, e.target);
+  document.querySelectorAll("[data-test]").forEach(b => b.onclick = () => act(async () => {
+    const rt = (await unlock("tokens_enc", {}))[b.dataset.test];
+    if (!rt) throw new Error("Not connected, tap Connect again");
+    const t = await googleToken({ refresh_token: rt, grant_type: "refresh_token" });
+    const d = await ytGet("channels?part=snippet,statistics&mine=true", t.access_token);
+    const c = (d.items||[])[0];
+    toast(c ? `✓ ${c.snippet.title}: ${(+c.statistics.subscriberCount||0).toLocaleString()} subscribers, ${(+c.statistics.videoCount||0).toLocaleString()} videos` : "Connected ✓");
+  }, b));
+  document.querySelectorAll("[data-rm]").forEach(b => b.onclick = () => act(async () => {
+    const c = chan(b.dataset.rm); if (!confirm("Remove " + (c ? c.title : "channel") + "?")) return;
+    const tokens = await unlock("tokens_enc", {}); delete tokens[b.dataset.rm];
+    CFG.tokens_enc = await encryptJSON(tokens, S.pass);
+    CFG.channels = CFG.channels.filter(x => x.id !== b.dataset.rm);
+    await saveConfig("remove channel"); render();
+  }, b));
+};
+
+V.logs = () => {
+  const users = Object.fromEntries(CFG.accounts.map(a => [a.id, "@" + userOf(a.tiktok) + ": "]));
+  const logs = (STATE.log||[]).filter(l => !LF || l.l === LF);
+  return `
+  <h1>Logs</h1><p class="sub">Everything Velora did, newest first.</p>
+  <div class="tabs"><button class="btn small ${!LF?"primary":""}" data-lf="">All</button><button class="btn small ${LF==="success"?"primary":""}" data-lf="success">Uploads</button><button class="btn small ${LF==="error"?"primary":""}" data-lf="error">Errors</button><button class="btn small" id="l_ref">↻</button></div>
+  <div class="card">${logs.length ? logs.map(l => `<div class="log lv-${esc(l.l)}"><span class="t">${esc(l.t.slice(5))}</span>${esc((users[l.a]||"") + l.m)}</div>`).join("") : `<div class="empty">No logs yet</div>`}</div>
+  <h2>GitHub runs</h2>
+  <div class="card">${RUNS.length ? RUNS.map(r => `<div class="log"><span class="t">${esc(new Date(r.created_at).toLocaleString())}</span>${esc(r.event)} · ${esc(r.status==="completed" ? r.conclusion : r.status)}</div>`).join("") : `<div class="empty">No runs yet</div>`}
+    <div style="margin-top:10px"><a class="btn small" target="_blank" href="https://github.com/${esc(S.repo)}/actions/workflows/${WORKFLOW}">Full details on GitHub</a></div></div>`;
+};
+V.logs.bind = () => {
+  document.querySelectorAll("[data-lf]").forEach(b => b.onclick = () => { LF = b.dataset.lf; render(); });
+  $("#l_ref").onclick = (e) => act(async () => { await loadAll(); render(); }, e.target);
+};
+
+V.settings = () => `
+  <h1>Settings</h1>
+  <div class="card">
+    <label>Check TikTok every (minutes)</label><input id="c_chk" type="number" min="30" value="${CFG.check_minutes||60}">
+    <label>Old videos to import the first time</label><input id="c_first" type="number" min="10" max="1000" value="${CFG.first_import||200}">
+    <label>Latest videos to look at per check</label><input id="c_lim" type="number" min="5" max="200" value="${CFG.scan_limit||30}">
+    <label>Safety limit per channel per day <div class="hint">Protects your channels from looking like spam</div></label><input id="c_cap" type="number" min="1" max="20" value="${CFG.daily_cap||6}">
+    <label>Retries on failure</label><input id="c_try" type="number" min="1" max="10" value="${CFG.max_attempts||3}">
+    <label>Time zone</label><input id="c_tz" value="${esc(CFG.timezone||"Asia/Karachi")}">
+    <div style="margin-top:16px"><button class="btn primary full" id="c_save">Save</button></div>
+  </div>
+  <h2>Fixed IP (optional)</h2>
+  <div class="card">
+    <div class="meta">Empty = GitHub's own servers (IP changes each run). Add your own server/proxy so every upload uses the same IP. If it is offline, Velora skips uploading instead of switching IP.</div>
+    <label>Proxy address <div class="hint">e.g. <code>http://user:pass@1.2.3.4:3128</code> · locked with your password</div></label>
+    <input id="c_proxy" type="password" autocapitalize="off" autocorrect="off" placeholder="${CFG.proxy_enc ? "•••••• saved" : "not set"}">
+    <div class="row" style="margin-top:12px"><button class="btn small primary" id="c_psave">Save proxy</button>${CFG.proxy_enc ? `<button class="btn small danger" id="c_pdel">Remove</button>` : ""}</div>
+    ${STATE.last_ip ? `<div class="meta" style="margin-top:10px">Last run used IP <b>${esc(STATE.last_ip)}</b></div>` : ""}
+  </div>
+  <h2>Connection</h2>
+  <div class="card"><div class="meta">Repo: <b>${esc(S.repo)}</b></div><div style="margin-top:10px"><a class="btn small" href="#setup">Change GitHub token / password</a></div></div>`;
+V.settings.bind = () => {
+  $("#c_save").onclick = (e) => act(async () => {
+    Object.assign(CFG, { check_minutes: Math.max(30, +$("#c_chk").value||60), first_import: Math.max(10, +$("#c_first").value||200),
+      scan_limit: +$("#c_lim").value||30, daily_cap: Math.max(1, +$("#c_cap").value||6), max_attempts: +$("#c_try").value||3,
+      timezone: $("#c_tz").value.trim()||"Asia/Karachi" });
+    await saveConfig("settings"); toast("Saved ✓");
+  }, e.target);
+  $("#c_psave").onclick = (e) => act(async () => {
+    const p = $("#c_proxy").value.trim(); if (!p) throw new Error("Enter the proxy address");
+    if (!/^(https?|socks5h?):\/\//.test(p)) throw new Error("Proxy must start with http:// or socks5://");
+    CFG.proxy_enc = await encryptJSON({ proxy: p }, S.pass); await saveConfig("proxy"); toast("Proxy saved ✓"); render();
+  }, e.target);
+  const del = $("#c_pdel"); if (del) del.onclick = (e) => act(async () => { delete CFG.proxy_enc; await saveConfig("remove proxy"); render(); }, e.target);
+};
+
+// ---------------------------------------------------------------- render
+function render(){
+  let { name, id } = route();
+  if (!S.token || !S.repo || !S.pass) name = "setup";
+  if (name !== "setup" && !CFG) return;
+  const view = V[name] || V.home;
+  $("#app").innerHTML = view(id);
+  if (view.bind) view.bind(id);
+  document.querySelectorAll("#nav a").forEach(a => a.classList.toggle("on", a.dataset.r === name || (name==="acc"||name==="edit") && a.dataset.r==="home"));
+  window.scrollTo(0, 0);
+}
+
+let y0 = null;
+window.addEventListener("touchstart", e => { y0 = window.scrollY === 0 ? e.touches[0].clientY : null; }, { passive: true });
+window.addEventListener("touchend", e => { if (y0 !== null && e.changedTouches[0].clientY - y0 > 110 && S.token && route().name!=="setup") act(async () => { await loadAll(); render(); toast("Refreshed ✓"); }); y0 = null; });
+document.addEventListener("visibilitychange", () => { if (!document.hidden && CFG) loadAll().then(render).catch(()=>{}); });
+
+(function captureGoogleRedirect(){
+  const q = new URLSearchParams(location.search);
+  if (q.get("code")) {
+    try { localStorage.setItem("vs_code", q.get("code")); localStorage.setItem("vs_code_state", q.get("state") || ""); } catch(e){}
+    history.replaceState(null, "", location.pathname + "#channels");
+  } else if (q.get("error")) {
+    history.replaceState(null, "", location.pathname + "#channels");
+    setTimeout(() => toast("Google login was cancelled (" + q.get("error") + ")", true), 800);
+  }
+})();
+(async () => {
+  if (S.token && S.repo && S.pass){
+    try { await loadAll(); } catch(e){ toast(e.message, true); location.hash = "#setup"; }
+    if (CFG) { try { await finishGoogle(); } catch(e){ toast(e.message, true); } }
+  }
+  render();
+})();
+</script>
+</body>
+</html>
