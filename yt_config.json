@@ -14,7 +14,28 @@
       "connected_at": "2026-11-12"
     }
   ],
-  "accounts": [],
+  "accounts": [
+    {
+      "id": "ymwcj6ohxpfxo",
+      "enabled": true,
+      "tiktok": "https://www.tiktok.com/@freakbobivy",
+      "channel_id": "UCuHYwTa4Mr6Bnp8Pqfc3HIA",
+      "times": [
+        "00:55"
+      ],
+      "per_slot": 2,
+      "order": "views",
+      "privacy": "public",
+      "title_template": "",
+      "shorts_tag": true,
+      "use_caption": true,
+      "remove_hashtags": false,
+      "extra": "",
+      "notify": true,
+      "kids": false,
+      "import_old": true
+    }
+  ],
   "google_secret_enc": "9P7omftbOZpAdhDH8c+VuZLqmBy8lljwgN7FPgxKvD0p4PJ5VC9VEq6zT2YV4BQU+riag/QwAyTaVbtXlxPCKyOAX1kC0xNWGFOL3QyN0LuTDo0Ic3f4hkd5ETk=",
   "tokens_enc": "3F7yvcH9KiwpyhaU4G+Poo1NRBsKVbK+QRTSy1hhNlNud4rfSHnhqWub+USGgKe3pyUWJK/MVG8U50/dyjUjQCfBYFQTVyGvVTSnRAZT97V7Dr/9vLyil/amLdCCzS3hQKSfEkliQI9oFHgnndQniNkTH/EJYx7LycZuso236m2CoFhgMPlVyD3qlXFWkGLevFNRaaf3CmlYNko5LSISVoY4TXCrXWh42pcOeKFGRqM+KA=="
 }
