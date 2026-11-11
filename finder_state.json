@@ -1,1 +1,47 @@
-{}
+{
+ "creators": {},
+ "running": false,
+ "log": [
+  {
+   "t": "2026-11-12 01:19",
+   "l": "info",
+   "m": "done: 0 creators checked, 0 not found on YouTube, 60 searches left"
+  },
+  {
+   "t": "2026-11-12 01:19",
+   "l": "info",
+   "m": "found on TikTok Creative Center: US creators 0, US videos 0, US hashtags 0, GB creators 0, GB videos 0, GB hashtags 0"
+  },
+  {
+   "t": "2026-11-12 01:19",
+   "l": "error",
+   "m": "GB hashtags: page did not load - Locator.click: Timeout 30000ms exceeded.\nCall log:\n  - waiting for locator(\"text=/View more/i\").first\n    - locator reso"
+  },
+  {
+   "t": "2026-11-12 01:18",
+   "l": "error",
+   "m": "GB videos: page did not load - Locator.click: Timeout 30000ms exceeded.\nCall log:\n  - waiting for locator(\"text=/View more/i\").first\n    - locator reso"
+  },
+  {
+   "t": "2026-11-12 01:18",
+   "l": "error",
+   "m": "GB creators: page did not load - Locator.click: Timeout 30000ms exceeded.\nCall log:\n  - waiting for locator(\"text=/View more/i\").first\n    - locator reso"
+  },
+  {
+   "t": "2026-11-12 01:17",
+   "l": "error",
+   "m": "US hashtags: page did not load - Locator.click: Timeout 30000ms exceeded.\nCall log:\n  - waiting for locator(\"text=/View more/i\").first\n    - locator reso"
+  },
+  {
+   "t": "2026-11-12 01:16",
+   "l": "error",
+   "m": "US videos: page did not load - Locator.click: Timeout 30000ms exceeded.\nCall log:\n  - waiting for locator(\"text=/View more/i\").first\n    - locator reso"
+  },
+  {
+   "t": "2026-11-12 01:16",
+   "l": "error",
+   "m": "US creators: page did not load - Locator.click: Timeout 30000ms exceeded.\nCall log:\n  - waiting for locator(\"text=/View more/i\").first\n    - locator reso"
+  }
+ ],
+ "last_run": "2026-11-12 01:19"
+}
