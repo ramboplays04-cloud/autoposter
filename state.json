@@ -72,17 +72,19 @@
      "id": "7691345337834802463",
      "url": "https://www.tiktok.com/@a_biology_teacher/video/7691345337834802463",
      "caption": "MCQ: Types of Receptor Proteins #cellcommunication #biology #science #stem #teaching",
-     "status": "new",
-     "attempts": 0,
-     "found": "2026-11-11 22:04"
+     "status": "failed",
+     "attempts": 3,
+     "found": "2026-11-11 22:04",
+     "error": "For security reasons, your account has limited access to the site for a few days. If you have any questions, please contact our Help Center. (code 368)"
     },
     {
      "id": "7684303361822166303",
      "url": "https://www.tiktok.com/@a_biology_teacher/video/7684303361822166303",
      "caption": "MCQ: Eukaryotic vs. Prokaryotic #learnontiktok #biology #science #stem #cells",
-     "status": "new",
-     "attempts": 0,
-     "found": "2026-11-11 22:04"
+     "status": "retry",
+     "attempts": 1,
+     "found": "2026-11-11 22:04",
+     "error": "For security reasons, your account has limited access to the site for a few days. If you have any questions, please contact our Help Center. (code 368)"
     },
     {
      "id": "7691377207226141982",
@@ -1878,12 +1880,36 @@
  },
  "log": [
   {
+   "t": "2026-11-11 23:03",
+   "l": "error",
+   "a": "amwcd8ml6ywwg",
+   "m": "video 166303 fail (1/3) - For security reasons, your account has limited access to the site for a few days. If you have any questions, please contact our Help Center. (code 368)"
+  },
+  {
+   "t": "2026-11-11 23:03",
+   "l": "error",
+   "a": "amwcd8ml6ywwg",
+   "m": "video 802463 fail (3/3) - For security reasons, your account has limited access to the site for a few days. If you have any questions, please contact our Help Center. (code 368)"
+  },
+  {
+   "t": "2026-11-11 23:03",
+   "l": "error",
+   "a": "amwcd8ml6ywwg",
+   "m": "video 802463 fail (2/3) - For security reasons, your account has limited access to the site for a few days. If you have any questions, please contact our Help Center. (code 368)"
+  },
+  {
+   "t": "2026-11-11 23:03",
+   "l": "error",
+   "a": "amwcd8ml6ywwg",
+   "m": "video 802463 fail (1/3) - For security reasons, your account has limited access to the site for a few days. If you have any questions, please contact our Help Center. (code 368)"
+  },
+  {
    "t": "2026-11-11 22:04",
    "l": "info",
    "a": "amwcd8ml6ywwg",
    "m": "check done: 200 new videos added to queue"
   }
  ],
- "last_run": "2026-11-11 22:04",
- "last_action": "scan"
+ "last_run": "2026-11-11 23:03",
+ "last_action": "upload_now"
 }
