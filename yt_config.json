@@ -6,7 +6,15 @@
   "max_attempts": 3,
   "daily_cap": 6,
   "google_client_id": "360431120620-4rq2v21di55684jpl2r9b1duvdvgovcb.apps.googleusercontent.com",
-  "channels": [],
+  "channels": [
+    {
+      "id": "UCuHYwTa4Mr6Bnp8Pqfc3HIA",
+      "title": "freakbobivy",
+      "thumb": "https://yt3.ggpht.com/IMoFRbs96sOx3m353Gx9ZyT2rmF74fwhjZD_8zoRcrV3BMQU9LWb_ugQ3lOHYQZfIjItrHFrrA=s88-c-k-c0x00ffffff-no-rj",
+      "connected_at": "2026-11-12"
+    }
+  ],
   "accounts": [],
-  "google_secret_enc": "9P7omftbOZpAdhDH8c+VuZLqmBy8lljwgN7FPgxKvD0p4PJ5VC9VEq6zT2YV4BQU+riag/QwAyTaVbtXlxPCKyOAX1kC0xNWGFOL3QyN0LuTDo0Ic3f4hkd5ETk="
+  "google_secret_enc": "9P7omftbOZpAdhDH8c+VuZLqmBy8lljwgN7FPgxKvD0p4PJ5VC9VEq6zT2YV4BQU+riag/QwAyTaVbtXlxPCKyOAX1kC0xNWGFOL3QyN0LuTDo0Ic3f4hkd5ETk=",
+  "tokens_enc": "3F7yvcH9KiwpyhaU4G+Poo1NRBsKVbK+QRTSy1hhNlNud4rfSHnhqWub+USGgKe3pyUWJK/MVG8U50/dyjUjQCfBYFQTVyGvVTSnRAZT97V7Dr/9vLyil/amLdCCzS3hQKSfEkliQI9oFHgnndQniNkTH/EJYx7LycZuso236m2CoFhgMPlVyD3qlXFWkGLevFNRaaf3CmlYNko5LSISVoY4TXCrXWh42pcOeKFGRqM+KA=="
 }
