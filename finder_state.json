@@ -1,7 +1,928 @@
 {
- "creators": {},
+ "creators": {
+  "baby.unscripted": {
+   "username": "baby.unscripted",
+   "nickname": "baby.unscripted",
+   "followers": 300400,
+   "regions": [],
+   "status": "exists",
+   "matches": [
+    {
+     "title": "Baby Unscripted",
+     "url": "https://www.youtube.com/@baby.unscripted",
+     "subs": 1250
+    }
+   ],
+   "checked": "2026-11-12 02:25",
+   "tiktok": "https://www.tiktok.com/@baby.unscripted"
+  },
+  "kingdoms.beyond": {
+   "username": "kingdoms.beyond",
+   "nickname": "Kingdoms Beyond",
+   "followers": 743200,
+   "regions": [],
+   "status": "exists",
+   "matches": [
+    {
+     "title": "Kingdoms Beyond",
+     "url": "https://www.youtube.com/channel/UCek5xred_YSXrGIIjPyOvdw",
+     "exact": true
+    },
+    {
+     "title": "Kingdoms Beyond",
+     "url": "https://www.youtube.com/channel/UCLLrUfx8syiYymK6cVvc_qA",
+     "exact": true
+    },
+    {
+     "title": "    Kingdoms Beyond",
+     "url": "https://www.youtube.com/channel/UCHJuZ-yIbpU2hN048KMnA2Q",
+     "exact": true
+    }
+   ],
+   "checked": "2026-11-12 02:25",
+   "tiktok": "https://www.tiktok.com/@kingdoms.beyond"
+  },
+  "funny_babys3": {
+   "username": "funny_babys3",
+   "nickname": "🧑‍🍼",
+   "followers": 328200,
+   "regions": [],
+   "status": "similar",
+   "matches": [
+    {
+     "title": "Funny_babys",
+     "url": "https://www.youtube.com/channel/UCVsRb4x1TeTW0iyMNo5Gt7g",
+     "exact": false
+    },
+    {
+     "title": "Funnybaby🧑‍🍼",
+     "url": "https://www.youtube.com/channel/UC14-xFDFtBrsbFpd5pBYPMw",
+     "exact": false
+    },
+    {
+     "title": "Funny Baby",
+     "url": "https://www.youtube.com/channel/UCgvbwCN3kx_mvGxkPfGFzBg",
+     "exact": false
+    }
+   ],
+   "checked": "2026-11-12 02:25",
+   "tiktok": "https://www.tiktok.com/@funny_babys3"
+  },
+  "funnypets520o": {
+   "username": "funnypets520o",
+   "nickname": "Nelly Griezman",
+   "followers": 1200000,
+   "regions": [],
+   "status": "exists",
+   "matches": [
+    {
+     "title": "funnypets520o",
+     "url": "https://www.youtube.com/@funnypets520o",
+     "subs": 4
+    }
+   ],
+   "checked": "2026-11-12 02:25",
+   "tiktok": "https://www.tiktok.com/@funnypets520o"
+  },
+  "jilliangerhardt": {
+   "username": "jilliangerhardt",
+   "nickname": "Jillian Gerhardt",
+   "followers": 577300,
+   "regions": [],
+   "status": "exists",
+   "matches": [
+    {
+     "title": "Jillian Gerhardt (Millennial Baddie) ",
+     "url": "https://www.youtube.com/@jilliangerhardt",
+     "subs": 21300
+    }
+   ],
+   "checked": "2026-11-12 02:25",
+   "tiktok": "https://www.tiktok.com/@jilliangerhardt"
+  },
+  "haleigh.booth": {
+   "username": "haleigh.booth",
+   "nickname": "Haleigh.Booth",
+   "followers": 2200000,
+   "regions": [],
+   "status": "exists",
+   "matches": [
+    {
+     "title": "Haleigh Booth",
+     "url": "https://www.youtube.com/channel/UCx0PVveShrGa-b3qHLbkt3A",
+     "exact": true
+    }
+   ],
+   "checked": "2026-11-12 02:25",
+   "tiktok": "https://www.tiktok.com/@haleigh.booth"
+  },
+  "lnterestingbaby28": {
+   "username": "lnterestingbaby28",
+   "nickname": "lnterestingbaby28",
+   "followers": 227100,
+   "regions": [],
+   "status": "exists",
+   "matches": [
+    {
+     "title": "lnterestingbaby28",
+     "url": "https://www.youtube.com/channel/UCw5kehwWLh7ou18Jc-qMVHQ",
+     "exact": true
+    }
+   ],
+   "checked": "2026-11-12 02:25",
+   "tiktok": "https://www.tiktok.com/@lnterestingbaby28"
+  },
+  "perfectlykelsey": {
+   "username": "perfectlykelsey",
+   "nickname": "Kelsey Pumel - Woods",
+   "followers": 2800000,
+   "regions": [],
+   "status": "exists",
+   "matches": [
+    {
+     "title": "perfectlykelsey",
+     "url": "https://www.youtube.com/@perfectlykelsey",
+     "subs": 3
+    }
+   ],
+   "checked": "2026-11-12 02:25",
+   "tiktok": "https://www.tiktok.com/@perfectlykelsey"
+  },
+  "loganlisle": {
+   "username": "loganlisle",
+   "nickname": "DockTok",
+   "followers": 2800000,
+   "regions": [],
+   "status": "exists",
+   "matches": [
+    {
+     "title": "Logan Lisle",
+     "url": "https://www.youtube.com/@loganlisle",
+     "subs": 3
+    }
+   ],
+   "checked": "2026-11-12 02:25",
+   "tiktok": "https://www.tiktok.com/@loganlisle"
+  },
+  "deerblinddadjokes": {
+   "username": "deerblinddadjokes",
+   "nickname": "Deer Blind Dad Jokes",
+   "followers": 1700000,
+   "regions": [],
+   "status": "similar",
+   "matches": [
+    {
+     "title": "Deer Blind Dad Jokes (From Icey-Tek USA)",
+     "url": "https://www.youtube.com/channel/UCQTLbPnz5hClBlYOm7kSF4w",
+     "exact": false
+    },
+    {
+     "title": "Dad Joke ",
+     "url": "https://www.youtube.com/channel/UCfPZEeY1yXwBdtiAZTDujcg",
+     "exact": false
+    }
+   ],
+   "checked": "2026-11-12 02:26",
+   "tiktok": "https://www.tiktok.com/@deerblinddadjokes"
+  },
+  "kidsinusa": {
+   "username": "kidsinusa",
+   "nickname": "Kids In USA",
+   "followers": 935900,
+   "regions": [],
+   "status": "exists",
+   "matches": [
+    {
+     "title": "Uzbek kids in USA",
+     "url": "https://www.youtube.com/@kidsinusa",
+     "subs": 110000
+    }
+   ],
+   "checked": "2026-11-12 02:26",
+   "tiktok": "https://www.tiktok.com/@kidsinusa"
+  },
+  "kifilefo.qapohoni": {
+   "username": "kifilefo.qapohoni",
+   "nickname": "Kifilefo Qapohoni",
+   "followers": 204400,
+   "regions": [],
+   "status": "not_found",
+   "matches": [],
+   "checked": "2026-11-12 02:26",
+   "tiktok": "https://www.tiktok.com/@kifilefo.qapohoni"
+  },
+  "yke5cdgbc4": {
+   "username": "yke5cdgbc4",
+   "nickname": "yke5cdgbc4",
+   "followers": 298300,
+   "regions": [],
+   "status": "exists",
+   "matches": [
+    {
+     "title": "yke5cdgbc4",
+     "url": "https://www.youtube.com/@yke5cdgbc4",
+     "subs": 20
+    }
+   ],
+   "checked": "2026-11-12 02:26",
+   "tiktok": "https://www.tiktok.com/@yke5cdgbc4"
+  },
+  "ajandchar4lifee": {
+   "username": "ajandchar4lifee",
+   "nickname": "Aj&Char4Life",
+   "followers": 1200000,
+   "regions": [],
+   "status": "exists",
+   "matches": [
+    {
+     "title": "Ajandchar4lifee",
+     "url": "https://www.youtube.com/@ajandchar4lifee",
+     "subs": 81100
+    }
+   ],
+   "checked": "2026-11-12 02:26",
+   "tiktok": "https://www.tiktok.com/@ajandchar4lifee"
+  },
+  "gradyandkarlee": {
+   "username": "gradyandkarlee",
+   "nickname": "Karlee & Grady",
+   "followers": 2000000,
+   "regions": [],
+   "status": "exists",
+   "matches": [
+    {
+     "title": "gradyandkarlee",
+     "url": "https://www.youtube.com/@gradyandkarlee",
+     "subs": 877
+    }
+   ],
+   "checked": "2026-11-12 02:26",
+   "tiktok": "https://www.tiktok.com/@gradyandkarlee"
+  },
+  "sammyblizzzz": {
+   "username": "sammyblizzzz",
+   "nickname": "Sammy ☻",
+   "followers": 1600000,
+   "regions": [],
+   "status": "exists",
+   "matches": [
+    {
+     "title": "Sammy Blizzard",
+     "url": "https://www.youtube.com/@sammyblizzzz",
+     "subs": 9100
+    }
+   ],
+   "checked": "2026-11-12 02:26",
+   "tiktok": "https://www.tiktok.com/@sammyblizzzz"
+  },
+  "janaexcalvin": {
+   "username": "janaexcalvin",
+   "nickname": "janaexcalvin",
+   "followers": 1400000,
+   "regions": [],
+   "status": "exists",
+   "matches": [
+    {
+     "title": "Janae & Calvin",
+     "url": "https://www.youtube.com/@janaexcalvin",
+     "subs": 88800
+    }
+   ],
+   "checked": "2026-11-12 02:26",
+   "tiktok": "https://www.tiktok.com/@janaexcalvin"
+  },
+  "romeloandskylair": {
+   "username": "romeloandskylair",
+   "nickname": "RomeloandSkylair",
+   "followers": 614100,
+   "regions": [],
+   "status": "exists",
+   "matches": [
+    {
+     "title": "Melo and Sky",
+     "url": "https://www.youtube.com/channel/UCkiffdlagYdTiIJX5AsbHVA",
+     "exact": false
+    },
+    {
+     "title": "RomeloandSkylair",
+     "url": "https://www.youtube.com/channel/UCZdA4Ix_ELQ6Bcjg_OBLhcw",
+     "exact": true
+    }
+   ],
+   "checked": "2026-11-12 02:26",
+   "tiktok": "https://www.tiktok.com/@romeloandskylair"
+  },
+  "joseandkatherine": {
+   "username": "joseandkatherine",
+   "nickname": "joseandkatherine",
+   "followers": 683800,
+   "regions": [],
+   "status": "exists",
+   "matches": [
+    {
+     "title": "jose and katherine",
+     "url": "https://www.youtube.com/@joseandkatherine",
+     "subs": 967
+    }
+   ],
+   "checked": "2026-11-12 02:26",
+   "tiktok": "https://www.tiktok.com/@joseandkatherine"
+  },
+  "thecallaces": {
+   "username": "thecallaces",
+   "nickname": "THE CALLACES",
+   "followers": 2500000,
+   "regions": [],
+   "status": "exists",
+   "matches": [
+    {
+     "title": "THE CALLACES",
+     "url": "https://www.youtube.com/@thecallaces",
+     "subs": 462
+    }
+   ],
+   "checked": "2026-11-12 02:26",
+   "tiktok": "https://www.tiktok.com/@thecallaces"
+  },
+  "moneyfamelosangeles": {
+   "username": "moneyfamelosangeles",
+   "nickname": "JDMONEYFAMEL.A",
+   "followers": 0,
+   "regions": [],
+   "status": "not_found",
+   "matches": [],
+   "checked": "2026-11-12 02:26",
+   "tiktok": "https://www.tiktok.com/@moneyfamelosangeles"
+  },
+  "dat_dude10": {
+   "username": "dat_dude10",
+   "nickname": "Dat_dude",
+   "followers": 1300000,
+   "regions": [],
+   "status": "exists",
+   "matches": [
+    {
+     "title": "Dat_Dude10",
+     "url": "https://www.youtube.com/@dat_dude10",
+     "subs": 25
+    }
+   ],
+   "checked": "2026-11-12 02:26",
+   "tiktok": "https://www.tiktok.com/@dat_dude10"
+  },
+  "nati.f16": {
+   "username": "nati.f16",
+   "nickname": "Nati",
+   "followers": 0,
+   "regions": [],
+   "status": "exists",
+   "matches": [
+    {
+     "title": "Nati",
+     "url": "https://www.youtube.com/@nati.f16",
+     "subs": 585
+    }
+   ],
+   "checked": "2026-11-12 02:26",
+   "tiktok": "https://www.tiktok.com/@nati.f16"
+  },
+  "tahalivestreams": {
+   "username": "tahalivestreams",
+   "nickname": "tahalivestreams",
+   "followers": 426200,
+   "regions": [],
+   "status": "exists",
+   "matches": [
+    {
+     "title": "tahalivestreams",
+     "url": "https://www.youtube.com/@tahalivestreams",
+     "subs": 34300
+    }
+   ],
+   "checked": "2026-11-12 02:26",
+   "tiktok": "https://www.tiktok.com/@tahalivestreams"
+  },
+  "mai_yaazi": {
+   "username": "mai_yaazi",
+   "nickname": "MAI_YAAZI",
+   "followers": 2800000,
+   "regions": [],
+   "status": "exists",
+   "matches": [
+    {
+     "title": "Mai",
+     "url": "https://www.youtube.com/channel/UCzN64aae8cVDBcMLITXhrQg",
+     "exact": false
+    },
+    {
+     "title": "mai_yaazi",
+     "url": "https://www.youtube.com/channel/UCKG-CPXL2DMELN06oEGUS9A",
+     "exact": true
+    },
+    {
+     "title": "Mai_yaazi",
+     "url": "https://www.youtube.com/channel/UCQUDvupa65Byx2nWyqoEXHg",
+     "exact": true
+    }
+   ],
+   "checked": "2026-11-12 02:26",
+   "tiktok": "https://www.tiktok.com/@mai_yaazi"
+  },
+  "nikita_harivansh": {
+   "username": "nikita_harivansh",
+   "nickname": "Nikita Harivansh 🇳🇵🕉️",
+   "followers": 1200000,
+   "regions": [],
+   "status": "exists",
+   "matches": [
+    {
+     "title": "Nikita Harivansh ",
+     "url": "https://www.youtube.com/@nikita_harivansh",
+     "subs": 326000
+    }
+   ],
+   "checked": "2026-11-12 02:26",
+   "tiktok": "https://www.tiktok.com/@nikita_harivansh"
+  },
+  "meowtakeover": {
+   "username": "meowtakeover",
+   "nickname": "meowtakeover",
+   "followers": 2500000,
+   "regions": [],
+   "status": "exists",
+   "matches": [
+    {
+     "title": "MeowTakeover",
+     "url": "https://www.youtube.com/@meowtakeover",
+     "subs": 23900
+    }
+   ],
+   "checked": "2026-11-12 02:26",
+   "tiktok": "https://www.tiktok.com/@meowtakeover"
+  },
+  "maimaikaikyaku": {
+   "username": "maimaikaikyaku",
+   "nickname": "maimaikaikyaku",
+   "followers": 313800,
+   "regions": [],
+   "status": "not_found",
+   "matches": [],
+   "checked": "2026-11-12 02:26",
+   "tiktok": "https://www.tiktok.com/@maimaikaikyaku"
+  },
+  "eiiscanty__": {
+   "username": "eiiscanty__",
+   "nickname": "Eii Scanty",
+   "followers": 262100,
+   "regions": [],
+   "status": "similar",
+   "matches": [
+    {
+     "title": "EII Scanty Nation ",
+     "url": "https://www.youtube.com/channel/UCAdoX5U3pxf0pXmLDwSlOaA",
+     "exact": false
+    },
+    {
+     "title": "Eii Scanty Lol",
+     "url": "https://www.youtube.com/channel/UCkooF-KsiZkU2jkBFpsHsgw",
+     "exact": false
+    }
+   ],
+   "checked": "2026-11-12 02:26",
+   "tiktok": "https://www.tiktok.com/@eiiscanty__"
+  },
+  "smidgeofpink": {
+   "username": "smidgeofpink",
+   "nickname": "Smidge Of Pink",
+   "followers": 630300,
+   "regions": [],
+   "status": "exists",
+   "matches": [
+    {
+     "title": "Smidge Of Pink",
+     "url": "https://www.youtube.com/@smidgeofpink",
+     "subs": 492000
+    }
+   ],
+   "checked": "2026-11-12 02:26",
+   "tiktok": "https://www.tiktok.com/@smidgeofpink"
+  },
+  "latinkitchen0": {
+   "username": "latinkitchen0",
+   "nickname": "Latin Kitchen",
+   "followers": 2100000,
+   "regions": [],
+   "status": "exists",
+   "matches": [
+    {
+     "title": "Latin Kitchen",
+     "url": "https://www.youtube.com/@latinkitchen0",
+     "subs": 12
+    }
+   ],
+   "checked": "2026-11-12 02:26",
+   "tiktok": "https://www.tiktok.com/@latinkitchen0"
+  },
+  "jeffandlaurenshow": {
+   "username": "jeffandlaurenshow",
+   "nickname": "Jeff & Lauren",
+   "followers": 2000000,
+   "regions": [],
+   "status": "exists",
+   "matches": [
+    {
+     "title": "Jeff & Lauren Show",
+     "url": "https://www.youtube.com/@jeffandlaurenshow",
+     "subs": 2880000
+    }
+   ],
+   "checked": "2026-11-12 02:26",
+   "tiktok": "https://www.tiktok.com/@jeffandlaurenshow"
+  },
+  "stoveandgarden": {
+   "username": "stoveandgarden",
+   "nickname": "Michael Hayes",
+   "followers": 1200000,
+   "regions": [],
+   "status": "exists",
+   "matches": [
+    {
+     "title": "Stove and Garden",
+     "url": "https://www.youtube.com/@stoveandgarden",
+     "subs": 9630
+    }
+   ],
+   "checked": "2026-11-12 02:26",
+   "tiktok": "https://www.tiktok.com/@stoveandgarden"
+  },
+  "athomewithjennieandnick": {
+   "username": "athomewithjennieandnick",
+   "nickname": "At Home with Jennie and Nick",
+   "followers": 401500,
+   "regions": [],
+   "status": "exists",
+   "matches": [
+    {
+     "title": "At home with Jennie and Nick",
+     "url": "https://www.youtube.com/@athomewithjennieandnick",
+     "subs": 270000
+    }
+   ],
+   "checked": "2026-11-12 02:26",
+   "tiktok": "https://www.tiktok.com/@athomewithjennieandnick"
+  },
+  "allrecipes": {
+   "username": "allrecipes",
+   "nickname": "Allrecipes",
+   "followers": 2100000,
+   "regions": [],
+   "status": "exists",
+   "matches": [
+    {
+     "title": "Allrecipes",
+     "url": "https://www.youtube.com/@allrecipes",
+     "subs": 3610000
+    }
+   ],
+   "checked": "2026-11-12 02:26",
+   "tiktok": "https://www.tiktok.com/@allrecipes"
+  },
+  "katsi_tik": {
+   "username": "katsi_tik",
+   "nickname": "KatSi_АdviceMom🫧",
+   "followers": 413000,
+   "regions": [],
+   "status": "exists",
+   "matches": [
+    {
+     "title": "Katsi Tik",
+     "url": "https://www.youtube.com/@katsi_tik",
+     "subs": 13
+    }
+   ],
+   "checked": "2026-11-12 02:26",
+   "tiktok": "https://www.tiktok.com/@katsi_tik"
+  },
+  "classifiedclaytv": {
+   "username": "classifiedclaytv",
+   "nickname": "Classified Clay",
+   "followers": 211500,
+   "regions": [],
+   "status": "exists",
+   "matches": [
+    {
+     "title": " Classified Clay",
+     "url": "https://www.youtube.com/@classifiedclaytv",
+     "subs": 21
+    }
+   ],
+   "checked": "2026-11-12 02:26",
+   "tiktok": "https://www.tiktok.com/@classifiedclaytv"
+  },
+  "mindoftruzz": {
+   "username": "mindoftruzz",
+   "nickname": "𝙈𝙞𝙣𝙙𝙤𝙛𝙏𝙧𝙪𝙯𝙯",
+   "followers": 397900,
+   "regions": [],
+   "status": "exists",
+   "matches": [
+    {
+     "title": "MindofTruzz",
+     "url": "https://www.youtube.com/@mindoftruzz",
+     "subs": 23300
+    }
+   ],
+   "checked": "2026-11-12 02:26",
+   "tiktok": "https://www.tiktok.com/@mindoftruzz"
+  },
+  "chloeannfelix": {
+   "username": "chloeannfelix",
+   "nickname": "chloe felix",
+   "followers": 615600,
+   "regions": [],
+   "status": "exists",
+   "matches": [
+    {
+     "title": "Chloe Felix",
+     "url": "https://www.youtube.com/@chloeannfelix",
+     "subs": 199000
+    }
+   ],
+   "checked": "2026-11-12 02:27",
+   "tiktok": "https://www.tiktok.com/@chloeannfelix"
+  },
+  "booboothafoocloset": {
+   "username": "booboothafoocloset",
+   "nickname": "Boo Boo",
+   "followers": 2500000,
+   "regions": [],
+   "status": "exists",
+   "matches": [
+    {
+     "title": "BooBooThaFooCloset",
+     "url": "https://www.youtube.com/@booboothafoocloset",
+     "subs": 46600
+    }
+   ],
+   "checked": "2026-11-12 02:27",
+   "tiktok": "https://www.tiktok.com/@booboothafoocloset"
+  },
+  "haydenlee606": {
+   "username": "haydenlee606",
+   "nickname": "Hayden",
+   "followers": 491000,
+   "regions": [],
+   "status": "exists",
+   "matches": [
+    {
+     "title": "Hayden",
+     "url": "https://www.youtube.com/@haydenlee606",
+     "subs": 59
+    }
+   ],
+   "checked": "2026-11-12 02:27",
+   "tiktok": "https://www.tiktok.com/@haydenlee606"
+  },
+  "itsmattperry": {
+   "username": "itsmattperry",
+   "nickname": "Matt",
+   "followers": 1100000,
+   "regions": [],
+   "status": "similar",
+   "matches": [
+    {
+     "title": "Matt Perry ",
+     "url": "https://www.youtube.com/channel/UCaZnsZo3RV5Fq8k6Zy3GqKQ",
+     "exact": false
+    }
+   ],
+   "checked": "2026-11-12 02:27",
+   "tiktok": "https://www.tiktok.com/@itsmattperry"
+  },
+  "comedyloop09": {
+   "username": "comedyloop09",
+   "nickname": "ComedyLoop",
+   "followers": 394000,
+   "regions": [],
+   "status": "exists",
+   "matches": [
+    {
+     "title": "Comedyloop09",
+     "url": "https://www.youtube.com/@comedyloop09",
+     "subs": 1
+    }
+   ],
+   "checked": "2026-11-12 02:27",
+   "tiktok": "https://www.tiktok.com/@comedyloop09"
+  },
+  "lenamarievera": {
+   "username": "lenamarievera",
+   "nickname": "A L E N A",
+   "followers": 595000,
+   "regions": [],
+   "status": "exists",
+   "matches": [
+    {
+     "title": "lenamarievera",
+     "url": "https://www.youtube.com/@lenamarievera",
+     "subs": 122
+    }
+   ],
+   "checked": "2026-11-12 02:27",
+   "tiktok": "https://www.tiktok.com/@lenamarievera"
+  },
+  "arsenika": {
+   "username": "arsenika",
+   "nickname": "Arsi",
+   "followers": 316000,
+   "regions": [],
+   "status": "exists",
+   "matches": [
+    {
+     "title": "ayd",
+     "url": "https://www.youtube.com/@arsenika",
+     "subs": 7
+    }
+   ],
+   "checked": "2026-11-12 02:27",
+   "tiktok": "https://www.tiktok.com/@arsenika"
+  },
+  "faithlynb11": {
+   "username": "faithlynb11",
+   "nickname": "Faithlyn Grace | SAHM",
+   "followers": 0,
+   "regions": [],
+   "status": "not_found",
+   "matches": [],
+   "checked": "2026-11-12 02:27",
+   "tiktok": "https://www.tiktok.com/@faithlynb11"
+  },
+  "whatmandi": {
+   "username": "whatmandi",
+   "nickname": "Mandi",
+   "followers": 1100000,
+   "regions": [],
+   "status": "exists",
+   "matches": [
+    {
+     "title": "whatmandi",
+     "url": "https://www.youtube.com/@whatmandi",
+     "subs": 232
+    }
+   ],
+   "checked": "2026-11-12 02:27",
+   "tiktok": "https://www.tiktok.com/@whatmandi"
+  },
+  "takesavillagecleaning": {
+   "username": "takesavillagecleaning",
+   "nickname": "Takes a Village Cleaning",
+   "followers": 306600,
+   "regions": [],
+   "status": "exists",
+   "matches": [
+    {
+     "title": "Takes a Village Cleaning",
+     "url": "https://www.youtube.com/@takesavillagecleaning",
+     "subs": 134000
+    }
+   ],
+   "checked": "2026-11-12 02:27",
+   "tiktok": "https://www.tiktok.com/@takesavillagecleaning"
+  },
+  "tabbybellhome": {
+   "username": "tabbybellhome",
+   "nickname": "tabbybellhome",
+   "followers": 323900,
+   "regions": [],
+   "status": "exists",
+   "matches": [
+    {
+     "title": "tabby bell",
+     "url": "https://www.youtube.com/@tabbybellhome",
+     "subs": 52700
+    }
+   ],
+   "checked": "2026-11-12 02:27",
+   "tiktok": "https://www.tiktok.com/@tabbybellhome"
+  },
+  "morganpetersonn": {
+   "username": "morganpetersonn",
+   "nickname": "Morgan Peterson",
+   "followers": 584200,
+   "regions": [],
+   "status": "exists",
+   "matches": [
+    {
+     "title": "Morgan Peterson",
+     "url": "https://www.youtube.com/channel/UCghVaekPPzGhRpBCwuR2F8w",
+     "exact": true
+    }
+   ],
+   "checked": "2026-11-12 02:27",
+   "tiktok": "https://www.tiktok.com/@morganpetersonn"
+  },
+  "juju.cares": {
+   "username": "juju.cares",
+   "nickname": "Juju Cares",
+   "followers": 540000,
+   "regions": [],
+   "status": "exists",
+   "matches": [
+    {
+     "title": "Juju Cares",
+     "url": "https://www.youtube.com/channel/UCiaH9BbQBv1WOHqyxSN5-oA",
+     "exact": true
+    },
+    {
+     "title": "Juju Cares",
+     "url": "https://www.youtube.com/channel/UCUIpIL8XbDygrDQ2w-IeCLA",
+     "exact": true
+    },
+    {
+     "title": "JUJU CARE. COM ",
+     "url": "https://www.youtube.com/channel/UC0rJpl5TVFT5R3Lo3B65VEw",
+     "exact": false
+    }
+   ],
+   "checked": "2026-11-12 02:27",
+   "tiktok": "https://www.tiktok.com/@juju.cares"
+  },
+  "fidget_crafty": {
+   "username": "fidget_crafty",
+   "nickname": "Jalynn 🌟🎨",
+   "followers": 1100000,
+   "regions": [],
+   "status": "exists",
+   "matches": [
+    {
+     "title": "Jalynn",
+     "url": "https://www.youtube.com/@fidget_crafty",
+     "subs": 317000
+    }
+   ],
+   "checked": "2026-11-12 02:27",
+   "tiktok": "https://www.tiktok.com/@fidget_crafty"
+  },
+  "pixel.bed": {
+   "username": "pixel.bed",
+   "nickname": "🐀",
+   "followers": 1900000,
+   "regions": [],
+   "status": "exists",
+   "matches": [
+    {
+     "title": "Pixel.bed.Art's ",
+     "url": "https://www.youtube.com/channel/UC0ykYIDN3q-1w9s2qYXICew",
+     "exact": false
+    },
+    {
+     "title": "Pixel Bed",
+     "url": "https://www.youtube.com/channel/UCWm2Oe5Qn_Lx6CO0mtnFfCQ",
+     "exact": true
+    },
+    {
+     "title": "Pixel Bed",
+     "url": "https://www.youtube.com/channel/UCuWJ1wpVuiCEQ2zQo3vfjDw",
+     "exact": true
+    }
+   ],
+   "checked": "2026-11-12 02:27",
+   "tiktok": "https://www.tiktok.com/@pixel.bed"
+  },
+  "pixelseasoned": {
+   "username": "pixelseasoned",
+   "nickname": "PixelSeasoned",
+   "followers": 519700,
+   "regions": [],
+   "status": "exists",
+   "matches": [
+    {
+     "title": "PixelSeasoned",
+     "url": "https://www.youtube.com/@pixelseasoned",
+     "subs": 24300
+    }
+   ],
+   "checked": "2026-11-12 02:27",
+   "tiktok": "https://www.tiktok.com/@pixelseasoned"
+  }
+ },
  "running": false,
  "log": [
+  {
+   "t": "2026-11-12 02:27",
+   "l": "success",
+   "m": "done: 54 creators checked, 4 not found on YouTube, 44 searches left"
+  },
+  {
+   "t": "2026-11-12 02:27",
+   "l": "info",
+   "m": "TikTok profiles looked up: 223"
+  },
+  {
+   "t": "2026-11-12 02:25",
+   "l": "info",
+   "m": "found: CC US creators 0, CC US videos 0, CC US hashtags 0, CC GB creators 0, CC GB videos 0, CC GB hashtags 0, discover funny family videos 15, discover mom life funny 16, discover dad jokes 11, discover funny kids 12, discover couple pranks 15, discover family pranks 16, discover grandma funny 16, discover satisfying videos 52, discover life hacks 13, discover cooking hacks 13, discover pet funny"
+  },
   {
    "t": "2026-11-12 01:19",
    "l": "info",
@@ -43,5 +964,154 @@
    "m": "US creators: page did not load - Locator.click: Timeout 30000ms exceeded.\nCall log:\n  - waiting for locator(\"text=/View more/i\").first\n    - locator reso"
   }
  ],
- "last_run": "2026-11-12 01:19"
+ "last_run": "2026-11-12 02:27",
+ "diag": [
+  {
+   "page": "CC US creators",
+   "title": "TikTok One Creative Suite",
+   "url": "https://ads.tiktok.com/creative/creativeCenter/trends/hashtag?region=US&period=7",
+   "api": 4,
+   "new": 0
+  },
+  {
+   "page": "CC US videos",
+   "title": "TikTok One Creative Suite",
+   "url": "https://ads.tiktok.com/creative/creativeCenter/trends/hashtag?region=US&period=7",
+   "api": 4,
+   "new": 0
+  },
+  {
+   "page": "CC US hashtags",
+   "title": "TikTok One Creative Suite",
+   "url": "https://ads.tiktok.com/creative/creativeCenter/trends/hashtag?region=US&period=7",
+   "api": 4,
+   "new": 0
+  },
+  {
+   "page": "CC GB creators",
+   "title": "TikTok One Creative Suite",
+   "url": "https://ads.tiktok.com/creative/creativeCenter/trends/hashtag?region=GB&period=7",
+   "api": 4,
+   "new": 0
+  },
+  {
+   "page": "CC GB videos",
+   "title": "TikTok One Creative Suite",
+   "url": "https://ads.tiktok.com/creative/creativeCenter/trends/hashtag?region=GB&period=7",
+   "api": 4,
+   "new": 0
+  },
+  {
+   "page": "CC GB hashtags",
+   "title": "TikTok One Creative Suite",
+   "url": "https://ads.tiktok.com/creative/creativeCenter/trends/hashtag?region=GB&period=7",
+   "api": 4,
+   "new": 0
+  },
+  {
+   "page": "discover funny family videos",
+   "title": "Funny Family Videos | TikTok",
+   "url": "https://www.tiktok.com/discover/funny-family-videos",
+   "api": 17,
+   "new": 15
+  },
+  {
+   "page": "discover mom life funny",
+   "title": "Mom Life Funny | TikTok",
+   "url": "https://www.tiktok.com/discover/mom-life-funny",
+   "api": 18,
+   "new": 16
+  },
+  {
+   "page": "discover dad jokes",
+   "title": "Dad Jokes | TikTok",
+   "url": "https://www.tiktok.com/discover/dad-jokes",
+   "api": 17,
+   "new": 11
+  },
+  {
+   "page": "discover funny kids",
+   "title": "Funny Kids | TikTok",
+   "url": "https://www.tiktok.com/discover/funny-kids",
+   "api": 18,
+   "new": 12
+  },
+  {
+   "page": "discover couple pranks",
+   "title": "Couple Pranks | TikTok",
+   "url": "https://www.tiktok.com/discover/couple-pranks",
+   "api": 18,
+   "new": 15
+  },
+  {
+   "page": "discover family pranks",
+   "title": "Family Pranks | TikTok",
+   "url": "https://www.tiktok.com/discover/family-pranks",
+   "api": 17,
+   "new": 16
+  },
+  {
+   "page": "discover grandma funny",
+   "title": "Grandma Funny | TikTok",
+   "url": "https://www.tiktok.com/discover/grandma-funny",
+   "api": 17,
+   "new": 16
+  },
+  {
+   "page": "discover satisfying videos",
+   "title": "Log in | TikTok",
+   "url": "https://www.tiktok.com/",
+   "api": 21,
+   "new": 52
+  },
+  {
+   "page": "discover life hacks",
+   "title": "Life Hacks | TikTok",
+   "url": "https://www.tiktok.com/discover/life-hacks",
+   "api": 18,
+   "new": 13
+  },
+  {
+   "page": "discover cooking hacks",
+   "title": "Cooking Hacks | TikTok",
+   "url": "https://www.tiktok.com/discover/cooking-hacks",
+   "api": 17,
+   "new": 13
+  },
+  {
+   "page": "discover pet funny",
+   "title": "Log in | TikTok",
+   "url": "https://www.tiktok.com/",
+   "api": 15,
+   "new": 3
+  },
+  {
+   "page": "discover skits comedy",
+   "title": "Skits Comedy | TikTok",
+   "url": "https://www.tiktok.com/discover/skits-comedy",
+   "api": 17,
+   "new": 13
+  },
+  {
+   "page": "discover fails funny",
+   "title": "Fails Funny | TikTok",
+   "url": "https://www.tiktok.com/discover/fails-funny",
+   "api": 17,
+   "new": 12
+  },
+  {
+   "page": "discover cleaning motivation",
+   "title": "Cleaning Motivation | TikTok",
+   "url": "https://www.tiktok.com/discover/cleaning-motivation",
+   "api": 17,
+   "new": 16
+  },
+  {
+   "page": "discover diy crafts",
+   "title": "Diy Crafts | TikTok",
+   "url": "https://www.tiktok.com/discover/diy-crafts",
+   "api": 17,
+   "new": 15
+  }
+ ]
 }
