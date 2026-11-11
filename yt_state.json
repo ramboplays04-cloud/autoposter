@@ -529,18 +529,24 @@
      "url": "https://www.tiktok.com/@freakbobivy/video/7655145629278014733",
      "caption": "aww hes so cute 🥰 ",
      "views": 45500000,
-     "status": "new",
+     "status": "uploaded",
      "attempts": 0,
-     "found": "2026-11-12 00:48"
+     "found": "2026-11-12 00:48",
+     "yt": "fKWDaZbs2WA",
+     "uploaded": "2026-11-12 03:29",
+     "error": ""
     },
     {
      "id": "7655457108216876301",
      "url": "https://www.tiktok.com/@freakbobivy/video/7655457108216876301",
      "caption": "Teaching her some new phrases to use at our local grocery store #vietnamese #viet #mom",
      "views": 20600000,
-     "status": "new",
+     "status": "uploaded",
      "attempts": 0,
-     "found": "2026-11-12 00:48"
+     "found": "2026-11-12 00:48",
+     "yt": "TuE-slZkocA",
+     "uploaded": "2026-11-12 03:29",
+     "error": ""
     },
     {
      "id": "7656976290892745997",
@@ -716,15 +722,44 @@
     "7701242487184067853"
    ],
    "slots": {
-    "2026-11-12": []
+    "2026-11-12": [
+     "00:55"
+    ]
    },
    "owed": 0,
-   "last_checked": "2026-11-12 00:48",
+   "last_checked": "2026-11-12 03:29",
    "first_done": true
   }
  },
- "used": [],
+ "used": [
+  "7655145629278014733",
+  "7655457108216876301"
+ ],
  "log": [
+  {
+   "t": "2026-11-12 03:29",
+   "l": "success",
+   "a": "ymwcj6ohxpfxo",
+   "m": "video 876301 -> freakbobivy uploaded (youtu.be/TuE-slZkocA)"
+  },
+  {
+   "t": "2026-11-12 03:29",
+   "l": "success",
+   "a": "ymwcj6ohxpfxo",
+   "m": "video 014733 -> freakbobivy uploaded (youtu.be/fKWDaZbs2WA)"
+  },
+  {
+   "t": "2026-11-12 03:29",
+   "l": "info",
+   "a": "ymwcj6ohxpfxo",
+   "m": "00:55 slot - 2 video(s) to upload"
+  },
+  {
+   "t": "2026-11-12 03:29",
+   "l": "info",
+   "a": "ymwcj6ohxpfxo",
+   "m": "check done: 0 new videos added to queue"
+  },
   {
    "t": "2026-11-12 00:48",
    "l": "info",
@@ -732,6 +767,17 @@
    "m": "check done: 71 new videos added to queue"
   }
  ],
- "last_run": "2026-11-12 00:48",
- "last_action": "auto"
+ "last_run": "2026-11-12 03:29",
+ "last_action": "auto",
+ "daily": {
+  "2026-11-12": {
+   "UCuHYwTa4Mr6Bnp8Pqfc3HIA": 2
+  }
+ },
+ "channels_status": {
+  "UCuHYwTa4Mr6Bnp8Pqfc3HIA": {
+   "ok": true,
+   "t": "2026-11-12 03:29"
+  }
+ }
 }
