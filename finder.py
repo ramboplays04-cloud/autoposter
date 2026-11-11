@@ -101,7 +101,7 @@ def harvest(obj, region, out):
             c = out.setdefault(user.lower(), {"username": user, "nickname": "", "followers": 0, "regions": []})
             c["nickname"] = c["nickname"] or nick
             c["followers"] = max(c["followers"], followers)
-            if region not in c["regions"]:
+            if region and region not in c["regions"]:
                 c["regions"].append(region)
         for v in obj.values():
             harvest(v, region, out)
@@ -110,55 +110,96 @@ def harvest(obj, region, out):
             harvest(v, region, out)
 
 
-def discover(regions, log):
-    """Headless browser se Creative Center kholta hai aur jo data page khud mangwata hai wo pakar leta hai."""
-    from playwright.sync_api import sync_playwright
-    found = {}
-    stats = {}
-    with sync_playwright() as p:
-        browser = p.chromium.launch(args=["--no-sandbox"])
-        ctx = browser.new_context(user_agent=UA, locale="en-US", viewport={"width": 1366, "height": 900})
-        for region in regions:
-            for kind, tpl in CC_PAGES.items():
-                if time_left() < 12 * 60:
-                    break
-                page = ctx.new_page()
-                got = {"n": 0}
+DEFAULT_TOPICS = ["funny family videos", "mom life funny", "dad jokes", "funny kids", "couple pranks",
+                  "family pranks", "grandma funny", "satisfying videos", "life hacks", "cooking hacks",
+                  "pet funny", "skits comedy", "fails funny", "cleaning motivation", "diy crafts"]
 
-                def on_resp(resp, region=region, got=got):
+
+def add_user(found, user, region):
+    c = found.setdefault(user.lower(), {"username": user, "nickname": "", "followers": 0, "regions": []})
+    if region and region not in c["regions"]:
+        c["regions"].append(region)
+
+
+def scrape_links(html, found, region):
+    n = 0
+    names = set(USER_RE.findall(html or ""))
+    names |= set(re.findall(r'href="/@([A-Za-z0-9._]{2,40})', html or ""))
+    names |= set(re.findall(r'"uniqueId":"([A-Za-z0-9._]{2,40})"', html or ""))
+    for u in names:
+        if u.lower() in ("tiktok", "discover", "music", "tag"):
+            continue
+        if u.lower() not in found:
+            n += 1
+        add_user(found, u, region)
+    return n
+
+
+def discover(regions, topics, log, state):
+    """Do raaste: (1) TikTok Creative Center, (2) TikTok ke public 'discover' pages. Dono se creators ke naam."""
+    from playwright.sync_api import sync_playwright
+    found, stats, diag = {}, {}, []
+    with sync_playwright() as p:
+        browser = p.chromium.launch(args=["--no-sandbox", "--disable-blink-features=AutomationControlled"])
+        ctx = browser.new_context(user_agent=UA, locale="en-US", viewport={"width": 1366, "height": 900})
+
+        def open_page(url, region, label, api_words):
+            page = ctx.new_page()
+            got = {"n": 0, "api": 0}
+
+            def on_resp(resp):
+                try:
+                    if any(w in resp.url for w in api_words) and "json" in (resp.headers.get("content-type") or ""):
+                        got["api"] += 1
+                        before = len(found)
+                        harvest(resp.json(), region, found)
+                        got["n"] += len(found) - before
+                except Exception:
+                    pass
+            page.on("response", on_resp)
+            info = {"page": label}
+            try:
+                page.goto(url, wait_until="domcontentloaded", timeout=45000)
+                page.wait_for_timeout(5000)
+                for txt in ("Accept all", "Accept", "Allow all", "Got it"):       # cookie khidki band
                     try:
-                        if "creative_radar_api" in resp.url and resp.status == 200:
-                            data = resp.json()
-                            before = len(found)
-                            harvest(data, region, found)
-                            got["n"] += len(found) - before
+                        page.get_by_role("button", name=txt).first.click(timeout=1500)
+                        break
                     except Exception:
                         pass
-                page.on("response", on_resp)
-                try:
-                    page.goto(tpl.format(r=region), wait_until="domcontentloaded", timeout=60000)
-                    page.wait_for_timeout(6000)
-                    for _ in range(6):          # "View more" daba kar aur load karo
-                        btn = page.locator("text=/View more/i").first
-                        if btn.count() and btn.is_visible():
-                            btn.click()
-                            page.wait_for_timeout(3000)
-                        else:
-                            page.mouse.wheel(0, 4000)
-                            page.wait_for_timeout(1500)
-                    if got["n"] == 0:          # API na pakra gaya to page ke links se nikaal lo
-                        html = page.content()
-                        for u in set(USER_RE.findall(html)):
-                            c = found.setdefault(u.lower(), {"username": u, "nickname": "", "followers": 0, "regions": []})
-                            if region not in c["regions"]:
-                                c["regions"].append(region)
-                            got["n"] += 1
-                except Exception as e:
-                    log(f"{region} {kind}: page did not load - {str(e)[:120]}", "error")
-                stats[f"{region} {kind}"] = got["n"]
-                page.close()
+                page.keyboard.press("Escape")
+                for _ in range(5):                                         # aur load karo
+                    try:
+                        page.locator("text=/View more/i").first.click(timeout=2500)
+                        page.wait_for_timeout(2500)
+                    except Exception:
+                        page.mouse.wheel(0, 5000)
+                        page.wait_for_timeout(1500)
+                got["n"] += scrape_links(page.content(), found, region)
+                info.update(title=page.title()[:80], url=page.url[:120])
+            except Exception as e:
+                info["error"] = str(e).split("\n")[0][:120]
+            info.update(api=got["api"], new=got["n"])
+            diag.append(info)
+            stats[label] = got["n"]
+            page.close()
+
+        for region in regions:
+            for kind, tpl in CC_PAGES.items():
+                if time_left() < 15 * 60:
+                    break
+                open_page(tpl.format(r=region), region, f"CC {region} {kind}", ["creative_radar_api"])
+        for t in topics:
+            if time_left() < 12 * 60:
+                break
+            slug = re.sub(r"[^a-z0-9]+", "-", t.lower()).strip("-")
+            open_page(f"https://www.tiktok.com/discover/{slug}", "", f"discover {t}", ["/api/"])
         browser.close()
-    log("found on TikTok Creative Center: " + ", ".join(f"{k} {v}" for k, v in stats.items()))
+    state["diag"] = diag
+    bad = [d for d in diag if d.get("error")]
+    if bad:
+        log(f"{len(bad)} pages did not open, e.g. {bad[0]['page']}: {bad[0]['error']}", "error")
+    log("found: " + ", ".join(f"{k} {v}" for k, v in stats.items()))
     return found
 
 
@@ -269,14 +310,15 @@ def main():
     hidden = set(x.lower() for x in (cfg.get("finder_hidden") or []))
     state["running"] = True
     try:
-        found = discover(regions, log)
+        topics = fcfg.get("topics") or DEFAULT_TOPICS
+        found = discover(regions, topics, log, state)
         # pehle se check kiye hue (aur 'pending' wale) bhi dobara line mein
         for k, c in creators.items():
             if c.get("status") == "pending" and k not in found:
                 found[k] = {"username": c["username"], "nickname": c.get("nickname", ""),
                             "followers": c.get("followers", 0), "regions": c.get("regions", [])}
         yt = YT(cfg, os.environ.get("APP_KEY", ""), log)
-        done = new_green = 0
+        done = new_green = lookups = 0
         queue = sorted(found.values(), key=lambda c: -int(c.get("followers") or 0))
         for c in queue:
             key = c["username"].lower()
@@ -286,6 +328,9 @@ def main():
             if time_left() < 3 * 60 or done >= want * 3:
                 break
             if not c.get("followers") or not c.get("nickname"):
+                if lookups >= 250:
+                    continue
+                lookups += 1
                 f, nick = tiktok_profile(c["username"])
                 c["followers"] = c.get("followers") or f or 0
                 c["nickname"] = c.get("nickname") or nick
@@ -305,6 +350,7 @@ def main():
                              "tiktok": f"https://www.tiktok.com/@{c['username']}"}
             done += 1
             new_green += status == "not_found"
+        log(f"TikTok profiles looked up: {lookups}")
         log(f"done: {done} creators checked, {new_green} not found on YouTube"
             + (f", {yt.searches_left} searches left" if yt.token else ""), "success" if done else "info")
     except Exception as e:
