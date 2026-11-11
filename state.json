@@ -81,18 +81,23 @@
      "id": "7684303361822166303",
      "url": "https://www.tiktok.com/@a_biology_teacher/video/7684303361822166303",
      "caption": "MCQ: Eukaryotic vs. Prokaryotic #learnontiktok #biology #science #stem #cells",
-     "status": "retry",
+     "status": "uploaded",
      "attempts": 1,
      "found": "2026-11-11 22:04",
-     "error": "For security reasons, your account has limited access to the site for a few days. If you have any questions, please contact our Help Center. (code 368)"
+     "error": "",
+     "fb": "998191053337204",
+     "uploaded": "2026-11-11 23:06"
     },
     {
      "id": "7691377207226141982",
      "url": "https://www.tiktok.com/@a_biology_teacher/video/7691377207226141982",
      "caption": "Link is in my bio! #teaching #stem #biology #apbiology #education ",
-     "status": "new",
+     "status": "uploaded",
      "attempts": 0,
-     "found": "2026-11-11 22:04"
+     "found": "2026-11-11 22:04",
+     "fb": "1153845257105040",
+     "uploaded": "2026-11-11 23:06",
+     "error": ""
     },
     {
      "id": "7691386794499132703",
@@ -1873,12 +1878,40 @@
     "7699100069546577182",
     "7706881822222716191"
    ],
-   "slots": {},
-   "last_checked": "2026-11-11 22:04",
+   "slots": {
+    "2026-11-11": [
+     "22:05"
+    ]
+   },
+   "last_checked": "2026-11-11 23:06",
    "first_done": true
   }
  },
  "log": [
+  {
+   "t": "2026-11-11 23:06",
+   "l": "success",
+   "a": "amwcd8ml6ywwg",
+   "m": "video 141982 -> Hidden Badge uploaded (reel)"
+  },
+  {
+   "t": "2026-11-11 23:06",
+   "l": "success",
+   "a": "amwcd8ml6ywwg",
+   "m": "video 166303 -> Hidden Badge uploaded (reel)"
+  },
+  {
+   "t": "2026-11-11 23:06",
+   "l": "info",
+   "a": "amwcd8ml6ywwg",
+   "m": "22:05 slot - starting upload"
+  },
+  {
+   "t": "2026-11-11 23:06",
+   "l": "info",
+   "a": "amwcd8ml6ywwg",
+   "m": "check done: 0 new videos added to queue"
+  },
   {
    "t": "2026-11-11 23:03",
    "l": "error",
@@ -1910,6 +1943,6 @@
    "m": "check done: 200 new videos added to queue"
   }
  ],
- "last_run": "2026-11-11 23:03",
- "last_action": "upload_now"
+ "last_run": "2026-11-11 23:06",
+ "last_action": "auto"
 }
