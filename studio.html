@@ -64,7 +64,7 @@ textarea{min-height:84px;resize:vertical}
 code{background:var(--panel2);padding:1px 6px;border-radius:6px;font-size:13px;word-break:break-all}
 details summary{cursor:pointer;font-weight:700;color:var(--muted);margin:14px 0}
 nav.bottom{position:fixed;left:0;right:0;bottom:0;background:rgba(14,12,24,.9);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-top:1px solid var(--line);display:flex;z-index:10;padding-bottom:env(safe-area-inset-bottom)}
-nav.bottom a{flex:1;text-align:center;color:var(--muted);font-size:11.5px;padding:9px 0 7px;font-weight:600}
+nav.bottom a{flex:1;text-align:center;color:var(--muted);font-size:10.5px;padding:9px 0 7px;font-weight:600}
 nav.bottom a .i{display:block;font-size:21px;line-height:1.2;filter:grayscale(1);opacity:.7}
 nav.bottom a.on{color:#fff}nav.bottom a.on .i{filter:none;opacity:1}
 #toast{position:fixed;left:14px;right:14px;bottom:calc(86px + env(safe-area-inset-bottom));background:#1f1b33;border:1px solid var(--line);color:var(--text);padding:12px 14px;border-radius:14px;z-index:20;display:none;font-size:14px;box-shadow:0 10px 30px rgba(0,0,0,.4)}
@@ -81,6 +81,7 @@ nav.bottom a.on{color:#fff}nav.bottom a.on .i{filter:none;opacity:1}
   <a href="#home" data-r="home"><span class="i">🏠</span>Home</a>
   <a href="#add" data-r="add"><span class="i">➕</span>Add</a>
   <a href="#channels" data-r="channels"><span class="i">▶️</span>Channels</a>
+  <a href="#finder" data-r="finder"><span class="i">🔍</span>Finder</a>
   <a href="#logs" data-r="logs"><span class="i">📋</span>Logs</a>
   <a href="#settings" data-r="settings"><span class="i">⚙️</span>Settings</a>
 </nav>
@@ -102,7 +103,7 @@ const S = { token: LS.get("token"), repo: LS.get("repo") || guessRepo(), pass: L
 const REDIRECT = location.origin + location.pathname;
 const SCOPES = "https://www.googleapis.com/auth/youtube.upload https://www.googleapis.com/auth/youtube.readonly";
 const WORKFLOW = "ytpost.yml";
-let CFG = null, CFG_SHA = null, STATE = {}, RUNS = [], LF = "";
+let CFG = null, CFG_SHA = null, STATE = {}, RUNS = [], LF = "", FIND = {}, FRUNS = [], FF = "not_found";
 
 // ---------------------------------------------------------------- utils
 const $ = (s) => document.querySelector(s);
@@ -168,8 +169,10 @@ async function readJSONFile(name){
 async function loadAll(){
   $("#sync").innerHTML = '<span class="spin"></span>';
   try {
-    const [c, s] = await Promise.all([readJSONFile("yt_config.json"), readJSONFile("yt_state.json").catch(()=>({data:{}}))]);
-    CFG = c.data; CFG_SHA = c.sha; STATE = s.data || {};
+    const [c, s, f] = await Promise.all([readJSONFile("yt_config.json"), readJSONFile("yt_state.json").catch(()=>({data:{}})),
+                                         readJSONFile("finder_state.json").catch(()=>({data:{}}))]);
+    CFG = c.data; CFG_SHA = c.sha; STATE = s.data || {}; FIND = f.data || {};
+    gh(`/repos/${S.repo}/actions/workflows/finder.yml/runs?per_page=3&_=${Date.now()}`).then(r => { FRUNS = r.workflow_runs || []; if (route().name==="finder") render(); }).catch(()=>{});
     CFG.accounts = CFG.accounts || []; CFG.channels = CFG.channels || [];
     gh(`/repos/${S.repo}/actions/workflows/${WORKFLOW}/runs?per_page=6&_=${Date.now()}`).then(r => { RUNS = r.workflow_runs || []; const n = route().name; if (n==="home"||n==="logs") render(); }).catch(()=>{});
     $("#sync").textContent = STATE.last_run ? "Synced " + STATE.last_run.slice(11) : "";
@@ -470,6 +473,73 @@ V.channels.bind = () => {
     CFG.tokens_enc = await encryptJSON(tokens, S.pass);
     CFG.channels = CFG.channels.filter(x => x.id !== b.dataset.rm);
     await saveConfig("remove channel"); render();
+  }, b));
+};
+
+
+// ---------------------------------------------------------------- Finder (creators jinka YouTube nahi)
+const FMT = (n) => !n ? "?" : n >= 1e6 ? (n/1e6).toFixed(n >= 1e7 ? 0 : 1).replace(/\.0$/,"") + "M" : n >= 1e5 ? (n/1e5).toFixed(1).replace(/\.0$/,"") + " lakh" : (n/1e3).toFixed(0) + "K";
+const F_LABEL = { not_found:["🟢 Not on YouTube","ok"], similar:["🟡 Similar name found","warn"], exists:["🔴 Already on YouTube","bad"], pending:["⏳ Will check next run",""] };
+const REG = { US:"🇺🇸 USA", GB:"🇬🇧 UK", CA:"🇨🇦 Canada", AU:"🇦🇺 Australia" };
+V.finder = () => {
+  const f = CFG.finder || {}, regs = f.regions || ["US","GB"];
+  const hidden = new Set((CFG.finder_hidden||[]).map(x => x.toLowerCase()));
+  const all = Object.values(FIND.creators||{}).filter(c => !hidden.has(c.username.toLowerCase()));
+  const count = (s) => all.filter(c => c.status === s).length;
+  const list = all.filter(c => !FF || c.status === FF).sort((a,b) => (b.checked||"").localeCompare(a.checked||"") || (b.followers||0)-(a.followers||0));
+  const run = FRUNS[0], running = run && run.status !== "completed";
+  return `
+  <h1>Finder</h1><p class="sub">TikTok creators from USA/UK, checked on YouTube by their name. Finds and lists only — it never downloads anyone's videos.</p>
+  <div class="card">
+    <label>Countries</label>
+    <div class="row">${Object.entries(REG).map(([k,v]) => `<label class="check" style="margin:0 12px 0 0"><input type="checkbox" class="f_reg" value="${k}" ${regs.includes(k)?"checked":""}><span>${v}</span></label>`).join("")}</div>
+    <div class="row" style="gap:10px;flex-wrap:nowrap">
+      <div style="flex:1"><label>Min followers</label><input id="f_lo" type="number" inputmode="numeric" value="${f.min_followers||200000}"></div>
+      <div style="flex:1"><label>Max followers</label><input id="f_hi" type="number" inputmode="numeric" value="${f.max_followers||4000000}"></div>
+    </div>
+    <div class="hint">200000 = 2 lakh · 4000000 = 4 million</div>
+    <div class="row" style="margin-top:14px"><button class="btn primary" id="f_go" ${running?"disabled":""}>${running ? '<span class="spin"></span> Searching… (5-15 min)' : "🔍 Find creators"}</button><button class="btn" id="f_ref">↻</button></div>
+    <div class="meta" style="margin-top:8px">${FIND.last_run ? "Last search " + esc(FIND.last_run.slice(5)) : "No search yet"}</div>
+  </div>
+  <div class="tabs">
+    <button class="btn small ${FF==="not_found"?"primary":""}" data-ff="not_found">🟢 ${count("not_found")}</button>
+    <button class="btn small ${FF==="similar"?"primary":""}" data-ff="similar">🟡 ${count("similar")}</button>
+    <button class="btn small ${FF==="exists"?"primary":""}" data-ff="exists">🔴 ${count("exists")}</button>
+    <button class="btn small ${!FF?"primary":""}" data-ff="">All ${all.length}</button>
+  </div>
+  <div class="card">${list.length ? list.slice(0,200).map(c => { const [lbl, cls] = F_LABEL[c.status] || [c.status,""]; return `
+    <div class="vid">
+      <div class="row" style="justify-content:space-between"><div class="name">@${esc(c.username)}</div><span class="meta">${FMT(c.followers)} followers</span></div>
+      <div class="meta">${esc(c.nickname||"")} ${(c.regions||[]).map(r => REG[r] ? REG[r].split(" ")[0] : r).join(" ")}</div>
+      <div class="pills"><span class="pill ${cls}">${lbl}</span></div>
+      ${(c.matches||[]).map(m => `<div class="meta">↳ <a target="_blank" href="${esc(m.url)}">${esc(m.title)}</a>${m.subs?` · ${FMT(m.subs)} subs`:""}</div>`).join("")}
+      <div class="row" style="margin-top:8px">
+        <a class="btn small primary" target="_blank" href="https://www.tiktok.com/@${encodeURIComponent(c.username)}">Open TikTok</a>
+        <a class="btn small" target="_blank" href="https://www.youtube.com/results?search_query=${encodeURIComponent(c.nickname||c.username)}&sp=EgIQAg%253D%253D">Check YouTube</a>
+        <button class="btn small danger" data-fh="${esc(c.username)}">Hide</button>
+      </div>
+    </div>`; }).join("") : `<div class="empty">${all.length ? "Nothing in this list" : "Tap “Find creators” to start"}</div>`}</div>
+  ${(FIND.log||[]).length ? `<h2>Finder log</h2><div class="card">${FIND.log.slice(0,15).map(l => `<div class="log lv-${esc(l.l)}"><span class="t">${esc(l.t.slice(5))}</span>${esc(l.m)}</div>`).join("")}</div>` : ""}`;
+};
+V.finder.bind = () => {
+  const saveF = async () => {
+    const regions = [...document.querySelectorAll(".f_reg:checked")].map(x => x.value);
+    if (!regions.length) throw new Error("Choose at least one country");
+    const lo = Math.max(1000, +$("#f_lo").value || 200000), hi = Math.max(lo, +$("#f_hi").value || 4000000);
+    CFG.finder = { ...(CFG.finder||{}), regions, min_followers: lo, max_followers: hi };
+    await saveConfig("finder settings");
+  };
+  $("#f_go").onclick = (e) => act(async () => {
+    await saveF();
+    await gh(`/repos/${S.repo}/actions/workflows/finder.yml/dispatches`, { method:"POST", body: JSON.stringify({ ref:"main" }) });
+    toast("Search started ✓ It takes 5-15 minutes. Pull down to refresh.");
+    FRUNS = [{ status: "queued" }]; render();
+  }, e.target);
+  $("#f_ref").onclick = (e) => act(async () => { await loadAll(); render(); }, e.target);
+  document.querySelectorAll("[data-ff]").forEach(b => b.onclick = () => { FF = b.dataset.ff; render(); });
+  document.querySelectorAll("[data-fh]").forEach(b => b.onclick = () => act(async () => {
+    CFG.finder_hidden = [...new Set([...(CFG.finder_hidden||[]), b.dataset.fh])].slice(-3000);
+    await saveConfig("finder hide"); render();
   }, b));
 };
 
