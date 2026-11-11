@@ -6,5 +6,7 @@
   "max_attempts": 3,
   "pages": [],
   "tokens_enc": "",
-  "accounts": []
+  "accounts": [],
+  "fb_app_id": "2359693014780364",
+  "fb_secret_enc": "7vw/IyAvfM47fMT4Ny2ctmLLlb56pJiIVq3wcXTq48LkaCKqAeYIpHQe3SJjISMnt2G3MWswioJdmMh2N1/mEO0="
 }
