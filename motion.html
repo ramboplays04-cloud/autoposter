@@ -1,0 +1,345 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Velora Motion</title>
+<meta name="theme-color" content="#0b0a12">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Motion">
+<link rel="apple-touch-icon" href="studio-icon.png">
+<link rel="icon" href="studio-icon.png">
+<style>
+:root{--bg:#0b0a12;--panel:#14121f;--panel2:#1c1930;--line:#2a2642;--text:#f1eefc;--muted:#a49fbf;--grad:linear-gradient(135deg,#06b6d4,#8b5cf6 55%,#ec4899);--ok:#34d399;--warn:#fbbf24;--bad:#fb7185}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;background:var(--bg);color:var(--text);font:16px/1.5 -apple-system,"SF Pro Text","Segoe UI",system-ui,sans-serif}
+body{background:radial-gradient(900px 500px at 110% -10%,rgba(6,182,212,.15),transparent 60%),radial-gradient(800px 500px at -20% 0%,rgba(139,92,246,.18),transparent 60%),var(--bg);min-height:100vh}
+a{color:#a5f3fc;text-decoration:none}
+header{position:sticky;top:0;z-index:5;background:rgba(11,10,18,.85);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--line);padding:12px 16px;padding-top:max(12px,env(safe-area-inset-top));display:flex;align-items:center;gap:10px}
+.logo{width:30px;height:30px;border-radius:9px;background:var(--grad);display:grid;place-items:center;font-weight:900;color:#fff}
+.brand{font-weight:800;font-size:19px}.brand em{font-style:normal;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+main{padding:16px 16px calc(90px + env(safe-area-inset-bottom));max-width:720px;margin:0 auto}
+h1{font-size:27px;margin:6px 0 4px}h2{font-size:18px;margin:22px 0 10px}.sub{color:var(--muted);margin:0 0 14px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:16px;margin-bottom:12px}
+label{display:block;font-weight:650;margin:14px 0 6px}.hint{font-weight:400;color:var(--muted);font-size:13px}
+input,select,textarea{width:100%;background:#0e0c18;border:1px solid var(--line);color:var(--text);border-radius:12px;padding:12px;font:inherit;font-size:16px}
+textarea{min-height:130px;resize:vertical}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;border:1px solid var(--line);background:var(--panel2);color:var(--text);padding:11px 15px;border-radius:12px;font:inherit;font-weight:650;cursor:pointer}
+.btn.primary{background:var(--grad);border:0;color:#fff}.btn.small{padding:8px 12px;font-size:14px}.btn.full{width:100%}.btn:disabled{opacity:.55}
+.pill{font-size:12px;padding:3px 10px;border-radius:99px;border:1px solid var(--line);color:var(--muted)}
+.pill.ok{color:var(--ok);border-color:#1f5b47}.pill.bad{color:var(--bad);border-color:#6b2a3a}.pill.warn{color:var(--warn);border-color:#6b5320}
+.meta{color:var(--muted);font-size:14px}
+.job{border-bottom:1px solid var(--line);padding:12px 0}.job:last-child{border:0}
+video{width:100%;border-radius:12px;background:#000;margin-top:8px}
+.bar{height:8px;background:var(--panel2);border-radius:99px;overflow:hidden;margin:8px 0}.bar i{display:block;height:100%;background:var(--grad);transition:width .4s}
+.app{display:flex;gap:12px;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line);padding:12px 0}.app:last-child{border:0}
+nav{position:fixed;left:0;right:0;bottom:0;display:flex;background:rgba(14,12,24,.92);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom)}
+nav a{flex:1;text-align:center;color:var(--muted);font-size:12px;padding:9px 0 7px;font-weight:650}nav a .i{display:block;font-size:20px}nav a.on{color:#fff}
+#toast{position:fixed;left:14px;right:14px;bottom:calc(80px + env(safe-area-inset-bottom));background:#1f1b33;border:1px solid var(--line);padding:12px 14px;border-radius:14px;display:none;z-index:20;font-size:14px}
+.spin{display:inline-block;width:14px;height:14px;border:2px solid var(--muted);border-top-color:transparent;border-radius:50%;animation:s 1s linear infinite;vertical-align:-2px}@keyframes s{to{transform:rotate(360deg)}}
+</style>
+</head>
+<body>
+<header><div class="logo">M</div><div class="brand">Velora <em>Motion</em></div></header>
+<main id="app"></main>
+<nav id="nav">
+  <a href="#create" data-r="create"><span class="i">🎬</span>Create</a>
+  <a href="#image" data-r="image"><span class="i">🖼️</span>Image</a>
+  <a href="#videos" data-r="videos"><span class="i">🎞️</span>Videos</a>
+  <a href="#apps" data-r="apps"><span class="i">🚀</span>Free apps</a>
+  <a href="#engines" data-r="engines"><span class="i">⚙️</span>Engines</a>
+</nav>
+<div id="toast"></div>
+
+<script type="module">
+const GRADIO = "https://cdn.jsdelivr.net/npm/@gradio/client@1/dist/index.min.js";
+// Free Hugging Face engines (aap Engines tab mein badal / add kar sakte hain)
+const DEFAULT_ENGINES = [
+  "Wan-AI/Wan-2.2-5B",
+  "Lightricks/ltx-video-distilled",
+  "zerogpu-aoti/wan2-2-fp8da-aoti",
+  "DeepRat/LTX-Video-ZeroGPU-Optimized",
+  "justnath/FastWan2.2_5B_TI2V",
+  "Smikke/wan2-video-generation",
+];
+// Free credits wali apps: prompt copy + app khulti hai
+const FREE_APPS = [
+  { name: "Dreamina (Seedance)", url: "https://dreamina.capcut.com/ai-tool/video/generate", note: "Real Seedance 2.0 / 2.5. Daily free credits; Basic plan has a cheap first month." },
+  { name: "Higgsfield", url: "https://higgsfield.ai/", note: "Plus plan: unlimited Seedance 2.5 (720p) on their site." },
+  { name: "Magnific", url: "https://www.magnific.ai/", note: "Premium+: unlimited Kling 2.5 + Hailuo 2.3 Fast." },
+  { name: "Kling AI", url: "https://app.klingai.com/global/text-to-video/new", note: "Strong realism. Daily free credits." },
+  { name: "Hailuo (MiniMax)", url: "https://hailuoai.video/", note: "Good motion and action. Free credits." },
+  { name: "Google Flow / Veo", url: "https://labs.google/fx/tools/flow", note: "Veo videos. Limited free use." },
+  { name: "Meta AI", url: "https://www.meta.ai/", note: "Free short videos with a Meta account." },
+  { name: "PixVerse", url: "https://app.pixverse.ai/", note: "Daily free credits." },
+  { name: "Vidu", url: "https://www.vidu.com/", note: "Free credits, good for characters." },
+  { name: "Pika", url: "https://pika.art/", note: "Free tier, short clips." },
+];
+
+const LS = { get(k,d=""){ try{ const v = localStorage.getItem("vm_"+k); return v===null?d:v; }catch(e){ return d; } }, set(k,v){ try{ localStorage.setItem("vm_"+k,v); }catch(e){} } };
+const $ = (s) => document.querySelector(s);
+const esc = (s) => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+let toastT; function toast(m){ const t=$("#toast"); t.textContent=m; t.style.display="block"; clearTimeout(toastT); toastT=setTimeout(()=>t.style.display="none",4500); }
+let engines = JSON.parse(LS.get("engines", JSON.stringify(DEFAULT_ENGINES)));
+let status = JSON.parse(LS.get("status","{}"));          // space -> {ok, info, t}
+let jobs = [];                                             // is session ki videos
+let gradio = null;
+let REF = null;                                            // reference image (Blob)
+let images = [];
+async function lib(){ if (!gradio) gradio = await import(GRADIO); return gradio; }
+
+// ------------------------------------------------------------ engine auto-detect
+const norm = (s) => String(s||"").toLowerCase();
+function pickEndpoint(api, needImage){
+  const eps = Object.entries(api.named_endpoints || {});
+  let best = null, bestScore = -1;
+  for (const [name, ep] of eps){
+    const ps = ep.parameters || [], rs = ep.returns || [];
+    const hasPrompt = ps.some(p => /prompt|text/.test(norm(p.parameter_name||p.label)) && !/neg/.test(norm(p.parameter_name||p.label)));
+    const hasImg = ps.some(p => /image/.test(norm(p.component)) || /image|img|frame/.test(norm(p.parameter_name)));
+    const vid = rs.some(r => /video/.test(norm(r.component)));
+    if (!hasPrompt || !vid) continue;
+    let sc = 1 + (needImage ? (hasImg ? 3 : 0) : (hasImg ? 0 : 2)) + (/generat|t2v|i2v|run|infer/.test(norm(name)) ? 1 : 0);
+    if (sc > bestScore){ bestScore = sc; best = { name, ep, hasImg }; }
+  }
+  return best;
+}
+function buildArgs(ep, o, imgBlob, handle_file){
+  const args = {};
+  for (const p of ep.parameters || []){
+    const n = norm(p.parameter_name || p.label), comp = norm(p.component), name = p.parameter_name || p.label;
+    if (!name) continue;
+    if (/neg/.test(n)) { if (o.negative) args[name] = o.negative; continue; }
+    if (/prompt|text/.test(n) && /textbox/.test(comp || "textbox")) { args[name] = o.prompt; continue; }
+    if ((/image|img|frame/.test(n) || /image/.test(comp)) && imgBlob) { args[name] = handle_file(imgBlob); continue; }
+    if (/duration|second|length/.test(n) && !/frame/.test(n)) { args[name] = o.seconds; continue; }
+    if (/num_frames|frames/.test(n)) { args[name] = Math.round(o.seconds * 16) + 1; continue; }
+    if (/^height$|_height|height_/.test(n)) { args[name] = o.h; continue; }
+    if (/^width$|_width|width_/.test(n)) { args[name] = o.w; continue; }
+    if (/random.*seed/.test(n)) { args[name] = true; continue; }
+    if (/seed/.test(n)) { args[name] = Math.floor(Math.random()*2e9); continue; }
+    if (/aspect|ratio/.test(n) && p.type && p.type.enum) { const m = p.type.enum.find(x => String(x).includes(o.ratio)); if (m) args[name] = m; continue; }
+  }
+  return args;
+}
+function videoUrl(data){
+  const seen = new Set();
+  const walk = (x) => {
+    if (!x || seen.has(x)) return null;
+    if (typeof x === "string") return /\.(mp4|webm|mov)(\?|$)/i.test(x) || x.startsWith("blob:") ? x : null;
+    if (typeof x !== "object") return null; seen.add(x);
+    if (x.video) { const v = walk(x.video); if (v) return v; }
+    if (x.url && /video|mp4|webm/.test(norm(x.mime_type||x.url||""))) return x.url;
+    if (x.url && !x.mime_type) return x.url;
+    for (const v of Object.values(x)) { const r = walk(v); if (r) return r; }
+    return null;
+  };
+  return walk(data);
+}
+async function connect(space){
+  const { Client } = await lib();
+  const token = LS.get("hf");
+  return Client.connect(space, token ? { hf_token: token } : {});
+}
+async function testEngine(space){
+  try {
+    const c = await connect(space); const api = await c.view_api();
+    const t2v = pickEndpoint(api, false), i2v = pickEndpoint(api, true);
+    if (!t2v) throw new Error("no prompt→video function found");
+    status[space] = { ok: true, info: `${t2v.name}${i2v && i2v.hasImg ? " · can continue scenes" : ""}`, t: Date.now() };
+  } catch(e){ status[space] = { ok: false, info: (e.message || String(e)).slice(0,120), t: Date.now() }; }
+  LS.set("status", JSON.stringify(status));
+}
+
+// ------------------------------------------------------------ clip ka aakhri frame (agla hissa usi se shuru ho)
+function lastFrame(url){
+  return new Promise((resolve) => {
+    const v = document.createElement("video"); v.crossOrigin = "anonymous"; v.muted = true; v.playsInline = true; v.src = url;
+    v.onloadedmetadata = () => { v.currentTime = Math.max(0, v.duration - 0.08); };
+    v.onseeked = () => { try { const c = document.createElement("canvas"); c.width = v.videoWidth; c.height = v.videoHeight; c.getContext("2d").drawImage(v,0,0); c.toBlob(b => resolve(b), "image/png"); } catch(e){ resolve(null); } };
+    v.onerror = () => resolve(null); setTimeout(() => resolve(null), 20000);
+  });
+}
+
+// ------------------------------------------------------------ generate
+const SIZES = { "9:16": { "480p":[480,832], "720p":[720,1280] }, "16:9": { "480p":[832,480], "720p":[1280,720] }, "1:1": { "480p":[624,624], "720p":[960,960] } };
+async function generate(opts){
+  const job = { id: Date.now(), prompt: opts.prompt, total: opts.total, parts: [], state: "running", msg: "Starting…", engine: "" };
+  jobs.unshift(job); render();
+  const order = [opts.engine, ...engines.filter(e => e !== opts.engine && (!status[e] || status[e].ok !== false))].filter(Boolean);
+  const per = Math.min(5, opts.total), count = Math.ceil(opts.total / per);
+  const [w,h] = SIZES[opts.ratio][opts.quality];
+  const { handle_file } = await lib();
+  let img = opts.ref || null;
+  try {
+    for (let i = 0; i < count; i++){
+      let done = false, lastErr = "";
+      for (const space of (job.engine ? [job.engine, ...order.filter(s => s !== job.engine)] : order)){
+        job.msg = `Part ${i+1}/${count} on ${space}… (free GPUs can take 1-6 min)`; render();
+        try {
+          const c = await connect(space); const api = await c.view_api();
+          const pick = pickEndpoint(api, !!img) || pickEndpoint(api, false);
+          if (!pick) throw new Error("no video function");
+          const seg = i === 0 ? opts.prompt : `${opts.prompt}\nContinue the same scene smoothly from the previous shot, same characters and place.`;
+          const args = buildArgs(pick.ep, { prompt: seg, negative: opts.negative, seconds: per, w, h, ratio: opts.ratio }, pick.hasImg ? img : null, handle_file);
+          const res = await c.predict(pick.name, args);
+          const url = videoUrl(res.data);
+          if (!url) throw new Error("engine returned no video");
+          job.parts.push(url); job.engine = space; done = true;
+          status[space] = { ok: true, info: status[space] ? status[space].info : pick.name, t: Date.now() }; LS.set("status", JSON.stringify(status));
+          break;
+        } catch(e){
+          lastErr = (e && (e.message || e.title)) || String(e);
+          if (/quota|exceeded|GPU/i.test(lastErr)) lastErr = "free GPU limit reached — add a free Hugging Face token in Engines, or try later";
+          job.msg = `${space}: ${lastErr.slice(0,90)} — trying next engine…`; render();
+        }
+      }
+      if (!done) throw new Error(lastErr || "all engines busy");
+      render();
+      if (i < count - 1) img = await lastFrame(job.parts[job.parts.length-1]);
+    }
+    job.state = "done"; job.msg = `${job.parts.length} part(s) ready on ${job.engine}`;
+  } catch(e){ job.state = job.parts.length ? "partial" : "failed"; job.msg = ((e && e.message) || String(e)).slice(0,200); }
+  render();
+}
+
+
+// ------------------------------------------------------------ views
+const V = {};
+// ------------------------------------------------------------ Image (free)
+const IMG_SIZES = { "9:16": [768,1344], "16:9": [1344,768], "1:1": [1024,1024], "4:5": [896,1120] };
+const IMG_ENGINES = [
+  { id: "pollinations", name: "Pollinations FLUX (free, no account)" },
+  { id: "hf:black-forest-labs/FLUX.1-schnell", name: "Hugging Face FLUX.1 schnell" },
+  { id: "hf:black-forest-labs/FLUX.1-dev", name: "Hugging Face FLUX.1 dev" },
+];
+async function makeImage(o){
+  const item = { prompt: o.prompt, state: "running", url: "", msg: "Creating…" };
+  images.unshift(item); render();
+  const [w,h] = IMG_SIZES[o.ratio];
+  const order = [o.engine, ...IMG_ENGINES.map(e => e.id).filter(e => e !== o.engine)];
+  for (const eng of order){
+    try {
+      item.msg = "Using " + eng.replace(/^hf:/, ""); render();
+      if (eng === "pollinations"){
+        const seed = Math.floor(Math.random()*1e9);
+        const url = `https://image.pollinations.ai/prompt/${encodeURIComponent(o.prompt)}?width=${w}&height=${h}&seed=${seed}&nologo=true&model=flux`;
+        await new Promise((res, rej) => { const im = new Image(); im.onload = res; im.onerror = () => rej(new Error("did not load")); im.src = url; setTimeout(() => rej(new Error("timeout")), 90000); });
+        item.url = url;
+      } else {
+        const c = await connect(eng.slice(3)); const api = await c.view_api();
+        const ep = Object.entries(api.named_endpoints || {}).find(([n, e]) => (e.parameters||[]).some(p => /prompt/.test(norm(p.parameter_name))) && (e.returns||[]).some(r => /image/.test(norm(r.component))));
+        if (!ep) throw new Error("no image function");
+        const args = {}; for (const p of ep[1].parameters || []){ const n = norm(p.parameter_name); if (/^prompt$|prompt/.test(n) && !/neg/.test(n)) args[p.parameter_name] = o.prompt; else if (n === "width") args[p.parameter_name] = w; else if (n === "height") args[p.parameter_name] = h; else if (/randomize/.test(n)) args[p.parameter_name] = true; }
+        const r = await c.predict(ep[0], args); const walk = (x) => !x ? null : typeof x === "string" ? (/^https?:|^blob:/.test(x) ? x : null) : x.url ? x.url : typeof x === "object" ? Object.values(x).map(walk).find(Boolean) : null;
+        item.url = walk(r.data); if (!item.url) throw new Error("no image returned");
+      }
+      item.state = "done"; item.msg = "Made with " + eng.replace(/^hf:/, ""); render(); return;
+    } catch(e){ item.msg = eng.replace(/^hf:/, "") + ": " + ((e && e.message) || e) + " — trying next…"; render(); }
+  }
+  item.state = "failed"; item.msg = "All image engines are busy. Try again in a minute."; render();
+}
+V.image = () => `
+  <h1>Create image</h1><p class="sub">Free image AI. Use a result as the reference image for a video.</p>
+  <div class="card">
+    <label>Prompt</label><textarea id="i_p" placeholder="Describe the picture…">${esc(LS.get("iprompt"))}</textarea>
+    <div class="grid3" style="grid-template-columns:1fr 1fr">
+      <div><label>Ratio</label><select id="i_r">${Object.keys(IMG_SIZES).map(r => `<option ${LS.get("ir","9:16")===r?"selected":""}>${r}</option>`).join("")}</select></div>
+      <div><label>Engine</label><select id="i_e">${IMG_ENGINES.map(e => `<option value="${e.id}" ${LS.get("ie","pollinations")===e.id?"selected":""}>${esc(e.name)}</option>`).join("")}</select></div>
+    </div>
+    <div style="margin-top:16px"><button class="btn primary full" id="i_go">🖼️ Generate image</button></div>
+  </div>
+  ${images.map((m,i) => `<div class="card"><div class="row" style="justify-content:space-between"><span class="pill ${m.state==="done"?"ok":m.state==="failed"?"bad":"warn"}">${m.state==="running"?'<span class="spin"></span> working':m.state}</span><span class="meta">${esc(m.msg)}</span></div>
+    ${m.url ? `<img src="${esc(m.url)}" style="width:100%;border-radius:12px;margin-top:8px">
+    <div class="row" style="margin-top:8px"><a class="btn small" href="${esc(m.url)}" target="_blank">⬇ Open / Save</a><button class="btn small primary" data-useimg="${i}">🎬 Use for video</button></div>` : ""}
+    <div class="meta" style="margin-top:6px">${esc(m.prompt.slice(0,120))}</div></div>`).join("")}`;
+V.image.bind = () => {
+  $("#i_go").onclick = () => { const p = $("#i_p").value.trim(); if (!p) return toast("Write a prompt first"); LS.set("iprompt", p); LS.set("ir", $("#i_r").value); LS.set("ie", $("#i_e").value); makeImage({ prompt: p, ratio: $("#i_r").value, engine: $("#i_e").value }); };
+  document.querySelectorAll("[data-useimg]").forEach(b => b.onclick = async () => {
+    try { const m = images[+b.dataset.useimg]; const blob = await (await fetch(m.url)).blob(); REF = { blob, url: URL.createObjectURL(blob) }; LS.set("prompt", m.prompt); location.hash = "#create"; toast("Image set as reference ✓"); }
+    catch(e){ toast("Could not load this image — save it and pick it in Create instead"); }
+  });
+};
+
+V.create = () => `
+  <h1>Create video</h1><p class="sub">Free AI engines. Long videos are made in 5-second parts that continue the same scene.</p>
+  <div class="card">
+    <label>Prompt</label><textarea id="c_p" placeholder="Describe the scene, characters, camera and action…">${esc(LS.get("prompt"))}</textarea>
+    <label>Reference image (optional) <div class="hint">The video starts from this picture (used by engines that accept an image).</div></label>
+    <input id="c_img" type="file" accept="image/*">
+    ${REF ? `<div class="row" style="margin-top:8px"><img src="${REF.url}" style="width:64px;height:64px;object-fit:cover;border-radius:10px"><button class="btn small" id="c_imgx">Remove</button></div>` : ""}
+    <label>Avoid (optional)</label><input id="c_n" value="${esc(LS.get("neg","blurry, distorted faces, extra limbs, text, watermark"))}">
+    <div class="grid3">
+      <div><label>Length</label><select id="c_d">${[5,10,15,20].map(s => `<option value="${s}" ${+LS.get("dur","15")===s?"selected":""}>${s} sec</option>`).join("")}</select></div>
+      <div><label>Quality</label><select id="c_q">${["480p","720p"].map(q => `<option ${LS.get("q","480p")===q?"selected":""}>${q}</option>`).join("")}</select></div>
+      <div><label>Ratio</label><select id="c_r">${["9:16","16:9","1:1"].map(r => `<option ${LS.get("r","9:16")===r?"selected":""}>${r}</option>`).join("")}</select></div>
+    </div>
+    <label>Engine</label><select id="c_e"><option value="">Auto (best working)</option>${engines.map(e => `<option ${LS.get("eng")===e?"selected":""}>${esc(e)}</option>`).join("")}</select>
+    <div style="margin-top:16px"><button class="btn primary full" id="c_go">🎬 Generate</button></div>
+    <div class="meta" style="margin-top:8px">Tip: 480p is faster and uses less free GPU time. For the best quality, use the Free apps tab.</div>
+  </div>`;
+V.create.bind = () => {
+  $("#c_img").onchange = (e) => { const f = e.target.files[0]; if (!f) return; if (REF) URL.revokeObjectURL(REF.url); REF = { blob: f, url: URL.createObjectURL(f) }; LS.set("prompt", $("#c_p").value); render(); };
+  const x = $("#c_imgx"); if (x) x.onclick = () => { URL.revokeObjectURL(REF.url); REF = null; render(); };
+  $("#c_go").onclick = () => {
+    const prompt = $("#c_p").value.trim(); if (!prompt) return toast("Write a prompt first");
+    const o = { prompt, negative: $("#c_n").value.trim(), total: +$("#c_d").value, quality: $("#c_q").value, ratio: $("#c_r").value, engine: $("#c_e").value, ref: REF ? REF.blob : null };
+    LS.set("prompt", prompt); LS.set("neg", o.negative); LS.set("dur", o.total); LS.set("q", o.quality); LS.set("r", o.ratio); LS.set("eng", o.engine);
+    location.hash = "#videos"; generate(o);
+  };
+};
+V.videos = () => `
+  <h1>Videos</h1><p class="sub">Keep this app open while it works. Save each part, then join them in CapCut.</p>
+  <div class="card">${jobs.length ? jobs.map(j => `
+    <div class="job"><div class="row" style="justify-content:space-between"><b>${j.total}s video</b>
+      <span class="pill ${j.state==="done"?"ok":j.state==="failed"?"bad":"warn"}">${j.state==="running"?'<span class="spin"></span> working':j.state}</span></div>
+      <div class="meta">${esc(j.prompt.slice(0,110))}${j.prompt.length>110?"…":""}</div>
+      <div class="bar"><i style="width:${Math.round(j.parts.length / Math.ceil(j.total/Math.min(5,j.total)) * 100)}%"></i></div>
+      <div class="meta">${esc(j.msg)}</div>
+      ${j.parts.map((u,i) => `<video src="${esc(u)}" controls playsinline loop></video>
+        <div class="row" style="margin-top:6px"><a class="btn small" href="${esc(u)}" target="_blank" download="part${i+1}.mp4">⬇ Save part ${i+1}</a></div>`).join("")}
+    </div>`).join("") : `<div class="meta" style="text-align:center;padding:24px">No videos yet. Go to Create.</div>`}</div>`;
+V.apps = () => `
+  <h1>Free apps</h1><p class="sub">Best quality for free: these apps give daily free credits. Tap one — your prompt is copied, then paste it there.</p>
+  <div class="card">${FREE_APPS.map((a,i) => `<div class="app"><div><b>${esc(a.name)}</b><div class="meta">${esc(a.note)}</div></div><button class="btn small primary" data-app="${i}">Copy & open</button></div>`).join("")}</div>`;
+V.apps.bind = () => document.querySelectorAll("[data-app]").forEach(b => b.onclick = async () => {
+  const a = FREE_APPS[+b.dataset.app]; const p = LS.get("prompt");
+  try { if (p) await navigator.clipboard.writeText(p); } catch(e){}
+  toast(p ? "Prompt copied ✓ Paste it in " + a.name : "Opening " + a.name); setTimeout(() => window.open(a.url, "_blank"), 300);
+});
+V.engines = () => `
+  <h1>Engines</h1><p class="sub">Free video AIs on Hugging Face. Some go offline or busy — test them and keep the working ones.</p>
+  <div class="card">
+    <label>Hugging Face token (free, recommended) <div class="hint">huggingface.co → Settings → Access Tokens → New token (Read). Gives you your own daily free GPU time. Saved only on this phone.</div></label>
+    <input id="e_t" type="password" placeholder="hf_..." value="${esc(LS.get("hf"))}" autocapitalize="off" autocorrect="off">
+    <div style="margin-top:10px"><button class="btn small primary" id="e_ts">Save token</button></div>
+  </div>
+  <div class="card">${engines.map((e,i) => { const s = status[e]; return `<div class="app"><div style="min-width:0"><b style="word-break:break-all">${esc(e)}</b>
+      <div class="meta">${s ? (s.ok ? "✓ " : "✗ ") + esc(s.info) : "not tested"}</div></div>
+      <div class="row" style="flex-wrap:nowrap"><span class="pill ${s ? (s.ok?"ok":"bad") : ""}">${s ? (s.ok?"OK":"Off") : "?"}</span><button class="btn small" data-rm="${i}">✕</button></div></div>`; }).join("")}
+    <div class="row" style="margin-top:12px"><button class="btn primary" id="e_test">Test all engines</button><button class="btn" id="e_reset">Reset list</button></div>
+    <label>Add engine <div class="hint">Any Hugging Face video Space, e.g. <code>owner/space-name</code></div></label>
+    <div class="row" style="flex-wrap:nowrap"><input id="e_new" placeholder="owner/space-name" autocapitalize="off" autocorrect="off"><button class="btn" id="e_add">Add</button></div>
+  </div>`;
+V.engines.bind = () => {
+  $("#e_ts").onclick = () => { LS.set("hf", $("#e_t").value.trim()); toast("Token saved ✓"); };
+  $("#e_test").onclick = async (ev) => { ev.target.disabled = true; ev.target.innerHTML = '<span class="spin"></span> Testing…'; for (const e of engines){ await testEngine(e); render(); } };
+  $("#e_reset").onclick = () => { engines = [...DEFAULT_ENGINES]; LS.set("engines", JSON.stringify(engines)); render(); };
+  $("#e_add").onclick = () => { const v = $("#e_new").value.trim().replace(/^https?:\/\/huggingface\.co\/spaces\//,"").replace(/\/$/,""); if (!/^[\w.-]+\/[\w.-]+$/.test(v)) return toast("Use the form owner/space-name"); if (!engines.includes(v)) engines.push(v); LS.set("engines", JSON.stringify(engines)); render(); };
+  document.querySelectorAll("[data-rm]").forEach(b => b.onclick = () => { engines.splice(+b.dataset.rm, 1); LS.set("engines", JSON.stringify(engines)); render(); });
+};
+
+function route(){ return location.hash.replace("#","") || "create"; }
+function render(){
+  const r = V[route()] ? route() : "create";
+  if (r === "create" && $("#c_p")) { /* keep typed text */ LS.set("prompt", $("#c_p").value); }
+  $("#app").innerHTML = V[r](); if (V[r].bind) V[r].bind();
+  document.querySelectorAll("#nav a").forEach(a => a.classList.toggle("on", a.dataset.r === r));
+}
+addEventListener("hashchange", render);
+render();
+</script>
+</body>
+</html>
