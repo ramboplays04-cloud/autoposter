@@ -148,7 +148,7 @@ def tiktok_download(url, folder):
         req = info.get("requested_downloads") or []
         path = (req[0].get("filepath") if req else None) or y.prepare_filename(info)
     if not path or not os.path.isfile(path):
-        raise RuntimeError("Download ke baad file nahi mili")
+        raise RuntimeError("File not found after download")
     return path, info.get("description") or info.get("title") or ""
 
 
@@ -201,7 +201,7 @@ def fb_upload(ver, page_id, token, path, desc, mode):
     try:
         return fb_upload_reel(ver, page_id, token, path, desc), "reel"
     except FBError:
-        return fb_upload_video(ver, page_id, token, path, desc), "video (reel fail hui thi)"
+        return fb_upload_video(ver, page_id, token, path, desc), "video (reel failed)"
 
 
 # ------------------------------------------------------------------ core
@@ -215,7 +215,7 @@ def scan(ctx, acc):
     try:
         items = tiktok_list(normalize_url(acc["tiktok"]), limit)
     except Exception as e:
-        ctx.log(f"TikTok check fail - {e}", "error", acc)
+        ctx.log(f"TikTok check failed - {e}", "error", acc)
         st["last_checked"] = ctx.ts()
         return 0
     seen = set(st["seen"])
@@ -232,9 +232,9 @@ def scan(ctx, acc):
     st["first_done"] = True
     st["last_checked"] = ctx.ts()
     if first and not acc.get("import_old", True):
-        ctx.log(f"pehla check: {len(items)} purani videos chhor din, ab sirf nayi upload hongi", "info", acc)
+        ctx.log(f"first check: skipped {len(items)} old videos, only new ones will be uploaded", "info", acc)
     else:
-        ctx.log(f"check mukammal: {new} nayi videos queue mein", "info", acc)
+        ctx.log(f"check done: {new} new videos added to queue", "info", acc)
     return new
 
 
@@ -242,7 +242,7 @@ def process(ctx, acc, video):
     page_id = str(acc.get("page_id") or "")
     token = ctx.tokens.get(page_id)
     if not token:
-        ctx.log("is account ke Page ka token nahi mila. App mein Pages > Facebook connect karein.", "error", acc)
+        ctx.log("no token for this account's Page. In the app go to Pages and connect Facebook.", "error", acc)
         return False
     max_attempts = int(ctx.cfg.get("max_attempts") or 3)
     ver = ctx.cfg.get("graph_version") or "v23.0"
@@ -254,7 +254,7 @@ def process(ctx, acc, video):
             post_id, kind = fb_upload(ver, page_id, token, path, build_caption(cap, acc), acc.get("mode", "reel"))
             video.update(status="uploaded", fb=str(post_id), uploaded=ctx.ts(), error="")
             page_name = next((p["name"] for p in ctx.cfg.get("pages", []) if str(p["id"]) == page_id), page_id)
-            ctx.log(f"video {video['id'][-6:]} -> {page_name} upload ho gayi ({kind})", "success", acc)
+            ctx.log(f"video {video['id'][-6:]} -> {page_name} uploaded ({kind})", "success", acc)
             return True
         except Exception as e:
             video["attempts"] = int(video.get("attempts") or 0) + 1
@@ -273,7 +273,7 @@ def post_next(ctx, acc, count):
         if not video:
             if acc["id"] not in ctx.scanned and scan(ctx, acc) > 0:
                 continue
-            ctx.log("queue mein koi nayi video nahi", "info", acc)
+            ctx.log("no new videos in queue", "info", acc)
             break
         if process(ctx, acc, video):
             done += 1
@@ -317,7 +317,7 @@ def auto(ctx, acc):
     pending = [s for s in passed if s not in done]
     if pending:
         done.extend(pending)
-        ctx.log(f"{pending[-1]} ka time - upload shuru", "info", acc)
+        ctx.log(f"{pending[-1]} slot - starting upload", "info", acc)
         post_next(ctx, acc, max(1, int(acc.get("per_slot") or 1)))
 
 
@@ -339,9 +339,9 @@ def main():
         try:
             ctx.tokens = {str(k): v for k, v in decrypt_tokens(cfg["tokens_enc"], os.environ.get("APP_KEY", "")).items()}
         except Exception:
-            ctx.log("Facebook tokens khul nahi sake: GitHub Secret 'APP_KEY' aur app ka password ek jaisa hona chahiye", "error")
+            ctx.log("Could not unlock Facebook tokens: GitHub Secret 'APP_KEY' must match the app password", "error")
     else:
-        ctx.log("Abhi Facebook connect nahi hua (app mein Pages tab dekhein)", "error")
+        ctx.log("Facebook is not connected yet (see the Pages tab in the app)", "error")
 
     try:
         if action == "auto":
@@ -351,7 +351,7 @@ def main():
         else:
             sel = [a for a in accounts if a["id"] == target] if target else accounts
             if not sel:
-                ctx.log(f"account '{target}' nahi mila", "error")
+                ctx.log(f"account '{target}' not found", "error")
             for acc in sel:
                 st = ctx.acc_state(acc)
                 vid = next((v for v in st["videos"] if v["id"] == video_arg), None)
@@ -370,14 +370,14 @@ def main():
                 elif action == "add_video":
                     m = re.search(r"/video/(\d+)", video_arg)
                     if not m:
-                        ctx.log("sahi TikTok video link nahi", "error", acc)
+                        ctx.log("invalid TikTok video link", "error", acc)
                     elif m.group(1) in st["seen"]:
-                        ctx.log("yeh video pehle se list mein hai", "info", acc)
+                        ctx.log("this video is already in the list", "info", acc)
                     else:
                         st["seen"].append(m.group(1))
                         st["videos"].append({"id": m.group(1), "url": video_arg.split("?")[0], "caption": "",
                                              "status": "new", "attempts": 0, "found": ctx.ts()})
-                        ctx.log("video queue mein add ho gayi", "info", acc)
+                        ctx.log("video added to queue", "info", acc)
     except Exception as e:
         ctx.log(f"Engine error: {e} | {traceback.format_exc()[-300:]}", "error")
 
