@@ -37,5 +37,13 @@
     }
   ],
   "google_secret_enc": "9P7omftbOZpAdhDH8c+VuZLqmBy8lljwgN7FPgxKvD0p4PJ5VC9VEq6zT2YV4BQU+riag/QwAyTaVbtXlxPCKyOAX1kC0xNWGFOL3QyN0LuTDo0Ic3f4hkd5ETk=",
-  "tokens_enc": "3F7yvcH9KiwpyhaU4G+Poo1NRBsKVbK+QRTSy1hhNlNud4rfSHnhqWub+USGgKe3pyUWJK/MVG8U50/dyjUjQCfBYFQTVyGvVTSnRAZT97V7Dr/9vLyil/amLdCCzS3hQKSfEkliQI9oFHgnndQniNkTH/EJYx7LycZuso236m2CoFhgMPlVyD3qlXFWkGLevFNRaaf3CmlYNko5LSISVoY4TXCrXWh42pcOeKFGRqM+KA=="
+  "tokens_enc": "3F7yvcH9KiwpyhaU4G+Poo1NRBsKVbK+QRTSy1hhNlNud4rfSHnhqWub+USGgKe3pyUWJK/MVG8U50/dyjUjQCfBYFQTVyGvVTSnRAZT97V7Dr/9vLyil/amLdCCzS3hQKSfEkliQI9oFHgnndQniNkTH/EJYx7LycZuso236m2CoFhgMPlVyD3qlXFWkGLevFNRaaf3CmlYNko5LSISVoY4TXCrXWh42pcOeKFGRqM+KA==",
+  "finder": {
+    "regions": [
+      "US",
+      "GB"
+    ],
+    "min_followers": 200000,
+    "max_followers": 4000000
+  }
 }
