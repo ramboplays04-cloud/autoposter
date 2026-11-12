@@ -58,6 +58,8 @@ class Ctx:
         self.posted = set()        # TikTok video ids already posted on any Page
         self.started = time.monotonic()
         self.manual = False
+        self.fp = None
+        self.fp_dirty = False
 
     # ---- Facebook pause ("hold") so a block is never hammered
     def hold(self):
@@ -511,76 +513,226 @@ def refresh_pages(ctx):
 
 
 # ------------------------------------------------------------------ skip videos already on the Page
-def _norm_caption(t):
-    t = re.sub(r"https?://\S+", " ", (t or "").lower())
-    t = re.sub(r"[#@]\S+", " ", t)                  # hashtags / mentions can differ
-    return re.sub(r"[^a-z0-9\u0600-\u06ff]+", "", t)  # letters/numbers only (Urdu too)
+# The tool LOOKS at the videos: it takes 6 small "fingerprints" (frames) from every video already on the
+# Page, and from each TikTok video right after downloading it. Same pictures + same length = same video.
+# Captions are NOT used (creators often reuse the same caption and length).
+FP_PATH = os.path.join(ROOT, "fp.json")
+FP_POINTS = (0.1, 0.25, 0.4, 0.55, 0.7, 0.85)
+FP_MAX_PER_PAGE = 300
 
 
-def captions_match(tik, fb):
-    a, b = _norm_caption(tik), _norm_caption(fb)
-    if len(a) < 10 or len(b) < 10:
+def _run(cmd, timeout=60):
+    import subprocess
+    return subprocess.run(cmd, capture_output=True, timeout=timeout)
+
+
+def media_duration(src):
+    r = _run(["ffprobe", "-v", "error", "-show_entries", "format=duration", "-of", "csv=p=0", src], 60)
+    try:
+        return float(r.stdout.decode().strip())
+    except ValueError:
+        return None
+
+
+def frame_hash(src, t):
+    """64-bit difference hash of the frame at t seconds (reads only that part of a remote video)."""
+    r = _run(["ffmpeg", "-v", "error", "-ss", f"{max(t, 0):.2f}", "-i", src, "-frames:v", "1",
+              "-vf", "scale=9:8:flags=area,format=gray", "-f", "rawvideo", "-"], 60)
+    px = r.stdout
+    if len(px) < 72:
+        return None
+    h = 0
+    for row in range(8):
+        for col in range(8):
+            h = (h << 1) | (px[row * 9 + col] > px[row * 9 + col + 1])
+    return h
+
+
+AUDIO_POINTS = (0.2, 0.5, 0.8)
+AUDIO_SECS = 3.0
+AUDIO_STEP = 400          # samples at 8 kHz = 50 ms per value
+
+
+def audio_env(src, t):
+    """Loudness curve of 3 seconds of sound (voice/music) starting at t - very different between videos."""
+    r = _run(["ffmpeg", "-v", "error", "-ss", f"{max(t, 0):.2f}", "-t", str(AUDIO_SECS), "-i", src,
+              "-vn", "-ac", "1", "-ar", "8000", "-f", "s16le", "-"], 60)
+    raw = r.stdout
+    n = len(raw) // 2
+    if n < AUDIO_STEP * 20:
+        return None
+    import array
+    a = array.array("h", raw[:n * 2])
+    vals = []
+    for i in range(0, n - AUDIO_STEP + 1, AUDIO_STEP):
+        seg = a[i:i + AUDIO_STEP]
+        vals.append((sum(x * x for x in seg) / AUDIO_STEP) ** 0.5)
+    top = max(vals) or 1
+    return "".join(format(min(255, int(v / top * 255)), "02x") for v in vals)
+
+
+def video_fp(src):
+    dur = media_duration(src)
+    if not dur or dur < 1:
+        return None
+    hs = [frame_hash(src, dur * p) for p in FP_POINTS]
+    if sum(h is not None for h in hs) < 4:
+        return None
+    au = [audio_env(src, max(0.0, dur * p - AUDIO_SECS / 2)) for p in AUDIO_POINTS]
+    return (f"{dur:.1f}|" + ",".join("-" if h is None else format(h, "016x") for h in hs) + "|" +
+            ",".join(x or "-" for x in au))
+
+
+def _corr(x, y):
+    n = min(len(x), len(y))
+    if n < 10:
+        return None
+    x, y = x[:n], y[:n]
+    mx, my = sum(x) / n, sum(y) / n
+    vx = sum((a - mx) ** 2 for a in x)
+    vy = sum((b - my) ** 2 for b in y)
+    if vx < 1e-9 or vy < 1e-9:
+        return None
+    return sum((a - mx) * (b - my) for a, b in zip(x, y)) / (vx * vy) ** 0.5
+
+
+def _audio_score(ea, eb):
+    """Best correlation of two loudness curves, allowing up to 0.2 s shift."""
+    a = [int(ea[i:i + 2], 16) for i in range(0, len(ea), 2)]
+    b = [int(eb[i:i + 2], 16) for i in range(0, len(eb), 2)]
+    if max(a) - min(a) < 25 or max(b) - min(b) < 25:      # silence / flat sound: can't tell
+        return None
+    best = None
+    for lag in range(-4, 5):
+        c = _corr(a[lag:], b) if lag >= 0 else _corr(a, b[-lag:])
+        if c is not None and (best is None or c > best):
+            best = c
+    return best
+
+
+def fp_same(a, b):
+    """Same video = same length AND same pictures AND (if there is sound) the same sound."""
+    try:
+        pa, pb = a.split("|"), b.split("|")
+        if abs(float(pa[0]) - float(pb[0])) > 2.5:
+            return False
+        bits = []
+        for x, y in zip(pa[1].split(","), pb[1].split(",")):
+            if x != "-" and y != "-":
+                bits.append(bin(int(x, 16) ^ int(y, 16)).count("1"))
+        if len(bits) < 5 or sum(d <= 6 for d in bits) < len(bits) - 1:
+            return False
+        has_a = len(pa) > 2 and any(x != "-" for x in pa[2].split(","))
+        has_b = len(pb) > 2 and any(x != "-" for x in pb[2].split(","))
+        if has_a != has_b:             # one has sound, the other not: different videos
+            return False
+        scores = []
+        if has_a and has_b:
+            for x, y in zip(pa[2].split(","), pb[2].split(",")):
+                if x != "-" and y != "-":
+                    sc = _audio_score(x, y)
+                    if sc is not None:
+                        scores.append(sc)
+        if scores:
+            return sum(scores) / len(scores) >= 0.9 and min(scores) >= 0.75
+        return max(bits) <= 4          # no usable sound: pictures must match very closely
+    except Exception:
         return False
-    if a == b:
-        return True
-    if len(a) >= 25 and len(b) >= 25:
-        a, b = a[:120], b[:120]                      # long captions may be cut/extended
-        return a in b or b in a
-    return False
 
 
-def fb_page_captions(ver, page_id, token, limit=600):
-    """Descriptions + length of the videos/reels already on the Page (a few calls, once per account)."""
-    out = []
+def load_fp(ctx):
+    if getattr(ctx, "fp", None) is None:
+        ctx.fp = load_json(FP_PATH, {})
+    return ctx.fp
+
+
+def save_fp(ctx):
+    if getattr(ctx, "fp", None) is not None and getattr(ctx, "fp_dirty", False):
+        with open(FP_PATH, "w", encoding="utf-8") as f:
+            json.dump(ctx.fp, f, separators=(",", ":"))
+
+
+def fb_page_videos(ver, page_id, token, max_items):
+    out, seen = [], set()
     for edge in ("videos", "video_reels"):
         url = f"https://graph.facebook.com/{ver}/{page_id}/{edge}"
-        params = {"fields": "description,length", "limit": 100, "access_token": token}
-        while url and len(out) < limit:
+        params = {"fields": "id,source,length", "limit": 100, "access_token": token}
+        while url and len(out) < max_items:
             try:
                 d = _fb(requests.get(url, params=params, timeout=TIMEOUT))
             except FBError as e:
                 if fb_hold_kind(e) or edge == "videos":
                     raise
-                break                                # reels list not available: videos list is enough
-            out.extend({"d": v.get("description") or "", "len": v.get("length")} for v in d.get("data", []))
+                break
+            for v in d.get("data", []):
+                if v.get("id") not in seen and v.get("source"):
+                    seen.add(v["id"])
+                    out.append(v)
             url = (d.get("paging") or {}).get("next")
             params = None
-    return out
+    return out[:max_items]
 
 
-def skip_existing(ctx, acc, force=False):
-    """Mark queued TikTok videos that are already on the Facebook Page (uploaded by hand) as skipped,
-    so the tool never posts the same video twice. Runs once per account (or when asked again)."""
-    st = ctx.acc_state(acc)
-    if acc.get("skip_existing", True) is False or (st.get("dedupe_done") and not force) or ctx.hold():
+def build_page_index(ctx, acc, force=False, budget=8 * 60):
+    """Fingerprint the videos already on the Page. Full scan once, then a small top-up every 3 days."""
+    if acc.get("skip_existing", True) is False or ctx.hold():
         return
     page_id = str(acc.get("page_id") or "")
     token = ctx.tokens.get(page_id)
     if not page_id or not token:
         return
+    left = 12 * 60 - (time.monotonic() - ctx.started)    # at most ~12 min of looking per run, all Pages together
+    if left < 30 and not force:
+        return
+    budget = min(budget, max(left, 30))
+    idx = load_fp(ctx).setdefault(page_id, {"v": {}, "complete": False, "checked": None})
+    if idx["complete"] and not force and idx.get("checked"):
+        try:
+            last = datetime.datetime.strptime(idx["checked"], "%Y-%m-%d %H:%M").replace(tzinfo=ctx.tz)
+            if (ctx.now - last).days < 3:
+                return
+        except ValueError:
+            pass
     try:
-        existing = fb_page_captions(ctx.cfg.get("graph_version") or "v23.0", page_id, token)
+        listed = fb_page_videos(ctx.cfg.get("graph_version") or "v23.0", page_id, token,
+                                FP_MAX_PER_PAGE if (force or not idx["complete"]) else 100)
     except Exception as e:
         kind = fb_hold_kind(e)
         if kind:
             ctx.set_hold(kind, e)
         else:
-            ctx.log(f"could not read the Page's existing videos - {str(e)[:150]}", "error", acc)
+            ctx.log(f"could not read the Page's videos - {str(e)[:150]}", "error", acc)
         return
-    n = 0
-    for v in st["videos"]:
-        if v["status"] not in ("new", "retry"):
-            continue
-        for ex in existing:
-            if captions_match(v.get("caption"), ex["d"]):
-                if v.get("dur") and ex.get("len") and abs(float(v["dur"]) - float(ex["len"])) > 3:
-                    continue                       # same text but a different video
-                v.update(status="skipped", error="Already on the Facebook Page")
-                n += 1
+    todo = [v for v in listed if v["id"] not in idx["v"]]
+    from concurrent.futures import ThreadPoolExecutor
+    t0, done = time.monotonic(), 0
+    with ThreadPoolExecutor(6) as pool:
+        for i in range(0, len(todo), 6):
+            if time.monotonic() - t0 > budget:
                 break
-    st["dedupe_done"] = ctx.ts()
-    ctx.log(f"checked {len(existing)} videos already on the Page: {n} of the queue are already there - skipped",
-            "info", acc)
+            batch = todo[i:i + 6]
+            for v, fp in zip(batch, pool.map(lambda v: video_fp(v["source"]), batch)):
+                idx["v"][v["id"]] = fp or ""      # "" = could not read; don't try again
+                done += 1
+    complete = done >= len(todo)
+    if complete:
+        idx["complete"] = True
+        idx["checked"] = ctx.ts()
+    ctx.fp_dirty = True
+    ctx.log(f"looked at {done} video(s) already on the Page" + ("" if complete else
+            f" ({len(todo) - done} left, continuing next run)") +
+            f" - {sum(1 for x in idx['v'].values() if x)} known", "info", acc)
+
+
+def already_on_page(ctx, acc, path):
+    """Return (True, fp) if the downloaded TikTok video is already on this Page."""
+    if acc.get("skip_existing", True) is False:
+        return False, None
+    fp = video_fp(path)
+    if not fp:
+        return False, None
+    idx = load_fp(ctx).get(str(acc.get("page_id") or ""), {}).get("v", {})
+    return any(x and fp_same(fp, x) for x in idx.values()), fp
 
 
 # ------------------------------------------------------------------ core
@@ -647,9 +799,17 @@ def process(ctx, acc, video):
         return "dup"
     max_attempts = int(ctx.cfg.get("max_attempts") or 3)
     ver = ctx.cfg.get("graph_version") or "v23.0"
+    idx = load_fp(ctx).get(page_id)
+    if acc.get("skip_existing", True) is not False and token and not (idx and idx.get("complete")):
+        build_page_index(ctx, acc, budget=5 * 60)   # make sure we know the Page's videos first
     with tempfile.TemporaryDirectory() as tmp:
         try:
             path, cap = tiktok_download(video["url"], tmp)
+            on_page, fp = already_on_page(ctx, acc, path)
+            if on_page and not ctx.manual:
+                video.update(status="skipped", error="Already on the Facebook Page (same video found)")
+                ctx.log(f"video {video['id'][-6:]} skipped - the same video is already on the Page", "info", acc)
+                return "dup"
             cap = cap or video.get("caption") or ""
             video["caption"] = cap[:300]
             if token:
@@ -661,6 +821,9 @@ def process(ctx, acc, video):
             page_name = next((p["name"] for p in ctx.cfg.get("pages", []) if str(p["id"]) == page_id), page_id)
             ctx.log(f"video {video['id'][-6:]} -> {page_name} uploaded ({kind})", "success", acc)
             ctx.posted.add(video["id"])
+            if fp:
+                load_fp(ctx).setdefault(page_id, {"v": {}, "complete": False, "checked": None})["v"][f"tt{video['id']}"] = fp
+                ctx.fp_dirty = True
             ctx.state.setdefault("posted_ids", []).append(video["id"])
             del ctx.state["posted_ids"][:-20000]
             ctx.uploaded[page_name] = ctx.uploaded.get(page_name, 0) + 1
@@ -734,7 +897,7 @@ def auto(ctx, acc):
             pass
     if due:
         scan(ctx, acc)
-    skip_existing(ctx, acc)
+    build_page_index(ctx, acc)
 
     passed = [s for s in slots if s <= hhmm]
     if new_account:  # naya account: aaj ke guzre slots par ek dum upload na karo
@@ -837,6 +1000,13 @@ def main():
         except Exception:
             pass
 
+    # Undo the old caption-based check (it could skip different videos that only had the same caption)
+    for st_ in state.get("accounts", {}).values():
+        for v in st_.get("videos", []):
+            if v.get("status") == "skipped" and v.get("error") == "Already on the Facebook Page":
+                v.update(status="new", error="")
+        st_.pop("dedupe_done", None)
+
     # Duplicate protection: every TikTok video id that is already on any Page
     ctx.posted = set(state.get("posted_ids", []))
     for st in state.get("accounts", {}).values():
@@ -881,11 +1051,8 @@ def main():
                 vid = next((v for v in st["videos"] if v["id"] == video_arg), None)
                 if action == "scan":
                     scan(ctx, acc)
-                    skip_existing(ctx, acc)
                 elif action == "dedupe":
-                    if st["last_checked"] is None:
-                        scan(ctx, acc)
-                    skip_existing(ctx, acc, force=True)
+                    build_page_index(ctx, acc, force=True)
                 elif action == "upload_now":
                     if st["last_checked"] is None:
                         scan(ctx, acc)
@@ -919,6 +1086,7 @@ def main():
         trim(st)
     cleanup_media(ctx)
     notify(ctx)
+    save_fp(ctx)
     state["last_run"] = ctx.ts()
     state["last_action"] = action
     save_state(state)

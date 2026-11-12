@@ -324,7 +324,7 @@ function accountForm(a){
     <label class="check"><input type="checkbox" id="f_hash" ${a && a.remove_hashtags ? "checked":""}><span>Remove TikTok hashtags</span></label>
     <label>Add below every caption (optional)</label>
     <textarea id="f_extra" placeholder="#facebookreels">${esc(a ? a.extra||"" : "")}</textarea>
-    <label class="check"><input type="checkbox" id="f_skipex" ${!a || a.skip_existing!==false ? "checked":""}><span>Skip videos that are already on the Page<div class="hint">Before uploading, the tool looks at the Page's existing videos and skips TikTok videos with the same caption (for videos you uploaded by hand)</div></span></label>
+    <label class="check"><input type="checkbox" id="f_skipex" ${!a || a.skip_existing!==false ? "checked":""}><span>Skip videos that are already on the Page<div class="hint">The tool looks at the videos themselves (pictures + sound + length), not the caption. Any TikTok video that is already on the Page (e.g. uploaded by hand) is skipped.</div></span></label>
     <label class="check"><input type="checkbox" id="f_old" ${!a || a.import_old!==false ? "checked":""}><span>Also upload old videos<div class="hint">Untick to upload only new videos (affects the first check only)</div></span></label>
     <div style="margin-top:14px"><button class="btn primary full" id="f_save">${a ? "Save" : "Add"}</button></div>
   </div>
@@ -472,7 +472,7 @@ V.acc = (id) => {
   return `
   <h1>@${esc(userOf(a.tiktok))}</h1>
   <p class="sub">→ ${esc(pageName(a.page_id) || "No Page selected")} · <a href="${esc(a.tiktok)}" target="_blank">Open TikTok</a></p>
-  <div class="row"><button class="btn small primary" data-up="${a.id}">Upload next video now</button><button class="btn small" data-scan="${a.id}">Check for new videos</button><button class="btn small" id="a_dedupe">Skip videos already on Page</button><a class="btn small" href="#edit/${a.id}">Edit</a></div>
+  <div class="row"><button class="btn small primary" data-up="${a.id}">Upload next video now</button><button class="btn small" data-scan="${a.id}">Check for new videos</button><button class="btn small" id="a_dedupe">Re-check Page videos</button><a class="btn small" href="#edit/${a.id}">Edit</a></div>
   <div class="tabs">${tab("","All")}${tab("queue","Queue ("+s.queue+")")}${tab("uploaded","Uploaded ("+s.up+")")}${tab("failed","Failed ("+s.fail+")")}${tab("skipped","Skipped")}</div>
   <div class="card">${vids.length ? vids.map(v => { const [l,c] = ST_LABEL[v.status] || [v.status,""]; return `
     <div class="vid">
