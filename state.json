@@ -1710,6 +1710,14 @@
      "status": "new",
      "attempts": 0,
      "found": "2026-11-13 01:50"
+    },
+    {
+     "id": "7700214294381743390",
+     "url": "https://www.tiktok.com/@a_biology_teacher/video/7700214294381743390",
+     "caption": "MCQ: Gene Pool #science #stem #biology #learnbiologyontiktok #evolution",
+     "status": "new",
+     "attempts": 0,
+     "found": "2026-11-13 03:49"
     }
    ],
    "seen": [
@@ -1916,7 +1924,8 @@
     "7700213181179890974",
     "7707086578237164831",
     "7699100071824051486",
-    "7707370661605428510"
+    "7707370661605428510",
+    "7700214294381743390"
    ],
    "slots": {
     "2026-11-11": [
@@ -1927,11 +1936,17 @@
     ],
     "2026-11-13": []
    },
-   "last_checked": "2026-11-13 01:50",
+   "last_checked": "2026-11-13 03:49",
    "first_done": true
   }
  },
  "log": [
+  {
+   "t": "2026-11-13 03:49",
+   "l": "info",
+   "a": "amwcd8ml6ywwg",
+   "m": "check done: 1 new videos added to queue"
+  },
   {
    "t": "2026-11-13 02:25",
    "l": "success",
@@ -2053,7 +2068,7 @@
    "m": "check done: 200 new videos added to queue"
   }
  ],
- "last_run": "2026-11-13 02:25",
- "last_action": "upload_now",
+ "last_run": "2026-11-13 03:49",
+ "last_action": "auto",
  "fb_conn": "92cc7902cef0a19b"
 }
