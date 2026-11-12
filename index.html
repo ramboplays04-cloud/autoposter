@@ -125,6 +125,42 @@ async function getTokens(){
   catch(e){ throw new Error("Wrong password: enter the same password you used before (Settings)"); }
 }
 
+// ---------------------------------------------------------------- phone notifications (Web Push)
+const b64u = (u8) => b64e(new Uint8Array(u8)).replace(/\+/g,"-").replace(/\//g,"_").replace(/=+$/,"");
+const b64uDec = (s) => b64d(s.replace(/-/g,"+").replace(/_/g,"/") + "===".slice((s.length + 3) % 4));
+const SW = ("serviceWorker" in navigator) ? navigator.serviceWorker.register("sw.js").catch(() => null) : Promise.resolve(null);
+async function pushStatus(){
+  if (!("serviceWorker" in navigator) || !("PushManager" in window) || !("Notification" in window))
+    return "Not available here - open the app from its Home Screen icon (iPhone iOS 16.4 or newer)";
+  if (Notification.permission === "denied") return "Blocked - iPhone Settings → Notifications → Auto Poster → Allow";
+  try { const reg = await SW; const sub = reg && await reg.pushManager.getSubscription(); if (sub && CFG.push_enc) return "ON for this phone ✓"; } catch(e){}
+  return "Off";
+}
+async function enablePush(){
+  if (!("serviceWorker" in navigator) || !("PushManager" in window) || !("Notification" in window))
+    throw new Error("Open this app from its Home Screen icon (not Chrome/Safari). iPhone allows notifications only there.");
+  const perm = await Notification.requestPermission();
+  if (perm !== "granted") throw new Error("Notifications not allowed. iPhone Settings → Notifications → Auto Poster → Allow");
+  let data = null;
+  if (CFG.push_enc) { try { data = await decryptJSON(CFG.push_enc, S.pass); } catch(e){ throw new Error("Wrong password (Settings → Change GitHub token / password)"); } }
+  if (!data || !data.vapid_d || !CFG.push_pub){
+    const kp = await crypto.subtle.generateKey({ name:"ECDSA", namedCurve:"P-256" }, true, ["sign"]);
+    const jwk = await crypto.subtle.exportKey("jwk", kp.privateKey);
+    CFG.push_pub = b64u(await crypto.subtle.exportKey("raw", kp.publicKey));
+    data = { vapid_d: jwk.d, subs: [] };
+  }
+  const reg = (await SW) || await navigator.serviceWorker.register("sw.js");
+  await navigator.serviceWorker.ready;
+  let sub = await reg.pushManager.getSubscription();
+  if (sub){ const k = sub.options && sub.options.applicationServerKey; if (!k || b64u(k) !== CFG.push_pub){ await sub.unsubscribe(); sub = null; } }
+  if (!sub) sub = await reg.pushManager.subscribe({ userVisibleOnly: true, applicationServerKey: b64uDec(CFG.push_pub) });
+  const j = sub.toJSON();
+  data.subs = (data.subs || []).filter(x => x.endpoint !== j.endpoint);
+  data.subs.push({ endpoint: j.endpoint, p256dh: j.keys.p256dh, auth: j.keys.auth, added: new Date().toISOString().slice(0,10) });
+  CFG.push_enc = await encryptJSON(data, S.pass);
+  await saveConfig("phone notifications on");
+}
+
 // ---------------------------------------------------------------- GitHub API
 async function gh(path, opt={}){
   const r = await fetch("https://api.github.com" + path, {
@@ -507,18 +543,12 @@ V.settings = () => `
   </div>
   <h2>Phone notifications 🔔</h2>
   <div class="card">
-    <div class="meta">Get a message on your iPhone when videos upload, a video fails, or Facebook pauses uploads.</div>
-    <ol class="meta" style="padding-left:18px;margin:10px 0">
-      <li>Install the free <b>ntfy</b> app from the App Store and allow notifications.</li>
-      <li>Tap <b>Create my code</b> below, then <b>Copy</b>.</li>
-      <li>In the ntfy app tap <b>+</b>, paste the code as the topic and tap <b>Subscribe</b>.</li>
-      <li>Tap <b>Save</b>, then <b>Send test</b>.</li>
-    </ol>
-    <label>Your notification code <div class="hint">Keep it private. Saved locked with your password.</div></label>
-    <input id="n_topic" autocapitalize="off" autocorrect="off" placeholder="${CFG.ntfy_enc ? "loading…" : "tap Create my code"}">
-    <div class="row" style="margin-top:8px"><button class="btn small" id="n_new">Create my code</button><button class="btn small" id="n_copy">Copy</button><button class="btn small" id="n_test">Send test</button></div>
+    <div class="meta">Get a notification from <b>this app</b> when videos upload, a video fails, or Facebook pauses uploads. No extra app needed.</div>
+    <div class="meta" style="margin-top:8px">Status: <b id="p_stat">checking…</b></div>
+    <div class="hint">Open this app from its Home Screen icon (not from Chrome/Safari), then tap the button. iPhone will ask “Allow notifications” → tap Allow.</div>
+    <div style="margin-top:10px"><button class="btn primary full" id="p_on">🔔 Turn on notifications on this phone</button></div>
+    <div class="row" style="margin-top:8px"><button class="btn small" id="p_test">Send test</button></div>
     <label class="check"><input type="checkbox" id="n_succ" ${CFG.notify_success!==false?"checked":""}><span>Also notify for successful uploads<div class="hint">Errors and Facebook pauses are always sent</div></span></label>
-    <div style="margin-top:6px"><button class="btn primary full" id="n_save">Save</button></div>
   </div>
   <h2>Connection</h2>
   <div class="card"><div class="meta">Repo: <b>${esc(S.repo)}</b></div><div style="margin-top:10px" class="row"><a class="btn small" href="#setup">Change GitHub token / password</a></div></div>`;
@@ -529,23 +559,14 @@ V.settings.bind = () => {
                          gap_min: Math.max(1, +$("#c_gmin").value||3), gap_max: Math.max(+$("#c_gmin").value||3, +$("#c_gmax").value||6) });
     await saveConfig("settings"); toast("Saved ✓");
   }, e.target);
-  const nt = $("#n_topic");
-  if (CFG.ntfy_enc) decryptJSON(CFG.ntfy_enc, S.pass).then(d => { if (!nt.value) nt.value = d.topic || ""; nt.placeholder = ""; }).catch(() => { nt.placeholder = "wrong password"; });
-  $("#n_new").onclick = () => { const r = crypto.getRandomValues(new Uint8Array(9)); nt.value = "fap-" + Array.from(r, b => b.toString(36).padStart(2,"0")).join("").slice(0,16); toast("Code created ✓ Now Copy it"); };
-  $("#n_copy").onclick = () => { if (!nt.value) return toast("Create a code first", true); try { navigator.clipboard.writeText(nt.value); toast("Copied ✓ Paste it in the ntfy app"); } catch(e){ toast(nt.value); } };
-  $("#n_test").onclick = (e) => act(async () => {
-    const t = nt.value.trim(); if (!/^[A-Za-z0-9_-]{6,64}$/.test(t)) throw new Error("Create a code first");
-    const r = await fetch("https://ntfy.sh/" + t, { method:"POST", body:"🔔 Test from Faisal Auto Poster - notifications work!", headers:{ "Title":"Faisal Auto Poster" } });
-    if (!r.ok) throw new Error("Test failed (" + r.status + ")");
-    toast("Test sent ✓ Check your iPhone");
+  pushStatus().then(t => { const el = $("#p_stat"); if (el) el.textContent = t; });
+  $("#p_on").onclick = (e) => act(async () => { await enablePush(); toast("Notifications are ON ✓ Tap Send test"); const el = $("#p_stat"); if (el) el.textContent = await pushStatus(); }, e.target);
+  $("#p_test").onclick = (e) => act(async () => {
+    if (!CFG.push_enc) throw new Error("First tap Turn on notifications");
+    await gh(`/repos/${S.repo}/actions/workflows/autopost.yml/dispatches`, { method:"POST", body: JSON.stringify({ ref:"main", inputs:{ action:"notify_test", account:"", video:"" } }) });
+    toast("Test requested ✓ The notification comes in 1-3 minutes");
   }, e.target);
-  $("#n_save").onclick = (e) => act(async () => {
-    const t = nt.value.trim();
-    if (t && !/^[A-Za-z0-9_-]{6,64}$/.test(t)) throw new Error("Code can only have letters, numbers, - and _");
-    if (t) CFG.ntfy_enc = await encryptJSON({ topic: t }, S.pass); else delete CFG.ntfy_enc;
-    CFG.notify_success = $("#n_succ").checked;
-    await saveConfig("notifications"); toast(t ? "Notifications saved ✓" : "Notifications turned off");
-  }, e.target);
+  $("#n_succ").onchange = (e) => act(async () => { CFG.notify_success = e.target.checked; await saveConfig("notifications"); toast("Saved ✓"); });
 };
 
 // ---------------------------------------------------------------- render

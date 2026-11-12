@@ -52,6 +52,7 @@ class Ctx:
         self.user_token = ""
         self.pages_refreshed = False
         self.ntfy_topic = ""
+        self.push = None
         self.notes = []            # things to tell the user on the phone at the end of the run
         self.uploaded = {}         # page name -> videos uploaded this run
         self.posted = set()        # TikTok video ids already posted on any Page
@@ -396,16 +397,93 @@ def make_upload(ctx, page_id, path, caption, vid):
     return "make", "via Make"
 
 
+# ------------------------------------------------------------------ phone notifications (Web Push)
+# The iPhone home-screen app itself receives the notifications - no extra app needed.
+def _b64u(b):
+    return base64.urlsafe_b64encode(b).rstrip(b"=").decode()
+
+
+def _b64u_dec(s):
+    return base64.urlsafe_b64decode(s + "=" * (-len(s) % 4))
+
+
+def _hmac(key, data):
+    import hmac as _h
+    return _h.new(key, data, hashlib.sha256).digest()
+
+
+def webpush_encrypt(p256dh, auth, payload):
+    """RFC 8291 (aes128gcm) message encryption."""
+    from cryptography.hazmat.primitives.asymmetric import ec
+    from cryptography.hazmat.primitives import serialization
+    from cryptography.hazmat.primitives.ciphers.aead import AESGCM
+    ua_pub = _b64u_dec(p256dh)
+    auth_secret = _b64u_dec(auth)
+    ua_key = ec.EllipticCurvePublicKey.from_encoded_point(ec.SECP256R1(), ua_pub)
+    as_priv = ec.generate_private_key(ec.SECP256R1())
+    as_pub = as_priv.public_key().public_bytes(serialization.Encoding.X962,
+                                               serialization.PublicFormat.UncompressedPoint)
+    shared = as_priv.exchange(ec.ECDH(), ua_key)
+    ikm = _hmac(_hmac(auth_secret, shared), b"WebPush: info\x00" + ua_pub + as_pub + b"\x01")
+    salt = os.urandom(16)
+    prk = _hmac(salt, ikm)
+    cek = _hmac(prk, b"Content-Encoding: aes128gcm\x00\x01")[:16]
+    nonce = _hmac(prk, b"Content-Encoding: nonce\x00\x01")[:12]
+    ct = AESGCM(cek).encrypt(nonce, payload + b"\x02", None)
+    return salt + (4096).to_bytes(4, "big") + bytes([len(as_pub)]) + as_pub + ct
+
+
+def vapid_header(endpoint, d_b64, pub_b64):
+    from urllib.parse import urlparse
+    from cryptography.hazmat.primitives.asymmetric import ec
+    from cryptography.hazmat.primitives import hashes
+    from cryptography.hazmat.primitives.asymmetric.utils import decode_dss_signature
+    u = urlparse(endpoint)
+    head = _b64u(json.dumps({"typ": "JWT", "alg": "ES256"}, separators=(",", ":")).encode())
+    body = _b64u(json.dumps({"aud": f"{u.scheme}://{u.netloc}", "exp": int(time.time()) + 12 * 3600,
+                             "sub": "mailto:autoposter@users.noreply.github.com"}, separators=(",", ":")).encode())
+    key = ec.derive_private_key(int.from_bytes(_b64u_dec(d_b64), "big"), ec.SECP256R1())
+    r, s_ = decode_dss_signature(key.sign(f"{head}.{body}".encode(), ec.ECDSA(hashes.SHA256())))
+    sig = _b64u(r.to_bytes(32, "big") + s_.to_bytes(32, "big"))
+    return f"vapid t={head}.{body}.{sig}, k={pub_b64}"
+
+
+def send_push(ctx, title, body):
+    if not ctx.push:
+        return
+    payload = json.dumps({"title": title, "body": body}, ensure_ascii=False).encode()[:3000]
+    dead = set(ctx.state.get("push_dead", []))
+    for sub in ctx.push.get("subs", []):
+        ep = sub.get("endpoint", "")
+        tag = hashlib.sha256(ep.encode()).hexdigest()[:12]
+        if not ep or tag in dead:
+            continue
+        try:
+            r = requests.post(ep, data=webpush_encrypt(sub["p256dh"], sub["auth"], payload), timeout=20, headers={
+                "Authorization": vapid_header(ep, ctx.push["vapid_d"], ctx.cfg.get("push_pub", "")),
+                "Content-Encoding": "aes128gcm", "Content-Type": "application/octet-stream",
+                "TTL": "86400", "Urgency": "high"})
+            if r.status_code in (404, 410):       # phone removed / app deleted
+                ctx.state.setdefault("push_dead", []).append(tag)
+            elif r.status_code >= 400:
+                print("push failed:", r.status_code, r.text[:200])
+        except Exception as e:
+            print("push failed:", e)
+
+
 def notify(ctx):
     """Send one phone notification (free ntfy app) at the end of the run, only if something happened."""
     if ctx.uploaded and ctx.cfg.get("notify_success", True):
         total = sum(ctx.uploaded.values())
         parts = ", ".join(f"{n} ({c})" for n, c in ctx.uploaded.items())
         ctx.notes.insert(0, ("default", f"✅ {total} video{'s' if total != 1 else ''} uploaded: {parts}"))
-    if not ctx.ntfy_topic or not ctx.notes:
+    if not ctx.notes:
         return
     high = any(p == "high" for p, _ in ctx.notes)
     body = "\n".join(m for _, m in ctx.notes)[:3500]
+    send_push(ctx, "Faisal Auto Poster" + (" ⚠️" if high else ""), body)
+    if not ctx.ntfy_topic:
+        return
     try:
         requests.post(f"https://ntfy.sh/{ctx.ntfy_topic}", data=body.encode("utf-8"), timeout=20,
                       headers={"Title": "Faisal Auto Poster", "Priority": "high" if high else "default",
@@ -655,6 +733,11 @@ def main():
         except Exception:
             ctx.log("Could not unlock the Facebook login: GitHub Secret 'APP_KEY' must match the app password", "error")
 
+    if cfg.get("push_enc"):
+        try:
+            ctx.push = decrypt_tokens(cfg["push_enc"], key) or None
+        except Exception:
+            pass
     if cfg.get("ntfy_enc"):
         try:
             ctx.ntfy_topic = (decrypt_tokens(cfg["ntfy_enc"], key) or {}).get("topic", "").strip()
@@ -693,6 +776,8 @@ def main():
                     if pending:
                         due.append((acc, pending))
             upload_round(ctx, due)
+        elif action == "notify_test":
+            ctx.notes.append(("default", "🔔 Test - notifications are working! You will get a message here when videos upload, fail, or Facebook pauses."))
         else:
             ctx.manual = action in ("upload_video",)
             sel = [a for a in accounts if a["id"] == target] if target else accounts
