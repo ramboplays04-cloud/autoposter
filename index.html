@@ -332,7 +332,8 @@ function formValues(){
            mode: $("#f_mode").value, use_caption: $("#f_cap").checked, remove_hashtags: $("#f_hash").checked,
            extra: $("#f_extra").value.trim(), import_old: $("#f_old").checked };
 }
-V.add = () => `<h1>Add TikTok account</h1><p class="sub">Paste the link, choose a Page, set the times. The tool does the rest.</p>` + accountForm(null);
+V.add = () => `<h1>Add TikTok account</h1><p class="sub">Paste the link, choose a Page, set the times. The tool does the rest.</p>
+  <a class="card" href="#bulk" style="display:block;border-color:#1f4e57"><b>⚡ Many accounts?</b> <span class="meta">Paste all TikTok links at once - each one is matched to its Facebook Page automatically.</span></a>` + accountForm(null);
 V.add.bind = () => {
   $("#f_save").onclick = (e) => act(async () => {
     const lines = $("#f_tt").value.split("\n").map(normUrl).filter(Boolean);
@@ -345,6 +346,98 @@ V.add.bind = () => {
     location.hash = "#home";
   }, e.target);
 };
+// ---------------------------------------------------------------- bulk add with automatic Page matching
+const normName = (t) => String(t||"").toLowerCase().normalize("NFKD").replace(/[^a-z0-9]/g, "");
+function lev(a, b){
+  const m = a.length, n = b.length; if (!m || !n) return Math.max(m, n);
+  let prev = Array.from({length: n+1}, (_, j) => j);
+  for (let i = 1; i <= m; i++){ const cur = [i]; for (let j = 1; j <= n; j++) cur[j] = Math.min(prev[j]+1, cur[j-1]+1, prev[j-1] + (a[i-1]===b[j-1]?0:1)); prev = cur; }
+  return prev[n];
+}
+function matchScore(user, pageName){
+  const a = normName(user), b = normName(pageName); if (!a || !b) return 0;
+  if (a === b) return 100;
+  const sim = 1 - lev(a, b) / Math.max(a.length, b.length);
+  let s = sim * 80;
+  if (a.includes(b) || b.includes(a)) s = Math.max(s, 70 + 25 * Math.min(a.length, b.length) / Math.max(a.length, b.length));
+  const words = String(pageName).toLowerCase().split(/[^a-z0-9]+/).filter(w => w.length >= 3);
+  if (words.length){ const hit = words.filter(w => a.includes(w)).length / words.length; s = Math.max(s, 50 + 40 * hit * (hit === 1 ? 1 : 0.8)); }
+  return Math.round(s);
+}
+function autoMatch(users, pages){
+  const pairs = [];
+  users.forEach((u, i) => pages.forEach(p => pairs.push({ i, id: String(p.id), sc: matchScore(u, p.name) })));
+  pairs.sort((x, y) => y.sc - x.sc);
+  const res = users.map(() => ({ id: "", sc: 0 })), usedU = new Set(), usedP = new Set();
+  for (const p of pairs){ if (p.sc < 60) break; if (usedU.has(p.i) || usedP.has(p.id)) continue; res[p.i] = { id: p.id, sc: p.sc }; usedU.add(p.i); usedP.add(p.id); }
+  return res;
+}
+let BULK = [];
+const DEFAULT_TPL = { times: ["22:05"], per_slot: 2, mode: "reel", use_caption: true, remove_hashtags: false, extra: "", import_old: true };
+V.bulk = () => {
+  const pages = allPages();
+  const tplOpts = CFG.accounts.map(a => `<option value="${a.id}">@${esc(userOf(a.tiktok))} (${esc((a.times||[]).join(", "))}, ${a.per_slot||1} per time, ${a.mode==="video"?"Video":"Reel"})</option>`).join("");
+  return `
+  <h1>Add many accounts</h1>
+  <p class="sub">Paste all your TikTok links (one per line). Each one is matched to the Facebook Page with the same / closest name. Check the list, fix anything marked ⚠, then tap Add all.</p>
+  <div class="card">
+    <label>TikTok links <div class="hint"><code>@username</code> or full links, one per line. Already-added accounts are skipped.</div></label>
+    <textarea id="b_tt" style="min-height:150px" placeholder="https://www.tiktok.com/@account1&#10;https://www.tiktok.com/@account2" autocapitalize="off" autocorrect="off"></textarea>
+    <label>Use the same settings as</label>
+    <select id="b_tpl">${tplOpts}<option value="">Default (22:05, 2 per time, Reel)</option></select>
+    <div class="hint">Times, videos per time, Reel/Video and caption settings are copied. Only the Page is different.</div>
+    ${pages.length ? "" : `<div class="hint lv-error">No Pages yet - first go to Pages and tap Refresh my Pages.</div>`}
+    <div style="margin-top:12px"><button class="btn primary full" id="b_match">⚡ Match with my Pages (${pages.length})</button></div>
+  </div>
+  <div id="b_res"></div>`;
+};
+function bulkResult(){
+  const pages = allPages();
+  if (!BULK.length) return "";
+  const ok = BULK.filter(r => r.page).length;
+  const opts = (sel) => `<option value="">— Choose a Page —</option>` + pages.map(p => `<option value="${esc(p.id)}" ${String(sel)===String(p.id)?"selected":""}>${esc(p.name)}</option>`).join("");
+  return `
+  <h2>Check the matches (${ok}/${BULK.length} matched)</h2>
+  <div class="card">${BULK.map((r, i) => `
+    <div class="vid"><div class="name">@${esc(r.user)} ${r.page ? (r.auto ? `<span class="pill ok">auto ✓</span>` : `<span class="pill info">chosen</span>`) : `<span class="pill warn">⚠ choose</span>`}</div>
+    <select data-bp="${i}" style="margin-top:6px">${opts(r.page)}</select></div>`).join("")}</div>
+  <button class="btn primary full" id="b_add">Add all ${ok} account${ok===1?"":"s"}</button>
+  ${ok < BULK.length ? `<div class="hint" style="margin-top:6px">Accounts without a Page are not added.</div>` : ""}`;
+}
+V.bulk.bind = () => {
+  const draw = () => { $("#b_res").innerHTML = bulkResult(); bindRes(); };
+  const bindRes = () => {
+    document.querySelectorAll("[data-bp]").forEach(sel => sel.onchange = () => { const r = BULK[+sel.dataset.bp]; r.page = sel.value; r.auto = false; draw(); });
+    const add = $("#b_add"); if (add) add.onclick = (e) => act(async () => {
+      const tplAcc = CFG.accounts.find(a => a.id === $("#b_tpl").value);
+      const tpl = tplAcc ? { times: tplAcc.times, per_slot: tplAcc.per_slot||1, mode: tplAcc.mode||"reel", use_caption: tplAcc.use_caption!==false,
+                             remove_hashtags: !!tplAcc.remove_hashtags, extra: tplAcc.extra||"", import_old: tplAcc.import_old!==false } : DEFAULT_TPL;
+      let n = 0;
+      for (const r of BULK){ if (!r.page || CFG.accounts.some(a => normUrl(a.tiktok) === r.url)) continue;
+        CFG.accounts.push({ id: uid(), tiktok: r.url, enabled: true, page_id: r.page, ...JSON.parse(JSON.stringify(tpl)) }); n++; }
+      if (!n) throw new Error("Nothing to add - choose a Page for each account");
+      await saveConfig(`bulk add ${n} accounts`); BULK = [];
+      toast(`${n} account${n===1?"":"s"} added ✓ They will be checked on the next run.`); location.hash = "#home";
+    }, e.target);
+  };
+  $("#b_match").onclick = () => {
+    const seen = new Set(), users = [];
+    $("#b_tt").value.split(/[\n,]+/).map(x => x.trim()).filter(Boolean).forEach(line => {
+      const m = line.match(/tiktok\.com\/@([^/?#\s]+)/i) || line.match(/^@?([A-Za-z0-9._]{2,})$/);
+      if (!m) return; const url = "https://www.tiktok.com/@" + m[1];
+      if (seen.has(url.toLowerCase()) || CFG.accounts.some(a => normUrl(a.tiktok).toLowerCase() === url.toLowerCase())) return;
+      seen.add(url.toLowerCase()); users.push({ user: m[1], url });
+    });
+    if (!users.length) return toast("No new TikTok links found (already added ones are skipped)", true);
+    const taken = new Set(CFG.accounts.map(a => String(a.page_id)));
+    const free = allPages().filter(p => !taken.has(String(p.id)));
+    const m = autoMatch(users.map(u => u.user), free.length ? free : allPages());
+    BULK = users.map((u, i) => ({ ...u, page: m[i].id, auto: !!m[i].id }));
+    draw(); $("#b_res").scrollIntoView({ behavior: "smooth" });
+  };
+  if (BULK.length) draw();
+};
+
 V.edit = (id) => { const a = CFG.accounts.find(x => x.id === id); return a ? `<h1>Edit @${esc(userOf(a.tiktok))}</h1>` + accountForm(a) : `<div class="empty">Account not found</div>`; };
 V.edit.bind = (id) => {
   const a = CFG.accounts.find(x => x.id === id); if (!a) return;
@@ -577,7 +670,7 @@ function render(){
   const view = V[name] || V.home;
   $("#app").innerHTML = view(id);
   if (view.bind) view.bind(id);
-  document.querySelectorAll("#nav a").forEach(a => a.classList.toggle("on", a.dataset.r === name || (name==="acc"||name==="edit") && a.dataset.r==="home"));
+  document.querySelectorAll("#nav a").forEach(a => a.classList.toggle("on", a.dataset.r === name || (name==="acc"||name==="edit") && a.dataset.r==="home" || name==="bulk" && a.dataset.r==="add"));
   window.scrollTo(0, 0);
 }
 
