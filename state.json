@@ -1700,6 +1700,14 @@
      "status": "new",
      "attempts": 0,
      "found": "2026-11-12 22:16"
+    },
+    {
+     "id": "7707370661605428510",
+     "url": "https://www.tiktok.com/@a_biology_teacher/video/7707370661605428510",
+     "caption": "AI Science Slop #biology #apbiology #cellcycle #ai #aislop ",
+     "status": "new",
+     "attempts": 0,
+     "found": "2026-11-13 01:50"
     }
    ],
    "seen": [
@@ -1905,7 +1913,8 @@
     "7706881822222716191",
     "7700213181179890974",
     "7707086578237164831",
-    "7699100071824051486"
+    "7699100071824051486",
+    "7707370661605428510"
    ],
    "slots": {
     "2026-11-11": [
@@ -1913,13 +1922,20 @@
     ],
     "2026-11-12": [
      "22:05"
-    ]
+    ],
+    "2026-11-13": []
    },
-   "last_checked": "2026-11-12 22:16",
+   "last_checked": "2026-11-13 01:50",
    "first_done": true
   }
  },
  "log": [
+  {
+   "t": "2026-11-13 01:50",
+   "l": "info",
+   "a": "amwcd8ml6ywwg",
+   "m": "check done: 1 new videos added to queue"
+  },
   {
    "t": "2026-11-12 22:17",
    "l": "error",
@@ -2029,7 +2045,6 @@
    "m": "check done: 200 new videos added to queue"
   }
  ],
- "last_run": "2026-11-12 22:17",
- "last_action": "auto",
- "fb_error": "Facebook connection needs a refresh (tap Reconnect Facebook in the app): API access blocked. (code 200)"
+ "last_run": "2026-11-13 01:50",
+ "last_action": "auto"
 }
