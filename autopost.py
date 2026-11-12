@@ -522,7 +522,14 @@ def scan(ctx, acc):
     except Exception as e:
         ctx.log(f"TikTok check failed - {e}", "error", acc)
         st["last_checked"] = ctx.ts()
+        st["scan_fail"] = int(st.get("scan_fail") or 0) + 1
+        if st["scan_fail"] == 3:   # tell the user once, not every hour
+            ctx.notes.append(("high", f"⚠️ TikTok check for @{acc['username']} failed 3 times in a row - "
+                                      f"no new videos are coming in. Is the account link right / public? ({str(e)[:100]})"))
         return 0
+    if int(st.get("scan_fail") or 0) >= 3:
+        ctx.notes.append(("default", f"✅ TikTok check for @{acc['username']} is working again"))
+    st["scan_fail"] = 0
     seen = set(st["seen"])
     new = 0
     for it in reversed(items):  # purani pehle
@@ -706,6 +713,17 @@ def main():
     action = (os.environ.get("ACTION") or "auto").strip() or "auto"
     target = (os.environ.get("ACCOUNT") or "").strip()
     video_arg = (os.environ.get("VIDEO") or "").strip()
+
+    # "Tool stopped" alert: GitHub normally runs every ~30 min. A long gap means it was stopped / delayed.
+    try:
+        prev = datetime.datetime.strptime(state.get("last_run") or "", "%Y-%m-%d %H:%M").replace(tzinfo=ctx.tz)
+        gap_h = (ctx.now - prev).total_seconds() / 3600
+        if gap_h >= 2:
+            ctx.notes.append(("high", f"⚠️ GitHub did not run the tool for {gap_h:.0f} hours (last run {state['last_run'][5:]}). "
+                                      "It is running again now. If this repeats, tell Claude."))
+            ctx.log(f"tool did not run for {gap_h:.1f} hours", "error")
+    except ValueError:
+        pass
 
     accounts = []
     for a in cfg.get("accounts", []):

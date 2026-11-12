@@ -268,6 +268,8 @@ V.home = () => {
     <div class="card stat"><div class="n" style="color:var(--bad)">${fa}</div><div class="l">Failed</div></div>
   </div>
   ${!(CFG.fb_user_enc || CFG.tokens_enc || CFG.make_enc) ? `<div class="card notice"><b>First step:</b> Connect Facebook. <a class="btn small primary" style="margin-left:6px" href="#pages">Connect</a></div>` : (!allPages().length ? `<div class="card notice"><b>Next step:</b> Create a Facebook Page, then tap Refresh my Pages. <a class="btn small primary" style="margin-left:6px" href="#pages">Pages</a></div>` : "")}
+  ${(() => { if (!STATE.last_run) return ""; const h = (Date.now() - new Date(STATE.last_run.replace(" ", "T") + ":00+05:00")) / 36e5;
+      return h >= 2 ? `<div class="card notice lv-error"><b>⚠ GitHub has not run the tool for ${Math.floor(h)} hours.</b> Tap “Run full check now”. If it keeps happening, tell Claude.</div>` : ""; })()}
   ${CFG.paused ? `<div class="card notice" style="color:var(--warn)"><b>⏸ All uploads are paused.</b> Videos stay in the queue. Tap “Resume all” to start again.</div>` : ""}
   ${STATE.fb_error ? `<div class="card notice lv-error">${esc(STATE.fb_error)}</div>` : ""}
   ${errs.map(l => `<div class="card notice lv-error">${esc(l.m)}</div>`).join("")}
