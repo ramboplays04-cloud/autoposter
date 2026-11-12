@@ -41,7 +41,9 @@
   "finder": {
     "regions": [
       "US",
-      "GB"
+      "GB",
+      "CA",
+      "AU"
     ],
     "min_followers": 200000,
     "max_followers": 4000000
