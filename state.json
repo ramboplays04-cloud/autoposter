@@ -1943,6 +1943,12 @@
  },
  "log": [
   {
+   "t": "2026-11-13 04:34",
+   "l": "info",
+   "a": "amwcd8ml6ywwg",
+   "m": "looked at 4 video(s) already on the Page - 4 known"
+  },
+  {
    "t": "2026-11-13 04:11",
    "l": "info",
    "a": "amwcd8ml6ywwg",
@@ -2075,7 +2081,7 @@
    "m": "check done: 200 new videos added to queue"
   }
  ],
- "last_run": "2026-11-13 04:11",
- "last_action": "scan",
+ "last_run": "2026-11-13 04:34",
+ "last_action": "dedupe",
  "fb_conn": "92cc7902cef0a19b"
 }
