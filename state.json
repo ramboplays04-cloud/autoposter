@@ -2068,7 +2068,7 @@
    "m": "check done: 200 new videos added to queue"
   }
  ],
- "last_run": "2026-11-13 03:49",
- "last_action": "auto",
+ "last_run": "2026-11-13 03:53",
+ "last_action": "notify_test",
  "fb_conn": "92cc7902cef0a19b"
 }
