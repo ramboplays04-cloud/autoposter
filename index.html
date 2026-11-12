@@ -232,9 +232,10 @@ V.home = () => {
     <div class="card stat"><div class="n" style="color:var(--bad)">${fa}</div><div class="l">Failed</div></div>
   </div>
   ${!(CFG.fb_user_enc || CFG.tokens_enc || CFG.make_enc) ? `<div class="card notice"><b>First step:</b> Connect Facebook. <a class="btn small primary" style="margin-left:6px" href="#pages">Connect</a></div>` : (!allPages().length ? `<div class="card notice"><b>Next step:</b> Create a Facebook Page, then tap Refresh my Pages. <a class="btn small primary" style="margin-left:6px" href="#pages">Pages</a></div>` : "")}
+  ${CFG.paused ? `<div class="card notice" style="color:var(--warn)"><b>⏸ All uploads are paused.</b> Videos stay in the queue. Tap “Resume all” to start again.</div>` : ""}
   ${STATE.fb_error ? `<div class="card notice lv-error">${esc(STATE.fb_error)}</div>` : ""}
   ${errs.map(l => `<div class="card notice lv-error">${esc(l.m)}</div>`).join("")}
-  <div class="row" style="margin:6px 0 4px"><button class="btn small" id="h_run">▶ Run full check now</button><button class="btn small" id="h_ref">↻ Refresh</button></div>
+  <div class="row" style="margin:6px 0 4px"><button class="btn small" id="h_run">▶ Run full check now</button><button class="btn small" id="h_ref">↻ Refresh</button><button class="btn small ${CFG.paused?"primary":""}" id="h_pause">${CFG.paused ? "▶ Resume all" : "⏸ Pause all"}</button></div>
   <h2>Accounts (${CFG.accounts.length})</h2>
   ${CFG.accounts.length ? "" : `<div class="card empty">No TikTok accounts yet.<br><br><a class="btn primary" href="#add">+ Add account</a></div>`}
   ${CFG.accounts.map(a => { const s = accStats(a.id); return `
@@ -253,6 +254,11 @@ V.home = () => {
 V.home.bind = () => {
   $("#h_run").onclick = (e) => act(() => dispatch("auto"), e.target);
   $("#h_ref").onclick = (e) => act(async () => { await loadAll(); render(); }, e.target);
+  $("#h_pause").onclick = (e) => {
+    if (!CFG.paused && !confirm("Pause ALL automatic uploads? (Videos stay in the queue)")) return;
+    act(async () => { CFG.paused = !CFG.paused; await saveConfig(CFG.paused ? "pause all" : "resume all");
+      toast(CFG.paused ? "All uploads paused ⏸" : "Uploads resumed ▶"); render(); }, e.target);
+  };
   document.querySelectorAll("[data-up]").forEach(b => b.onclick = () => act(() => dispatch("upload_now", b.dataset.up), b));
   document.querySelectorAll("[data-scan]").forEach(b => b.onclick = () => act(() => dispatch("scan", b.dataset.scan), b));
   document.querySelectorAll("[data-tog]").forEach(b => b.onclick = () => act(async () => {
@@ -494,16 +500,51 @@ V.settings = () => `
     <label>Latest videos to look at per check</label><input id="c_lim" type="number" min="5" max="200" value="${CFG.scan_limit||30}">
     <label>Retries on failure</label><input id="c_try" type="number" min="1" max="10" value="${CFG.max_attempts||3}">
     <label>Time zone</label><input id="c_tz" value="${esc(CFG.timezone||"Asia/Karachi")}">
+    <label>Gap between Pages (minutes) <div class="hint">Pages upload one after another with a random gap in this range, so Facebook doesn't see 30 posts in the same minute. Safe default: 3 to 6.</div></label>
+    <div class="row" style="flex-wrap:nowrap"><input id="c_gmin" type="number" min="1" max="30" value="${CFG.gap_min||3}"><span style="align-self:center">to</span><input id="c_gmax" type="number" min="1" max="30" value="${CFG.gap_max||6}"></div>
     <label>Facebook Graph API version <div class="hint">If Facebook retires this version, enter a newer one, e.g. v24.0</div></label><input id="c_ver" value="${esc(CFG.graph_version||"v23.0")}">
     <div style="margin-top:14px"><button class="btn primary full" id="c_save">Save</button></div>
+  </div>
+  <h2>Phone notifications 🔔</h2>
+  <div class="card">
+    <div class="meta">Get a message on your iPhone when videos upload, a video fails, or Facebook pauses uploads.</div>
+    <ol class="meta" style="padding-left:18px;margin:10px 0">
+      <li>Install the free <b>ntfy</b> app from the App Store and allow notifications.</li>
+      <li>Tap <b>Create my code</b> below, then <b>Copy</b>.</li>
+      <li>In the ntfy app tap <b>+</b>, paste the code as the topic and tap <b>Subscribe</b>.</li>
+      <li>Tap <b>Save</b>, then <b>Send test</b>.</li>
+    </ol>
+    <label>Your notification code <div class="hint">Keep it private. Saved locked with your password.</div></label>
+    <input id="n_topic" autocapitalize="off" autocorrect="off" placeholder="${CFG.ntfy_enc ? "loading…" : "tap Create my code"}">
+    <div class="row" style="margin-top:8px"><button class="btn small" id="n_new">Create my code</button><button class="btn small" id="n_copy">Copy</button><button class="btn small" id="n_test">Send test</button></div>
+    <label class="check"><input type="checkbox" id="n_succ" ${CFG.notify_success!==false?"checked":""}><span>Also notify for successful uploads<div class="hint">Errors and Facebook pauses are always sent</div></span></label>
+    <div style="margin-top:6px"><button class="btn primary full" id="n_save">Save</button></div>
   </div>
   <h2>Connection</h2>
   <div class="card"><div class="meta">Repo: <b>${esc(S.repo)}</b></div><div style="margin-top:10px" class="row"><a class="btn small" href="#setup">Change GitHub token / password</a></div></div>`;
 V.settings.bind = () => {
   $("#c_save").onclick = (e) => act(async () => {
     Object.assign(CFG, { check_minutes: Math.max(30, +$("#c_chk").value||60), scan_limit: +$("#c_lim").value||30, max_attempts: +$("#c_try").value||3,
-                         timezone: $("#c_tz").value.trim()||"Asia/Karachi", graph_version: $("#c_ver").value.trim()||"v23.0" });
+                         timezone: $("#c_tz").value.trim()||"Asia/Karachi", graph_version: $("#c_ver").value.trim()||"v23.0",
+                         gap_min: Math.max(1, +$("#c_gmin").value||3), gap_max: Math.max(+$("#c_gmin").value||3, +$("#c_gmax").value||6) });
     await saveConfig("settings"); toast("Saved ✓");
+  }, e.target);
+  const nt = $("#n_topic");
+  if (CFG.ntfy_enc) decryptJSON(CFG.ntfy_enc, S.pass).then(d => { if (!nt.value) nt.value = d.topic || ""; nt.placeholder = ""; }).catch(() => { nt.placeholder = "wrong password"; });
+  $("#n_new").onclick = () => { const r = crypto.getRandomValues(new Uint8Array(9)); nt.value = "fap-" + Array.from(r, b => b.toString(36).padStart(2,"0")).join("").slice(0,16); toast("Code created ✓ Now Copy it"); };
+  $("#n_copy").onclick = () => { if (!nt.value) return toast("Create a code first", true); try { navigator.clipboard.writeText(nt.value); toast("Copied ✓ Paste it in the ntfy app"); } catch(e){ toast(nt.value); } };
+  $("#n_test").onclick = (e) => act(async () => {
+    const t = nt.value.trim(); if (!/^[A-Za-z0-9_-]{6,64}$/.test(t)) throw new Error("Create a code first");
+    const r = await fetch("https://ntfy.sh/" + t, { method:"POST", body:"🔔 Test from Faisal Auto Poster - notifications work!", headers:{ "Title":"Faisal Auto Poster" } });
+    if (!r.ok) throw new Error("Test failed (" + r.status + ")");
+    toast("Test sent ✓ Check your iPhone");
+  }, e.target);
+  $("#n_save").onclick = (e) => act(async () => {
+    const t = nt.value.trim();
+    if (t && !/^[A-Za-z0-9_-]{6,64}$/.test(t)) throw new Error("Code can only have letters, numbers, - and _");
+    if (t) CFG.ntfy_enc = await encryptJSON({ topic: t }, S.pass); else delete CFG.ntfy_enc;
+    CFG.notify_success = $("#n_succ").checked;
+    await saveConfig("notifications"); toast(t ? "Notifications saved ✓" : "Notifications turned off");
   }, e.target);
 };
 

@@ -11,6 +11,8 @@ import json
 import base64
 import datetime
 import hashlib
+import random
+import time
 import tempfile
 import traceback
 from zoneinfo import ZoneInfo
@@ -49,6 +51,12 @@ class Ctx:
         self.scanned = set()
         self.user_token = ""
         self.pages_refreshed = False
+        self.ntfy_topic = ""
+        self.notes = []            # things to tell the user on the phone at the end of the run
+        self.uploaded = {}         # page name -> videos uploaded this run
+        self.posted = set()        # TikTok video ids already posted on any Page
+        self.started = time.monotonic()
+        self.manual = False
 
     # ---- Facebook pause ("hold") so a block is never hammered
     def hold(self):
@@ -80,6 +88,7 @@ class Ctx:
                                       f"The tool is waiting safely until {until} and will not retry before that, "
                                       "so the block does not get worse. No videos are lost.")
         self.log(f"Facebook {kind} - all uploads paused until {until if kind != 'auth' else 'Reconnect'}: {err}", "error")
+        self.notes.append(("high", "⚠️ " + self.state["fb_error"]))
 
     def ts(self):
         return datetime.datetime.now(self.tz).strftime("%Y-%m-%d %H:%M")
@@ -387,6 +396,24 @@ def make_upload(ctx, page_id, path, caption, vid):
     return "make", "via Make"
 
 
+def notify(ctx):
+    """Send one phone notification (free ntfy app) at the end of the run, only if something happened."""
+    if ctx.uploaded and ctx.cfg.get("notify_success", True):
+        total = sum(ctx.uploaded.values())
+        parts = ", ".join(f"{n} ({c})" for n, c in ctx.uploaded.items())
+        ctx.notes.insert(0, ("default", f"✅ {total} video{'s' if total != 1 else ''} uploaded: {parts}"))
+    if not ctx.ntfy_topic or not ctx.notes:
+        return
+    high = any(p == "high" for p, _ in ctx.notes)
+    body = "\n".join(m for _, m in ctx.notes)[:3500]
+    try:
+        requests.post(f"https://ntfy.sh/{ctx.ntfy_topic}", data=body.encode("utf-8"), timeout=20,
+                      headers={"Title": "Faisal Auto Poster", "Priority": "high" if high else "default",
+                               "Tags": "warning" if high else "white_check_mark"})
+    except Exception as e:
+        print("notification failed:", e)
+
+
 def refresh_pages(ctx):
     """Ask Facebook for the Page list. Called at most once per run and only when an upload needs a
     Page that has no saved token. (Before: this ran every 30 minutes = 48 calls a day for nothing.)"""
@@ -455,6 +482,10 @@ def process(ctx, acc, video):
     if not token and not ctx.make_hook:
         ctx.log("Facebook is not connected. In the app go to Pages and connect via Make.", "error", acc)
         return None
+    if video["id"] in ctx.posted and not ctx.manual:
+        video.update(status="skipped", error="Already posted on another Page (duplicate protection)")
+        ctx.log(f"video {video['id'][-6:]} skipped - already posted on another Page", "info", acc)
+        return "dup"
     max_attempts = int(ctx.cfg.get("max_attempts") or 3)
     ver = ctx.cfg.get("graph_version") or "v23.0"
     with tempfile.TemporaryDirectory() as tmp:
@@ -470,6 +501,10 @@ def process(ctx, acc, video):
             ctx.state.pop("fb_error", None)
             page_name = next((p["name"] for p in ctx.cfg.get("pages", []) if str(p["id"]) == page_id), page_id)
             ctx.log(f"video {video['id'][-6:]} -> {page_name} uploaded ({kind})", "success", acc)
+            ctx.posted.add(video["id"])
+            ctx.state.setdefault("posted_ids", []).append(video["id"])
+            del ctx.state["posted_ids"][:-20000]
+            ctx.uploaded[page_name] = ctx.uploaded.get(page_name, 0) + 1
             return True
         except Exception as e:
             kind = fb_hold_kind(e)
@@ -483,6 +518,8 @@ def process(ctx, acc, video):
             video["status"] = "retry" if video["attempts"] < max_attempts else "failed"
             video["error"] = str(e)[:300]
             ctx.log(f"video {video['id'][-6:]} fail ({video['attempts']}/{max_attempts}) - {e}", "error", acc)
+            if video["status"] == "failed":
+                ctx.notes.append(("high", f"❌ @{acc['username']}: video {video['id'][-6:]} failed - {str(e)[:120]}"))
             return False
 
 
@@ -490,15 +527,19 @@ def post_next(ctx, acc, count):
     st = ctx.acc_state(acc)
     done = tries = 0
     while done < count and tries < count + 3:
-        tries += 1
         video = next((v for v in st["videos"] if v["status"] in ("new", "retry")), None)
         if not video:
             if acc["id"] not in ctx.scanned and scan(ctx, acc) > 0:
                 continue
             ctx.log("no new videos in queue", "info", acc)
             break
+        if done and not ctx.manual:
+            time.sleep(random.randint(40, 120))   # small human-like gap between videos on the same Page
         ok = process(ctx, acc, video)
-        if ok is None:      # setup problem (no Page / not connected): don't retry this run
+        if ok == "dup":     # duplicate skipped, take the next video (doesn't use up a try)
+            continue
+        tries += 1
+        if ok is None:      # setup problem / Facebook paused: don't retry this run
             break
         if ok:
             done += 1
@@ -538,16 +579,46 @@ def auto(ctx, acc):
     passed = [s for s in slots if s <= hhmm]
     if new_account:  # naya account: aaj ke guzre slots par ek dum upload na karo
         done.extend(s for s in passed if s not in done)
-        return
+        return []
     pending = [s for s in passed if s not in done]
+    if pending and ctx.cfg.get("paused"):
+        done.extend(pending)
+        ctx.log(f"{pending[-1]} slot skipped - all uploads are paused (Home → Resume all)", "info", acc)
+        return []
     if pending and ctx.hold():
         done.extend(pending)
         ctx.log(f"{pending[-1]} slot skipped - Facebook is paused, videos stay in the queue for the next slot", "info", acc)
-        return
-    if pending:
+        return []
+    return pending
+
+
+RUN_BUDGET = 40 * 60   # stop starting new Pages after 40 min; the rest continue in the next run
+
+
+def upload_round(ctx, due):
+    """Upload Page by Page with a random 3-6 minute gap between Pages, so 30 Pages don't all post
+    in the same minute (that looks like a bot to Facebook)."""
+    gmin = max(1, int(ctx.cfg.get("gap_min") or 3))
+    gmax = max(gmin, int(ctx.cfg.get("gap_max") or 6))
+    first = True
+    for i, (acc, pending) in enumerate(due):
+        st = ctx.acc_state(acc)
+        done = st["slots"].setdefault(ctx.now.date().isoformat(), [])
+        if ctx.hold():
+            done.extend(pending)
+            continue
+        if not first:
+            gap = random.randint(gmin * 60, gmax * 60)
+            if time.monotonic() - ctx.started + gap > RUN_BUDGET:
+                left = len(due) - i
+                ctx.log(f"{left} Page(s) left - they will upload in the next run (keeps the gaps safe)", "info")
+                break
+            time.sleep(gap)
         done.extend(pending)
         ctx.log(f"{pending[-1]} slot - starting upload", "info", acc)
-        post_next(ctx, acc, max(1, int(acc.get("per_slot") or 1)))
+        if post_next(ctx, acc, max(1, int(acc.get("per_slot") or 1))):
+            first = False
+        save_state(ctx.state)
 
 
 def main():
@@ -584,6 +655,17 @@ def main():
         except Exception:
             ctx.log("Could not unlock the Facebook login: GitHub Secret 'APP_KEY' must match the app password", "error")
 
+    if cfg.get("ntfy_enc"):
+        try:
+            ctx.ntfy_topic = (decrypt_tokens(cfg["ntfy_enc"], key) or {}).get("topic", "").strip()
+        except Exception:
+            pass
+
+    # Duplicate protection: every TikTok video id that is already on any Page
+    ctx.posted = set(state.get("posted_ids", []))
+    for st in state.get("accounts", {}).values():
+        ctx.posted.update(v["id"] for v in st.get("videos", []) if v.get("status") == "uploaded")
+
     # Reconnect / Refresh my Pages in the app = a fresh start: clear the pause and old warnings
     conn = hashlib.sha256((cfg.get("fb_user_enc", "") + cfg.get("tokens_enc", "")).encode()).hexdigest()[:16]
     if state.get("fb_conn") != conn:
@@ -604,10 +686,15 @@ def main():
 
     try:
         if action == "auto":
+            due = []
             for acc in accounts:
                 if acc.get("enabled", True):
-                    auto(ctx, acc)
+                    pending = auto(ctx, acc)
+                    if pending:
+                        due.append((acc, pending))
+            upload_round(ctx, due)
         else:
+            ctx.manual = action in ("upload_video",)
             sel = [a for a in accounts if a["id"] == target] if target else accounts
             if not sel:
                 ctx.log(f"account '{target}' not found", "error")
@@ -648,6 +735,7 @@ def main():
     for st in state.get("accounts", {}).values():
         trim(st)
     cleanup_media(ctx)
+    notify(ctx)
     state["last_run"] = ctx.ts()
     state["last_action"] = action
     save_state(state)
