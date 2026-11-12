@@ -10,6 +10,7 @@ import re
 import json
 import base64
 import datetime
+import hashlib
 import tempfile
 import traceback
 from zoneinfo import ZoneInfo
@@ -46,6 +47,39 @@ class Ctx:
         self.tokens = {}
         self.make_hook = ""
         self.scanned = set()
+        self.user_token = ""
+        self.pages_refreshed = False
+
+    # ---- Facebook pause ("hold") so a block is never hammered
+    def hold(self):
+        h = self.state.get("fb_hold")
+        if not h:
+            return None
+        if h.get("kind") == "auth":
+            return h               # only a Reconnect clears this
+        try:
+            until = datetime.datetime.strptime(h["until"], "%Y-%m-%d %H:%M").replace(tzinfo=self.tz)
+        except (KeyError, ValueError):
+            until = self.now
+        if datetime.datetime.now(self.tz) >= until:
+            self.state.pop("fb_hold", None)
+            self.state.pop("fb_error", None)
+            self.log("Facebook pause is over - uploads resume", "info")
+            return None
+        return h
+
+    def set_hold(self, kind, err):
+        hours = {"rate": 2, "block": 12}.get(kind, 0)
+        until = (datetime.datetime.now(self.tz) + datetime.timedelta(hours=hours)).strftime("%Y-%m-%d %H:%M")
+        self.state["fb_hold"] = {"kind": kind, "until": until, "reason": str(err)[:200], "since": self.ts()}
+        if kind == "auth":
+            self.state["fb_error"] = ("Facebook login expired - tap Reconnect Facebook in the Pages tab. "
+                                      "Uploads are paused until then (no videos are lost).")
+        else:
+            self.state["fb_error"] = (f"Facebook paused uploads ({'too many requests' if kind == 'rate' else 'access limited'}). "
+                                      f"The tool is waiting safely until {until} and will not retry before that, "
+                                      "so the block does not get worse. No videos are lost.")
+        self.log(f"Facebook {kind} - all uploads paused until {until if kind != 'auth' else 'Reconnect'}: {err}", "error")
 
     def ts(self):
         return datetime.datetime.now(self.tz).strftime("%Y-%m-%d %H:%M")
@@ -155,7 +189,33 @@ def tiktok_download(url, folder):
 
 # ------------------------------------------------------------------ Facebook
 class FBError(Exception):
-    pass
+    def __init__(self, msg, code=None):
+        super().__init__(msg)
+        self.code = code
+
+
+# Facebook "stop" signals. When one of these comes back, the tool must NOT keep trying:
+# repeated calls while blocked make Facebook's block longer and stricter.
+BLOCK_WORDS = ("blocked", "limited access", "security reasons", "cannot call api",
+               "temporarily", "restricted", "checkpoint")
+RATE_CODES = {4, 17, 32, 341, 613, 80001}       # too many calls -> short pause
+AUTH_CODES = {102, 190, 463, 467}                # login expired -> needs Reconnect Facebook
+BLOCK_CODES = {200, 10, 368, 1609005}            # access blocked -> long pause
+
+
+def fb_hold_kind(err):
+    """Return 'block' / 'rate' / 'auth' if this Facebook error means we must stop, else None."""
+    if not isinstance(err, FBError):
+        return None
+    code = err.code
+    msg = str(err).lower()
+    if code in AUTH_CODES:
+        return "auth"
+    if code in RATE_CODES:
+        return "rate"
+    if code in BLOCK_CODES or any(w in msg for w in BLOCK_WORDS):
+        return "block"
+    return None
 
 
 def _fb(resp):
@@ -165,7 +225,7 @@ def _fb(resp):
         raise FBError(f"HTTP {resp.status_code}: {resp.text[:200]}")
     if isinstance(data, dict) and data.get("error"):
         e = data["error"]
-        raise FBError(f"{e.get('message')} (code {e.get('code')})")
+        raise FBError(f"{e.get('message')} (code {e.get('code')})", e.get("code"))
     if resp.status_code >= 400:
         raise FBError(f"HTTP {resp.status_code}: {resp.text[:200]}")
     return data
@@ -213,7 +273,9 @@ def fb_upload(ver, page_id, token, path, desc, mode):
         return fb_upload_video(ver, page_id, token, path, desc), "video"
     try:
         return fb_upload_reel(ver, page_id, token, path, desc), "reel"
-    except FBError:
+    except FBError as e:
+        if fb_hold_kind(e):   # blocked / rate limited / logged out: don't make a second call
+            raise
         return fb_upload_video(ver, page_id, token, path, desc), "video (reel failed)"
 
 
@@ -325,6 +387,23 @@ def make_upload(ctx, page_id, path, caption, vid):
     return "make", "via Make"
 
 
+def refresh_pages(ctx):
+    """Ask Facebook for the Page list. Called at most once per run and only when an upload needs a
+    Page that has no saved token. (Before: this ran every 30 minutes = 48 calls a day for nothing.)"""
+    ctx.pages_refreshed = True
+    try:
+        found = fb_list_pages(ctx.cfg.get("graph_version") or "v23.0", ctx.user_token)
+        for p in found:
+            ctx.tokens[str(p["id"])] = p["access_token"]
+        ctx.state["fb_pages"] = [{"id": str(p["id"]), "name": p.get("name", "")} for p in found]
+    except Exception as e:
+        kind = fb_hold_kind(e)
+        if kind:
+            ctx.set_hold(kind, e)
+        else:
+            ctx.state["fb_error"] = f"Facebook connection needs a refresh (tap Reconnect Facebook in the app): {str(e)[:150]}"
+
+
 # ------------------------------------------------------------------ core
 def scan(ctx, acc):
     st = ctx.acc_state(acc)
@@ -364,7 +443,15 @@ def process(ctx, acc, video):
     if not page_id:
         ctx.log("no Facebook Page selected for this account (Edit the account and choose a Page)", "error", acc)
         return None
+    if ctx.hold():
+        h = ctx.state["fb_hold"]
+        ctx.log(f"skipped - Facebook is paused until {h.get('until') if h.get('kind') != 'auth' else 'you Reconnect Facebook'}",
+                "info", acc)
+        return None
     token = ctx.tokens.get(page_id)
+    if not token and ctx.user_token and not ctx.pages_refreshed:
+        refresh_pages(ctx)          # brand-new Page: look it up once (only when actually needed)
+        token = ctx.tokens.get(page_id)
     if not token and not ctx.make_hook:
         ctx.log("Facebook is not connected. In the app go to Pages and connect via Make.", "error", acc)
         return None
@@ -380,10 +467,18 @@ def process(ctx, acc, video):
             else:
                 post_id, kind = make_upload(ctx, page_id, path, build_caption(cap, acc), video["id"])
             video.update(status="uploaded", fb=str(post_id), uploaded=ctx.ts(), error="")
+            ctx.state.pop("fb_error", None)
             page_name = next((p["name"] for p in ctx.cfg.get("pages", []) if str(p["id"]) == page_id), page_id)
             ctx.log(f"video {video['id'][-6:]} -> {page_name} uploaded ({kind})", "success", acc)
             return True
         except Exception as e:
+            kind = fb_hold_kind(e)
+            if kind:
+                # Facebook said stop. The video is fine - keep it in the queue without using up a try.
+                video["status"] = "new"
+                video["error"] = ""
+                ctx.set_hold(kind, e)
+                return None
             video["attempts"] = int(video.get("attempts") or 0) + 1
             video["status"] = "retry" if video["attempts"] < max_attempts else "failed"
             video["error"] = str(e)[:300]
@@ -445,6 +540,10 @@ def auto(ctx, acc):
         done.extend(s for s in passed if s not in done)
         return
     pending = [s for s in passed if s not in done]
+    if pending and ctx.hold():
+        done.extend(pending)
+        ctx.log(f"{pending[-1]} slot skipped - Facebook is paused, videos stay in the queue for the next slot", "info", acc)
+        return
     if pending:
         done.extend(pending)
         ctx.log(f"{pending[-1]} slot - starting upload", "info", acc)
@@ -477,16 +576,29 @@ def main():
         except Exception:
             ctx.log("Could not unlock the Make webhook: GitHub Secret 'APP_KEY' must match the app password", "error")
     if cfg.get("fb_user_enc"):
-        # Find all Pages of the connected Facebook account (new Pages appear automatically)
+        # The user token is kept only for finding brand-new Pages. Facebook is NOT called here any more:
+        # Page tokens saved by the app (Reconnect / Refresh my Pages) never expire, so normal runs make
+        # zero Facebook calls and Facebook is only contacted at upload time.
         try:
-            ut = (decrypt_tokens(cfg["fb_user_enc"], key) or {}).get("user_token", "")
-            found = fb_list_pages(cfg.get("graph_version") or "v23.0", ut)
-            for p in found:
-                ctx.tokens[str(p["id"])] = p["access_token"]
-            state["fb_pages"] = [{"id": str(p["id"]), "name": p.get("name", "")} for p in found]
-            state.pop("fb_error", None)
-        except Exception as e:
-            state["fb_error"] = f"Facebook connection needs a refresh (tap Reconnect Facebook in the app): {str(e)[:150]}"
+            ctx.user_token = (decrypt_tokens(cfg["fb_user_enc"], key) or {}).get("user_token", "")
+        except Exception:
+            ctx.log("Could not unlock the Facebook login: GitHub Secret 'APP_KEY' must match the app password", "error")
+
+    # Reconnect / Refresh my Pages in the app = a fresh start: clear the pause and old warnings
+    conn = hashlib.sha256((cfg.get("fb_user_enc", "") + cfg.get("tokens_enc", "")).encode()).hexdigest()[:16]
+    if state.get("fb_conn") != conn:
+        if state.get("fb_conn") is not None and (state.get("fb_hold") or state.get("fb_error")):
+            ctx.log("Facebook reconnected - pause and warning cleared", "success")
+        state["fb_conn"] = conn
+        state.pop("fb_hold", None)
+        state.pop("fb_error", None)
+
+    # Videos that failed only because Facebook was blocking go back into the queue (when not paused)
+    if not ctx.hold():
+        for st in state.get("accounts", {}).values():
+            for v in st.get("videos", []):
+                if v.get("status") in ("failed", "retry") and fb_hold_kind(FBError(v.get("error", ""))):
+                    v.update(status="new", attempts=0, error="")
     if not ctx.tokens and not ctx.make_hook:
         ctx.log("Facebook is not connected yet (see the Pages tab in the app)", "error")
 
