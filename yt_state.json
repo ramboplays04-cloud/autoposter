@@ -511,9 +511,12 @@
      "url": "https://www.tiktok.com/@freakbobivy/video/7648447684218588430",
      "caption": "put his whole effort into dis",
      "views": 9400000,
-     "status": "new",
+     "status": "uploaded",
      "attempts": 0,
-     "found": "2026-11-12 00:48"
+     "found": "2026-11-12 00:48",
+     "yt": "bPS1cB5TVVA",
+     "uploaded": "2026-11-13 03:43",
+     "error": ""
     },
     {
      "id": "7650984862572137741",
@@ -589,9 +592,12 @@
      "url": "https://www.tiktok.com/@freakbobivy/video/7671839695495564558",
      "caption": "who mogs who doe @bao ",
      "views": 13500000,
-     "status": "new",
+     "status": "uploaded",
      "attempts": 0,
-     "found": "2026-11-12 00:48"
+     "found": "2026-11-12 00:48",
+     "yt": "D8O3VWkbqag",
+     "uploaded": "2026-11-13 03:42",
+     "error": ""
     },
     {
      "id": "7679339775005920526",
@@ -724,18 +730,47 @@
    "slots": {
     "2026-11-12": [
      "00:55"
+    ],
+    "2026-11-13": [
+     "00:55"
     ]
    },
    "owed": 0,
-   "last_checked": "2026-11-12 21:48",
+   "last_checked": "2026-11-13 03:42",
    "first_done": true
   }
  },
  "used": [
   "7655145629278014733",
-  "7655457108216876301"
+  "7655457108216876301",
+  "7671839695495564558",
+  "7648447684218588430"
  ],
  "log": [
+  {
+   "t": "2026-11-13 03:43",
+   "l": "success",
+   "a": "ymwcj6ohxpfxo",
+   "m": "video 588430 -> freakbobivy uploaded (youtu.be/bPS1cB5TVVA)"
+  },
+  {
+   "t": "2026-11-13 03:42",
+   "l": "success",
+   "a": "ymwcj6ohxpfxo",
+   "m": "video 564558 -> freakbobivy uploaded (youtu.be/D8O3VWkbqag)"
+  },
+  {
+   "t": "2026-11-13 03:42",
+   "l": "info",
+   "a": "ymwcj6ohxpfxo",
+   "m": "00:55 slot - 2 video(s) to upload"
+  },
+  {
+   "t": "2026-11-13 03:42",
+   "l": "info",
+   "a": "ymwcj6ohxpfxo",
+   "m": "check done: 0 new videos added to queue"
+  },
   {
    "t": "2026-11-12 21:48",
    "l": "info",
@@ -785,17 +820,20 @@
    "m": "check done: 71 new videos added to queue"
   }
  ],
- "last_run": "2026-11-12 21:48",
+ "last_run": "2026-11-13 03:43",
  "last_action": "auto",
  "daily": {
   "2026-11-12": {
+   "UCuHYwTa4Mr6Bnp8Pqfc3HIA": 2
+  },
+  "2026-11-13": {
    "UCuHYwTa4Mr6Bnp8Pqfc3HIA": 2
   }
  },
  "channels_status": {
   "UCuHYwTa4Mr6Bnp8Pqfc3HIA": {
    "ok": true,
-   "t": "2026-11-12 03:29"
+   "t": "2026-11-13 03:43"
   }
  }
 }
