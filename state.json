@@ -72,10 +72,12 @@
      "id": "7691345337834802463",
      "url": "https://www.tiktok.com/@a_biology_teacher/video/7691345337834802463",
      "caption": "MCQ: Types of Receptor Proteins #cellcommunication #biology #science #stem #teaching",
-     "status": "failed",
-     "attempts": 3,
+     "status": "uploaded",
+     "attempts": 0,
      "found": "2026-11-11 22:04",
-     "error": "For security reasons, your account has limited access to the site for a few days. If you have any questions, please contact our Help Center. (code 368)"
+     "error": "",
+     "fb": "1916612479719231",
+     "uploaded": "2026-11-13 02:25"
     },
     {
      "id": "7684303361822166303",
@@ -103,19 +105,19 @@
      "id": "7691386794499132703",
      "url": "https://www.tiktok.com/@a_biology_teacher/video/7691386794499132703",
      "caption": "Types of Cell Communication #cellcommunication #science #stem #biology #apbiology",
-     "status": "failed",
-     "attempts": 3,
+     "status": "new",
+     "attempts": 0,
      "found": "2026-11-11 22:04",
-     "error": "Cannot call API for app 2359693014780364 on behalf of user 122132444133397871 (code 200)"
+     "error": ""
     },
     {
      "id": "7691438191701740831",
      "url": "https://www.tiktok.com/@a_biology_teacher/video/7691438191701740831",
      "caption": "Metazooa Day 1157 #science #stem #biology #animals #fish ",
-     "status": "retry",
-     "attempts": 2,
+     "status": "new",
+     "attempts": 0,
      "found": "2026-11-11 22:04",
-     "error": "Cannot call API for app 2359693014780364 on behalf of user 122132444133397871 (code 200)"
+     "error": ""
     },
     {
      "id": "7684303326086843678",
@@ -1931,6 +1933,12 @@
  },
  "log": [
   {
+   "t": "2026-11-13 02:25",
+   "l": "success",
+   "a": "amwcd8ml6ywwg",
+   "m": "video 802463 -> Hidden Badge uploaded (reel)"
+  },
+  {
    "t": "2026-11-13 01:50",
    "l": "info",
    "a": "amwcd8ml6ywwg",
@@ -2045,6 +2053,7 @@
    "m": "check done: 200 new videos added to queue"
   }
  ],
- "last_run": "2026-11-13 01:50",
- "last_action": "auto"
+ "last_run": "2026-11-13 02:25",
+ "last_action": "upload_now",
+ "fb_conn": "92cc7902cef0a19b"
 }
