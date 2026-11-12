@@ -1564,10 +1564,172 @@
    "matches": [],
    "checked": "2026-11-12 04:59",
    "tiktok": "https://www.tiktok.com/@tranix84"
+  },
+  "happytime_570": {
+   "username": "happytime_570",
+   "nickname": "happytime_570",
+   "followers": 549200,
+   "regions": [],
+   "status": "similar",
+   "matches": [
+    {
+     "title": "Happy Time",
+     "url": "https://www.youtube.com/channel/UC1z3wDlUD4_gqEkofnTtFhA",
+     "exact": false
+    }
+   ],
+   "checked": "2026-11-12 19:10",
+   "tiktok": "https://www.tiktok.com/@happytime_570"
+  },
+  "chloandmatt": {
+   "username": "chloandmatt",
+   "nickname": "💥 Chlo and Matt 🦋",
+   "followers": 1700000,
+   "regions": [],
+   "status": "exists",
+   "matches": [
+    {
+     "title": "Chlo and Matt",
+     "url": "https://www.youtube.com/@chloandmatt",
+     "subs": 3
+    }
+   ],
+   "checked": "2026-11-12 19:10",
+   "tiktok": "https://www.tiktok.com/@chloandmatt"
+  },
+  "abs.funnypro": {
+   "username": "abs.funnypro",
+   "nickname": "Lmao",
+   "followers": 448000,
+   "regions": [],
+   "status": "similar",
+   "matches": [
+    {
+     "title": "SK FUNNY PRO",
+     "url": "https://www.youtube.com/channel/UCXqtEGshnOYuPxQzU6tXWcw",
+     "exact": false
+    }
+   ],
+   "checked": "2026-11-12 19:10",
+   "tiktok": "https://www.tiktok.com/@abs.funnypro"
+  },
+  "nimrashamid": {
+   "username": "nimrashamid",
+   "nickname": "nimrashamid",
+   "followers": 0,
+   "regions": [],
+   "status": "exists",
+   "matches": [
+    {
+     "title": "Nimra Hamid",
+     "url": "https://www.youtube.com/@nimrashamid",
+     "subs": 1060
+    }
+   ],
+   "checked": "2026-11-12 19:10",
+   "tiktok": "https://www.tiktok.com/@nimrashamid"
+  },
+  "real.official.sahur": {
+   "username": "real.official.sahur",
+   "nickname": "Official Sahur",
+   "followers": 232800,
+   "regions": [],
+   "status": "exists",
+   "matches": [
+    {
+     "title": "Official Sahur",
+     "url": "https://www.youtube.com/channel/UC1lH35hYJ_bWv4APBEaIwIA",
+     "exact": true
+    },
+    {
+     "title": "real.official.sahur:",
+     "url": "https://www.youtube.com/channel/UC2qMNyb44mxKzfxYeGl2bmw",
+     "exact": true
+    },
+    {
+     "title": "Official Sahur ",
+     "url": "https://www.youtube.com/channel/UCgxPzK39G33r0Uy4Hj99oUA",
+     "exact": true
+    }
+   ],
+   "checked": "2026-11-12 19:10",
+   "tiktok": "https://www.tiktok.com/@real.official.sahur"
+  },
+  "footky.aep1": {
+   "username": "footky.aep1",
+   "nickname": "footky.ae",
+   "followers": 333800,
+   "regions": [],
+   "status": "exists",
+   "matches": [
+    {
+     "title": "footky.aep1",
+     "url": "https://www.youtube.com/@footky.aep1",
+     "subs": 5
+    }
+   ],
+   "checked": "2026-11-12 19:10",
+   "tiktok": "https://www.tiktok.com/@footky.aep1"
+  },
+  "huhuabc123": {
+   "username": "huhuabc123",
+   "nickname": "Tom’s tips",
+   "followers": 419800,
+   "regions": [],
+   "status": "not_found",
+   "matches": [],
+   "checked": "2026-11-12 19:10",
+   "tiktok": "https://www.tiktok.com/@huhuabc123"
+  },
+  "funntx7people": {
+   "username": "funntx7people",
+   "nickname": "funnydog7",
+   "followers": 230300,
+   "regions": [],
+   "status": "not_found",
+   "matches": [],
+   "checked": "2026-11-12 19:10",
+   "tiktok": "https://www.tiktok.com/@funntx7people"
+  },
+  "thats.a.bad.idea": {
+   "username": "thats.a.bad.idea",
+   "nickname": "That's a Bad Idea",
+   "followers": 1400000,
+   "regions": [],
+   "status": "exists",
+   "matches": [
+    {
+     "title": "that's a bad idea",
+     "url": "https://www.youtube.com/channel/UCNwxZoU9bBq-UI3viJZ84FQ",
+     "exact": true
+    },
+    {
+     "title": "that's a bad idea - Topic",
+     "url": "https://www.youtube.com/channel/UC4M7pKa7J3n-fY69PmH2iaQ",
+     "exact": false
+    }
+   ],
+   "checked": "2026-11-12 19:11",
+   "tiktok": "https://www.tiktok.com/@thats.a.bad.idea"
   }
  },
  "running": false,
  "log": [
+  {
+   "t": "2026-11-12 19:11",
+   "l": "success",
+   "m": "done: 9 creators checked, 2 not found on YouTube, 54 searches left"
+  },
+  {
+   "t": "2026-11-12 19:11",
+   "l": "info",
+   "m": "TikTok profiles looked up: 149"
+  },
+  {
+   "t": "2026-11-12 19:09",
+   "l": "info",
+   "m": "found: CC US creators 0, CC US videos 0, CC US hashtags 0, CC GB creators 0, CC GB videos 0, CC GB hashtags 0, CC CA creators 0, CC CA videos 0, CC CA hashtags 0, CC AU creators 0, CC AU videos 0, CC AU hashtags 0, discover funny family videos 13, discover mom life funny 16, discover dad jokes 12, discover funny kids 14, discover couple pranks 15, discover family pranks 14, discover grandma funny "
+  },
   {
    "t": "2026-11-12 04:59",
    "l": "success",
@@ -1654,7 +1816,7 @@
    "m": "US creators: page did not load - Locator.click: Timeout 30000ms exceeded.\nCall log:\n  - waiting for locator(\"text=/View more/i\").first\n    - locator reso"
   }
  ],
- "last_run": "2026-11-12 04:59",
+ "last_run": "2026-11-12 19:11",
  "diag": [
   {
    "page": "CC US creators",
@@ -1699,17 +1861,59 @@
    "new": 0
   },
   {
+   "page": "CC CA creators",
+   "title": "TikTok One Creative Suite",
+   "url": "https://ads.tiktok.com/creative/creativeCenter/trends/hashtag?region=CA&period=7",
+   "api": 4,
+   "new": 0
+  },
+  {
+   "page": "CC CA videos",
+   "title": "TikTok One Creative Suite",
+   "url": "https://ads.tiktok.com/creative/creativeCenter/trends/hashtag?region=CA&period=7",
+   "api": 4,
+   "new": 0
+  },
+  {
+   "page": "CC CA hashtags",
+   "title": "TikTok One Creative Suite",
+   "url": "https://ads.tiktok.com/creative/creativeCenter/trends/hashtag?region=CA&period=7",
+   "api": 4,
+   "new": 0
+  },
+  {
+   "page": "CC AU creators",
+   "title": "TikTok One Creative Suite",
+   "url": "https://ads.tiktok.com/creative/creativeCenter/trends/hashtag?region=AU&period=7",
+   "api": 4,
+   "new": 0
+  },
+  {
+   "page": "CC AU videos",
+   "title": "TikTok One Creative Suite",
+   "url": "https://ads.tiktok.com/creative/creativeCenter/trends/hashtag?region=AU&period=7",
+   "api": 4,
+   "new": 0
+  },
+  {
+   "page": "CC AU hashtags",
+   "title": "TikTok One Creative Suite",
+   "url": "https://ads.tiktok.com/creative/creativeCenter/trends/hashtag?region=AU&period=7",
+   "api": 4,
+   "new": 0
+  },
+  {
    "page": "discover funny family videos",
    "title": "Funny Family Videos | TikTok",
    "url": "https://www.tiktok.com/discover/funny-family-videos",
-   "api": 17,
-   "new": 14
+   "api": 16,
+   "new": 13
   },
   {
    "page": "discover mom life funny",
    "title": "Mom Life Funny | TikTok",
    "url": "https://www.tiktok.com/discover/mom-life-funny",
-   "api": 17,
+   "api": 16,
    "new": 16
   },
   {
@@ -1723,42 +1927,42 @@
    "page": "discover funny kids",
    "title": "Funny Kids | TikTok",
    "url": "https://www.tiktok.com/discover/funny-kids",
-   "api": 18,
-   "new": 13
+   "api": 16,
+   "new": 14
   },
   {
    "page": "discover couple pranks",
    "title": "Couple Pranks | TikTok",
    "url": "https://www.tiktok.com/discover/couple-pranks",
    "api": 17,
-   "new": 16
+   "new": 15
   },
   {
    "page": "discover family pranks",
    "title": "Family Pranks | TikTok",
    "url": "https://www.tiktok.com/discover/family-pranks",
-   "api": 18,
-   "new": 15
+   "api": 16,
+   "new": 14
   },
   {
    "page": "discover grandma funny",
    "title": "Grandma Funny | TikTok",
    "url": "https://www.tiktok.com/discover/grandma-funny",
-   "api": 18,
+   "api": 16,
    "new": 16
   },
   {
    "page": "discover satisfying videos",
    "title": "Log in | TikTok",
    "url": "https://www.tiktok.com/",
-   "api": 21,
-   "new": 67
+   "api": 15,
+   "new": 28
   },
   {
    "page": "discover life hacks",
    "title": "Life Hacks | TikTok",
    "url": "https://www.tiktok.com/discover/life-hacks",
-   "api": 17,
+   "api": 16,
    "new": 14
   },
   {
@@ -1773,35 +1977,21 @@
    "title": "Log in | TikTok",
    "url": "https://www.tiktok.com/",
    "api": 15,
-   "new": 7
+   "new": 6
   },
   {
    "page": "discover skits comedy",
    "title": "Skits Comedy | TikTok",
    "url": "https://www.tiktok.com/discover/skits-comedy",
-   "api": 18,
-   "new": 14
+   "api": 17,
+   "new": 12
   },
   {
    "page": "discover fails funny",
    "title": "Fails Funny | TikTok",
    "url": "https://www.tiktok.com/discover/fails-funny",
-   "api": 18,
-   "new": 12
-  },
-  {
-   "page": "discover cleaning motivation",
-   "title": "Cleaning Motivation | TikTok",
-   "url": "https://www.tiktok.com/discover/cleaning-motivation",
-   "api": 18,
-   "new": 15
-  },
-  {
-   "page": "discover diy crafts",
-   "title": "Diy Crafts | TikTok",
-   "url": "https://www.tiktok.com/discover/diy-crafts",
-   "api": 17,
-   "new": 15
+   "api": 16,
+   "new": 13
   }
  ]
 }
