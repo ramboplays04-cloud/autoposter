@@ -381,7 +381,7 @@ V.bulk = () => {
   <h1>Add many accounts</h1>
   <p class="sub">Paste all your TikTok links (one per line). Each one is matched to the Facebook Page with the same / closest name. Check the list, fix anything marked ⚠, then tap Add all.</p>
   <div class="card">
-    <label>TikTok links <div class="hint"><code>@username</code> or full links, one per line. Already-added accounts are skipped.</div></label>
+    <label>TikTok links <div class="hint">One per line. If the TikTok name is different from the Page name, write the Page name after the link: <code>tiktok.com/@a_biology_teacher Hidden Badge</code>. Already-added accounts are skipped.</div></label>
     <textarea id="b_tt" style="min-height:150px" placeholder="https://www.tiktok.com/@account1&#10;https://www.tiktok.com/@account2" autocapitalize="off" autocorrect="off"></textarea>
     <label>Use the same settings as</label>
     <select id="b_tpl">${tplOpts}<option value="">Default (22:05, 2 per time, Reel)</option></select>
@@ -399,7 +399,7 @@ function bulkResult(){
   return `
   <h2>Check the matches (${ok}/${BULK.length} matched)</h2>
   <div class="card">${BULK.map((r, i) => `
-    <div class="vid"><div class="name">@${esc(r.user)} ${r.page ? (r.auto ? `<span class="pill ok">auto ✓</span>` : `<span class="pill info">chosen</span>`) : `<span class="pill warn">⚠ choose</span>`}</div>
+    <div class="vid"><div class="name">@${esc(r.user)}${r.hint ? ` <span class="meta">(${esc(r.hint)})</span>` : ""} ${r.page ? (r.auto ? `<span class="pill ok">auto ✓</span>` : `<span class="pill info">chosen</span>`) : `<span class="pill warn">⚠ choose</span>`}</div>
     <select data-bp="${i}" style="margin-top:6px">${opts(r.page)}</select></div>`).join("")}</div>
   <button class="btn primary full" id="b_add">Add all ${ok} account${ok===1?"":"s"}</button>
   ${ok < BULK.length ? `<div class="hint" style="margin-top:6px">Accounts without a Page are not added.</div>` : ""}`;
@@ -422,16 +422,21 @@ V.bulk.bind = () => {
   };
   $("#b_match").onclick = () => {
     const seen = new Set(), users = [];
-    $("#b_tt").value.split(/[\n,]+/).map(x => x.trim()).filter(Boolean).forEach(line => {
-      const m = line.match(/tiktok\.com\/@([^/?#\s]+)/i) || line.match(/^@?([A-Za-z0-9._]{2,})$/);
-      if (!m) return; const url = "https://www.tiktok.com/@" + m[1];
+    $("#b_tt").value.split(/\n+/).map(x => x.trim()).filter(Boolean).forEach(line => {
+      // "link" or "@user" alone, or with the Page name on the same line: "link Hidden Badge"
+      let m = line.match(/(?:https?:\/\/)?(?:www\.|vm\.|m\.)?tiktok\.com\/@([^/?#\s]+)\S*/i), hint = "";
+      if (m) hint = line.replace(m[0], "");
+      else { m = line.match(/^@?([A-Za-z0-9._]{2,})(?=\s|$)/); if (m) hint = line.slice(m[0].length); }
+      if (!m) return;
+      hint = hint.replace(/^[\s\-–—:|,=>→]+|[\s\-–—:|,]+$/g, "").trim();
+      const url = "https://www.tiktok.com/@" + m[1];
       if (seen.has(url.toLowerCase()) || CFG.accounts.some(a => normUrl(a.tiktok).toLowerCase() === url.toLowerCase())) return;
-      seen.add(url.toLowerCase()); users.push({ user: m[1], url });
+      seen.add(url.toLowerCase()); users.push({ user: m[1], url, hint });
     });
     if (!users.length) return toast("No new TikTok links found (already added ones are skipped)", true);
     const taken = new Set(CFG.accounts.map(a => String(a.page_id)));
     const free = allPages().filter(p => !taken.has(String(p.id)));
-    const m = autoMatch(users.map(u => u.user), free.length ? free : allPages());
+    const m = autoMatch(users.map(u => u.hint || u.user), free.length ? free : allPages());
     BULK = users.map((u, i) => ({ ...u, page: m[i].id, auto: !!m[i].id }));
     draw(); $("#b_res").scrollIntoView({ behavior: "smooth" });
   };
