@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
     inputs:
       action:
-        description: "auto / scan / upload_now / upload_video / retry / skip / add_video"
+        description: "auto / scan / upload_now / upload_video / retry / skip / add_video / dedupe / notify_test"
         required: false
         default: "auto"
       account:

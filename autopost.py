@@ -181,7 +181,8 @@ def tiktok_list(url, limit):
         vurl = e.get("webpage_url") or e.get("url") or ""
         if not vurl.startswith("http"):
             vurl = f"https://www.tiktok.com/@{user}/video/{vid}"
-        out.append({"id": vid, "url": vurl, "caption": e.get("description") or e.get("title") or ""})
+        out.append({"id": vid, "url": vurl, "caption": e.get("description") or e.get("title") or "",
+                    "dur": e.get("duration")})
     return out
 
 
@@ -509,6 +510,79 @@ def refresh_pages(ctx):
             ctx.state["fb_error"] = f"Facebook connection needs a refresh (tap Reconnect Facebook in the app): {str(e)[:150]}"
 
 
+# ------------------------------------------------------------------ skip videos already on the Page
+def _norm_caption(t):
+    t = re.sub(r"https?://\S+", " ", (t or "").lower())
+    t = re.sub(r"[#@]\S+", " ", t)                  # hashtags / mentions can differ
+    return re.sub(r"[^a-z0-9\u0600-\u06ff]+", "", t)  # letters/numbers only (Urdu too)
+
+
+def captions_match(tik, fb):
+    a, b = _norm_caption(tik), _norm_caption(fb)
+    if len(a) < 10 or len(b) < 10:
+        return False
+    if a == b:
+        return True
+    if len(a) >= 25 and len(b) >= 25:
+        a, b = a[:120], b[:120]                      # long captions may be cut/extended
+        return a in b or b in a
+    return False
+
+
+def fb_page_captions(ver, page_id, token, limit=600):
+    """Descriptions + length of the videos/reels already on the Page (a few calls, once per account)."""
+    out = []
+    for edge in ("videos", "video_reels"):
+        url = f"https://graph.facebook.com/{ver}/{page_id}/{edge}"
+        params = {"fields": "description,length", "limit": 100, "access_token": token}
+        while url and len(out) < limit:
+            try:
+                d = _fb(requests.get(url, params=params, timeout=TIMEOUT))
+            except FBError as e:
+                if fb_hold_kind(e) or edge == "videos":
+                    raise
+                break                                # reels list not available: videos list is enough
+            out.extend({"d": v.get("description") or "", "len": v.get("length")} for v in d.get("data", []))
+            url = (d.get("paging") or {}).get("next")
+            params = None
+    return out
+
+
+def skip_existing(ctx, acc, force=False):
+    """Mark queued TikTok videos that are already on the Facebook Page (uploaded by hand) as skipped,
+    so the tool never posts the same video twice. Runs once per account (or when asked again)."""
+    st = ctx.acc_state(acc)
+    if acc.get("skip_existing", True) is False or (st.get("dedupe_done") and not force) or ctx.hold():
+        return
+    page_id = str(acc.get("page_id") or "")
+    token = ctx.tokens.get(page_id)
+    if not page_id or not token:
+        return
+    try:
+        existing = fb_page_captions(ctx.cfg.get("graph_version") or "v23.0", page_id, token)
+    except Exception as e:
+        kind = fb_hold_kind(e)
+        if kind:
+            ctx.set_hold(kind, e)
+        else:
+            ctx.log(f"could not read the Page's existing videos - {str(e)[:150]}", "error", acc)
+        return
+    n = 0
+    for v in st["videos"]:
+        if v["status"] not in ("new", "retry"):
+            continue
+        for ex in existing:
+            if captions_match(v.get("caption"), ex["d"]):
+                if v.get("dur") and ex.get("len") and abs(float(v["dur"]) - float(ex["len"])) > 3:
+                    continue                       # same text but a different video
+                v.update(status="skipped", error="Already on the Facebook Page")
+                n += 1
+                break
+    st["dedupe_done"] = ctx.ts()
+    ctx.log(f"checked {len(existing)} videos already on the Page: {n} of the queue are already there - skipped",
+            "info", acc)
+
+
 # ------------------------------------------------------------------ core
 def scan(ctx, acc):
     st = ctx.acc_state(acc)
@@ -539,7 +613,7 @@ def scan(ctx, acc):
         st["seen"].append(it["id"])
         status = "skipped" if (first and not acc.get("import_old", True)) else "new"
         st["videos"].append({"id": it["id"], "url": it["url"], "caption": it["caption"][:300],
-                             "status": status, "attempts": 0, "found": ctx.ts()})
+                             "dur": it.get("dur"), "status": status, "attempts": 0, "found": ctx.ts()})
         new += status == "new"
     st["first_done"] = True
     st["last_checked"] = ctx.ts()
@@ -660,6 +734,7 @@ def auto(ctx, acc):
             pass
     if due:
         scan(ctx, acc)
+    skip_existing(ctx, acc)
 
     passed = [s for s in slots if s <= hhmm]
     if new_account:  # naya account: aaj ke guzre slots par ek dum upload na karo
@@ -806,6 +881,11 @@ def main():
                 vid = next((v for v in st["videos"] if v["id"] == video_arg), None)
                 if action == "scan":
                     scan(ctx, acc)
+                    skip_existing(ctx, acc)
+                elif action == "dedupe":
+                    if st["last_checked"] is None:
+                        scan(ctx, acc)
+                    skip_existing(ctx, acc, force=True)
                 elif action == "upload_now":
                     if st["last_checked"] is None:
                         scan(ctx, acc)

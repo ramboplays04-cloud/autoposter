@@ -324,6 +324,7 @@ function accountForm(a){
     <label class="check"><input type="checkbox" id="f_hash" ${a && a.remove_hashtags ? "checked":""}><span>Remove TikTok hashtags</span></label>
     <label>Add below every caption (optional)</label>
     <textarea id="f_extra" placeholder="#facebookreels">${esc(a ? a.extra||"" : "")}</textarea>
+    <label class="check"><input type="checkbox" id="f_skipex" ${!a || a.skip_existing!==false ? "checked":""}><span>Skip videos that are already on the Page<div class="hint">Before uploading, the tool looks at the Page's existing videos and skips TikTok videos with the same caption (for videos you uploaded by hand)</div></span></label>
     <label class="check"><input type="checkbox" id="f_old" ${!a || a.import_old!==false ? "checked":""}><span>Also upload old videos<div class="hint">Untick to upload only new videos (affects the first check only)</div></span></label>
     <div style="margin-top:14px"><button class="btn primary full" id="f_save">${a ? "Save" : "Add"}</button></div>
   </div>
@@ -332,7 +333,7 @@ function accountForm(a){
 function formValues(){
   return { page_id: $("#f_page").value, times: parseTimes($("#f_times").value), per_slot: Math.max(1, Math.min(5, +$("#f_per").value || 1)),
            mode: $("#f_mode").value, use_caption: $("#f_cap").checked, remove_hashtags: $("#f_hash").checked,
-           extra: $("#f_extra").value.trim(), import_old: $("#f_old").checked };
+           extra: $("#f_extra").value.trim(), import_old: $("#f_old").checked, skip_existing: $("#f_skipex").checked };
 }
 V.add = () => `<h1>Add TikTok account</h1><p class="sub">Paste the link, choose a Page, set the times. The tool does the rest.</p>
   <a class="card" href="#bulk" style="display:block;border-color:#1f4e57"><b>⚡ Many accounts?</b> <span class="meta">Paste all TikTok links at once - each one is matched to its Facebook Page automatically.</span></a>` + accountForm(null);
@@ -375,7 +376,7 @@ function autoMatch(users, pages){
   return res;
 }
 let BULK = [];
-const DEFAULT_TPL = { times: ["22:05"], per_slot: 2, mode: "reel", use_caption: true, remove_hashtags: false, extra: "", import_old: true };
+const DEFAULT_TPL = { times: ["22:05"], per_slot: 2, mode: "reel", use_caption: true, remove_hashtags: false, extra: "", import_old: true, skip_existing: true };
 V.bulk = () => {
   const pages = allPages();
   const tplOpts = CFG.accounts.map(a => `<option value="${a.id}">@${esc(userOf(a.tiktok))} (${esc((a.times||[]).join(", "))}, ${a.per_slot||1} per time, ${a.mode==="video"?"Video":"Reel"})</option>`).join("");
@@ -413,7 +414,8 @@ V.bulk.bind = () => {
     const add = $("#b_add"); if (add) add.onclick = (e) => act(async () => {
       const tplAcc = CFG.accounts.find(a => a.id === $("#b_tpl").value);
       const tpl = tplAcc ? { times: tplAcc.times, per_slot: tplAcc.per_slot||1, mode: tplAcc.mode||"reel", use_caption: tplAcc.use_caption!==false,
-                             remove_hashtags: !!tplAcc.remove_hashtags, extra: tplAcc.extra||"", import_old: tplAcc.import_old!==false } : DEFAULT_TPL;
+                             remove_hashtags: !!tplAcc.remove_hashtags, extra: tplAcc.extra||"", import_old: tplAcc.import_old!==false,
+                             skip_existing: tplAcc.skip_existing!==false } : DEFAULT_TPL;
       let n = 0;
       for (const r of BULK){ if (!r.page || CFG.accounts.some(a => normUrl(a.tiktok) === r.url)) continue;
         CFG.accounts.push({ id: uid(), tiktok: r.url, enabled: true, page_id: r.page, ...JSON.parse(JSON.stringify(tpl)) }); n++; }
@@ -470,7 +472,7 @@ V.acc = (id) => {
   return `
   <h1>@${esc(userOf(a.tiktok))}</h1>
   <p class="sub">→ ${esc(pageName(a.page_id) || "No Page selected")} · <a href="${esc(a.tiktok)}" target="_blank">Open TikTok</a></p>
-  <div class="row"><button class="btn small primary" data-up="${a.id}">Upload next video now</button><button class="btn small" data-scan="${a.id}">Check for new videos</button><a class="btn small" href="#edit/${a.id}">Edit</a></div>
+  <div class="row"><button class="btn small primary" data-up="${a.id}">Upload next video now</button><button class="btn small" data-scan="${a.id}">Check for new videos</button><button class="btn small" id="a_dedupe">Skip videos already on Page</button><a class="btn small" href="#edit/${a.id}">Edit</a></div>
   <div class="tabs">${tab("","All")}${tab("queue","Queue ("+s.queue+")")}${tab("uploaded","Uploaded ("+s.up+")")}${tab("failed","Failed ("+s.fail+")")}${tab("skipped","Skipped")}</div>
   <div class="card">${vids.length ? vids.map(v => { const [l,c] = ST_LABEL[v.status] || [v.status,""]; return `
     <div class="vid">
@@ -491,6 +493,7 @@ V.acc.bind = (id) => {
   document.querySelectorAll("[data-up]").forEach(b => b.onclick = () => act(() => dispatch("upload_now", id), b));
   document.querySelectorAll("[data-scan]").forEach(b => b.onclick = () => act(() => dispatch("scan", id), b));
   document.querySelectorAll("[data-va]").forEach(b => b.onclick = () => act(() => dispatch(b.dataset.va, id, b.dataset.v), b));
+  const dd = $("#a_dedupe"); if (dd) dd.onclick = (e) => act(() => dispatch("dedupe", id), e.target);
   const add = $("#a_add"); if (add) add.onclick = (e) => act(async () => {
     const u = $("#a_url").value.trim(); if (!/\/video\/\d+/.test(u)) throw new Error("Enter a valid video link (must contain /video/)");
     await dispatch("add_video", id, u.split("?")[0]); $("#a_url").value = "";
