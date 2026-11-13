@@ -1758,6 +1758,24 @@
      "status": "new",
      "attempts": 0,
      "found": "2026-11-13 22:06"
+    },
+    {
+     "id": "7707769937405742366",
+     "url": "https://www.tiktok.com/@a_biology_teacher/video/7707769937405742366",
+     "caption": "Metazooa Day 1201 #science #stem #biology #animals #metazooa ",
+     "dur": 45,
+     "status": "new",
+     "attempts": 0,
+     "found": "2026-11-14 04:28"
+    },
+    {
+     "id": "7700354784569609503",
+     "url": "https://www.tiktok.com/@a_biology_teacher/video/7700354784569609503",
+     "caption": "MCQ: Prezygotic Isolating Mechanisms #evolution #science #stem #biology #learnbiologyontiktok",
+     "dur": 72,
+     "status": "new",
+     "attempts": 0,
+     "found": "2026-11-14 04:28"
     }
    ],
    "seen": [
@@ -1969,25 +1987,37 @@
     "7707624910478183693",
     "7707669577072643358",
     "7707674609310502174",
-    "7700611109279075615"
+    "7700611109279075615",
+    "7707769937405742366",
+    "7700354784569609503"
    ],
    "slots": {
-    "2026-11-11": [
-     "22:05"
-    ],
     "2026-11-12": [
      "22:05"
     ],
     "2026-11-13": [
      "22:05"
-    ]
+    ],
+    "2026-11-14": []
    },
-   "last_checked": "2026-11-13 23:01",
+   "last_checked": "2026-11-14 04:28",
    "first_done": true,
    "scan_fail": 0
   }
  },
  "log": [
+  {
+   "t": "2026-11-14 04:28",
+   "l": "info",
+   "a": "amwcd8ml6ywwg",
+   "m": "check done: 2 new videos added to queue"
+  },
+  {
+   "t": "2026-11-14 04:28",
+   "l": "info",
+   "a": "",
+   "m": "GitHub skipped runs for 5.5 hours (now running again)"
+  },
   {
    "t": "2026-11-13 23:01",
    "l": "info",
@@ -2187,7 +2217,7 @@
    "m": "check done: 200 new videos added to queue"
   }
  ],
- "last_run": "2026-11-13 23:01",
+ "last_run": "2026-11-14 04:28",
  "last_action": "auto",
  "fb_conn": "92cc7902cef0a19b",
  "posted_ids": [
