@@ -1,0 +1,31 @@
+name: AutoPoster Timer
+
+# Wakes up twice an hour (odd minutes = fewer skipped runs). If an upload time is within the next
+# hour or was missed, waits for the exact minute and then starts the main AutoPoster run.
+on:
+  schedule:
+    - cron: "11,41 * * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: write
+
+concurrency:
+  group: autopost-timer
+  cancel-in-progress: false
+
+jobs:
+  wait:
+    runs-on: ubuntu-latest
+    timeout-minutes: 80
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+      - run: pip install -q requests cryptography
+      - name: Wait for upload time
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python timer.py
