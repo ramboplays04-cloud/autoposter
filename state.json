@@ -1936,12 +1936,24 @@
     ],
     "2026-11-13": []
    },
-   "last_checked": "2026-11-13 04:11",
+   "last_checked": "2026-11-13 08:05",
    "first_done": true,
    "scan_fail": 0
   }
  },
  "log": [
+  {
+   "t": "2026-11-13 08:05",
+   "l": "info",
+   "a": "amwcd8ml6ywwg",
+   "m": "check done: 0 new videos added to queue"
+  },
+  {
+   "t": "2026-11-13 08:05",
+   "l": "error",
+   "a": "",
+   "m": "tool did not run for 3.5 hours"
+  },
   {
    "t": "2026-11-13 04:34",
    "l": "info",
@@ -2081,7 +2093,7 @@
    "m": "check done: 200 new videos added to queue"
   }
  ],
- "last_run": "2026-11-13 04:34",
- "last_action": "dedupe",
+ "last_run": "2026-11-13 08:05",
+ "last_action": "auto",
  "fb_conn": "92cc7902cef0a19b"
 }
