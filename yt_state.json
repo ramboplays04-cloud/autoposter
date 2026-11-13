@@ -556,9 +556,12 @@
      "url": "https://www.tiktok.com/@freakbobivy/video/7656976290892745997",
      "caption": "i couldnt make her do more shes gonna lose her hearing or smth",
      "views": 1100000,
-     "status": "new",
+     "status": "uploaded",
      "attempts": 0,
-     "found": "2026-11-12 00:48"
+     "found": "2026-11-12 00:48",
+     "yt": "-ngRAPFR13E",
+     "uploaded": "2026-11-14 04:52",
+     "error": ""
     },
     {
      "id": "7657939739789610253",
@@ -622,9 +625,12 @@
      "url": "https://www.tiktok.com/@freakbobivy/video/7695057834504981774",
      "caption": "didnt get a single one 😭",
      "views": 1600000,
-     "status": "new",
+     "status": "uploaded",
      "attempts": 0,
-     "found": "2026-11-12 00:48"
+     "found": "2026-11-12 00:48",
+     "yt": "JTUVkpGd8_w",
+     "uploaded": "2026-11-14 04:51",
+     "error": ""
     },
     {
      "id": "7695124253091400974",
@@ -733,10 +739,13 @@
     ],
     "2026-11-13": [
      "00:55"
+    ],
+    "2026-11-14": [
+     "00:55"
     ]
    },
    "owed": 0,
-   "last_checked": "2026-11-13 23:30",
+   "last_checked": "2026-11-14 04:51",
    "first_done": true
   }
  },
@@ -744,9 +753,35 @@
   "7655145629278014733",
   "7655457108216876301",
   "7671839695495564558",
-  "7648447684218588430"
+  "7648447684218588430",
+  "7695057834504981774",
+  "7656976290892745997"
  ],
  "log": [
+  {
+   "t": "2026-11-14 04:52",
+   "l": "success",
+   "a": "ymwcj6ohxpfxo",
+   "m": "video 745997 -> freakbobivy uploaded (youtu.be/-ngRAPFR13E)"
+  },
+  {
+   "t": "2026-11-14 04:51",
+   "l": "success",
+   "a": "ymwcj6ohxpfxo",
+   "m": "video 981774 -> freakbobivy uploaded (youtu.be/JTUVkpGd8_w)"
+  },
+  {
+   "t": "2026-11-14 04:51",
+   "l": "info",
+   "a": "ymwcj6ohxpfxo",
+   "m": "00:55 slot - 2 video(s) to upload"
+  },
+  {
+   "t": "2026-11-14 04:51",
+   "l": "info",
+   "a": "ymwcj6ohxpfxo",
+   "m": "check done: 0 new videos added to queue"
+  },
   {
    "t": "2026-11-13 23:30",
    "l": "info",
@@ -838,7 +873,7 @@
    "m": "check done: 71 new videos added to queue"
   }
  ],
- "last_run": "2026-11-13 23:30",
+ "last_run": "2026-11-14 04:52",
  "last_action": "auto",
  "daily": {
   "2026-11-12": {
@@ -846,12 +881,15 @@
   },
   "2026-11-13": {
    "UCuHYwTa4Mr6Bnp8Pqfc3HIA": 2
+  },
+  "2026-11-14": {
+   "UCuHYwTa4Mr6Bnp8Pqfc3HIA": 2
   }
  },
  "channels_status": {
   "UCuHYwTa4Mr6Bnp8Pqfc3HIA": {
    "ok": true,
-   "t": "2026-11-13 03:43"
+   "t": "2026-11-14 04:52"
   }
  }
 }
