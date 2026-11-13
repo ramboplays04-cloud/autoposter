@@ -255,7 +255,9 @@ V.setup.bind = () => {
 V.home = () => {
   let up=0, qu=0, fa=0, today=0; const d = new Date(), td = d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
   Object.values(STATE.accounts||{}).forEach(a => (a.videos||[]).forEach(v => { if(v.status==="uploaded"){up++; if((v.uploaded||"").startsWith(td)) today++;} if(v.status==="new"||v.status==="retry") qu++; if(v.status==="failed") fa++; }));
-  const errs = (STATE.log||[]).filter(l => l.l==="error" && !l.a).slice(0,1);
+  // show only a fresh problem (from the last 2 hours), never an old one that is already solved
+  const fresh = (t) => { const d = new Date(String(t||"").replace(" ", "T") + ":00+05:00"); return !isNaN(d) && Date.now() - d < 2 * 36e5; };
+  const errs = (STATE.log||[]).filter(l => l.l==="error" && !l.a && fresh(l.t)).slice(0,1);
   const run = RUNS[0];
   const runTxt = run ? (run.status!=="completed" ? '<span class="pill warn">Running now…</span>' : (run.conclusion==="success" ? '<span class="pill ok">Last run OK</span>' : `<span class="pill bad">Last run: ${esc(run.conclusion)}</span>`)) : "";
   return `

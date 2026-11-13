@@ -1950,7 +1950,7 @@
   },
   {
    "t": "2026-11-13 15:26",
-   "l": "error",
+   "l": "info",
    "a": "",
    "m": "tool did not run for 7.4 hours"
   },
@@ -1962,7 +1962,7 @@
   },
   {
    "t": "2026-11-13 08:05",
-   "l": "error",
+   "l": "info",
    "a": "",
    "m": "tool did not run for 3.5 hours"
   },

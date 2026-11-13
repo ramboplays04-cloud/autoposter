@@ -959,7 +959,7 @@ def main():
         if gap_h >= 2:
             ctx.notes.append(("high", f"⚠️ GitHub did not run the tool for {gap_h:.0f} hours (last run {state['last_run'][5:]}). "
                                       "It is running again now. If this repeats, tell Claude."))
-            ctx.log(f"tool did not run for {gap_h:.1f} hours", "error")
+            ctx.log(f"GitHub skipped runs for {gap_h:.1f} hours (now running again)", "info")
     except ValueError:
         pass
 
