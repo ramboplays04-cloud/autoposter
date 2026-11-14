@@ -1800,6 +1800,15 @@
      "status": "new",
      "attempts": 0,
      "found": "2026-11-14 21:59"
+    },
+    {
+     "id": "7708085734275648799",
+     "url": "https://www.tiktok.com/@a_biology_teacher/video/7708085734275648799",
+     "caption": "#funny #biology #genetics #science #stem ",
+     "dur": 8,
+     "status": "new",
+     "attempts": 0,
+     "found": "2026-11-15 02:23"
     }
    ],
    "seen": [
@@ -2015,25 +2024,36 @@
     "7707769937405742366",
     "7700354784569609503",
     "7707948810927869214",
-    "7700611699476401439"
+    "7700611699476401439",
+    "7708085734275648799"
    ],
    "slots": {
-    "2026-11-12": [
-     "22:05"
-    ],
     "2026-11-13": [
      "22:05"
     ],
     "2026-11-14": [
      "22:05"
-    ]
+    ],
+    "2026-11-15": []
    },
-   "last_checked": "2026-11-14 21:59",
+   "last_checked": "2026-11-15 02:23",
    "first_done": true,
    "scan_fail": 0
   }
  },
  "log": [
+  {
+   "t": "2026-11-15 02:23",
+   "l": "info",
+   "a": "amwcd8ml6ywwg",
+   "m": "check done: 1 new videos added to queue"
+  },
+  {
+   "t": "2026-11-15 02:23",
+   "l": "info",
+   "a": "",
+   "m": "GitHub skipped runs for 4.3 hours (now running again)"
+  },
   {
    "t": "2026-11-14 22:07",
    "l": "success",
@@ -2299,7 +2319,7 @@
    "m": "check done: 200 new videos added to queue"
   }
  ],
- "last_run": "2026-11-14 22:07",
+ "last_run": "2026-11-15 02:23",
  "last_action": "auto",
  "fb_conn": "92cc7902cef0a19b",
  "posted_ids": [
