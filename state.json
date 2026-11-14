@@ -127,17 +127,23 @@
      "id": "7684303326086843678",
      "url": "https://www.tiktok.com/@a_biology_teacher/video/7684303326086843678",
      "caption": "MCQ: Eukaryotic vs. Prokaryotic #learnontiktok #biology #science #stem #cells",
-     "status": "new",
+     "status": "uploaded",
      "attempts": 0,
-     "found": "2026-11-11 22:04"
+     "found": "2026-11-11 22:04",
+     "fb": "41124834900448744",
+     "uploaded": "2026-11-14 22:06",
+     "error": ""
     },
     {
      "id": "7691673707273587998",
      "url": "https://www.tiktok.com/@a_biology_teacher/video/7691673707273587998",
      "caption": "AI Science Slop #biology #ai #aislop #teaching #science ",
-     "status": "new",
+     "status": "uploaded",
      "attempts": 0,
-     "found": "2026-11-11 22:04"
+     "found": "2026-11-11 22:04",
+     "fb": "28794201546946009",
+     "uploaded": "2026-11-14 22:07",
+     "error": ""
     },
     {
      "id": "7684315349625408799",
@@ -2018,7 +2024,9 @@
     "2026-11-13": [
      "22:05"
     ],
-    "2026-11-14": []
+    "2026-11-14": [
+     "22:05"
+    ]
    },
    "last_checked": "2026-11-14 21:59",
    "first_done": true,
@@ -2026,6 +2034,24 @@
   }
  },
  "log": [
+  {
+   "t": "2026-11-14 22:07",
+   "l": "success",
+   "a": "amwcd8ml6ywwg",
+   "m": "video 587998 -> Hidden Badge uploaded (reel)"
+  },
+  {
+   "t": "2026-11-14 22:06",
+   "l": "success",
+   "a": "amwcd8ml6ywwg",
+   "m": "video 843678 -> Hidden Badge uploaded (reel)"
+  },
+  {
+   "t": "2026-11-14 22:05",
+   "l": "info",
+   "a": "amwcd8ml6ywwg",
+   "m": "22:05 slot - starting upload"
+  },
   {
    "t": "2026-11-14 21:59",
    "l": "info",
@@ -2273,11 +2299,13 @@
    "m": "check done: 200 new videos added to queue"
   }
  ],
- "last_run": "2026-11-14 21:59",
+ "last_run": "2026-11-14 22:07",
  "last_action": "auto",
  "fb_conn": "92cc7902cef0a19b",
  "posted_ids": [
   "7691386794499132703",
-  "7691438191701740831"
+  "7691438191701740831",
+  "7684303326086843678",
+  "7691673707273587998"
  ]
 }
