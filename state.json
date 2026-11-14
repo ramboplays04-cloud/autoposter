@@ -1785,6 +1785,15 @@
      "status": "new",
      "attempts": 0,
      "found": "2026-11-14 15:52"
+    },
+    {
+     "id": "7700611699476401439",
+     "url": "https://www.tiktok.com/@a_biology_teacher/video/7700611699476401439",
+     "caption": "MCQ: Cell Size #cells #biology #stem #science #learnbiologyontiktok",
+     "dur": 85,
+     "status": "new",
+     "attempts": 0,
+     "found": "2026-11-14 21:59"
     }
    ],
    "seen": [
@@ -1999,7 +2008,8 @@
     "7700611109279075615",
     "7707769937405742366",
     "7700354784569609503",
-    "7707948810927869214"
+    "7707948810927869214",
+    "7700611699476401439"
    ],
    "slots": {
     "2026-11-12": [
@@ -2010,12 +2020,24 @@
     ],
     "2026-11-14": []
    },
-   "last_checked": "2026-11-14 15:52",
+   "last_checked": "2026-11-14 21:59",
    "first_done": true,
    "scan_fail": 0
   }
  },
  "log": [
+  {
+   "t": "2026-11-14 21:59",
+   "l": "info",
+   "a": "amwcd8ml6ywwg",
+   "m": "check done: 1 new videos added to queue"
+  },
+  {
+   "t": "2026-11-14 21:59",
+   "l": "info",
+   "a": "",
+   "m": "GitHub skipped runs for 6.1 hours (now running again)"
+  },
   {
    "t": "2026-11-14 15:52",
    "l": "info",
@@ -2251,7 +2273,7 @@
    "m": "check done: 200 new videos added to queue"
   }
  ],
- "last_run": "2026-11-14 15:52",
+ "last_run": "2026-11-14 21:59",
  "last_action": "auto",
  "fb_conn": "92cc7902cef0a19b",
  "posted_ids": [
