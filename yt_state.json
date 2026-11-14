@@ -745,7 +745,7 @@
     ]
    },
    "owed": 0,
-   "last_checked": "2026-11-14 04:51",
+   "last_checked": "2026-11-14 11:11",
    "first_done": true
   }
  },
@@ -758,6 +758,12 @@
   "7656976290892745997"
  ],
  "log": [
+  {
+   "t": "2026-11-14 11:11",
+   "l": "info",
+   "a": "ymwcj6ohxpfxo",
+   "m": "check done: 0 new videos added to queue"
+  },
   {
    "t": "2026-11-14 04:52",
    "l": "success",
@@ -873,7 +879,7 @@
    "m": "check done: 71 new videos added to queue"
   }
  ],
- "last_run": "2026-11-14 04:52",
+ "last_run": "2026-11-14 11:11",
  "last_action": "auto",
  "daily": {
   "2026-11-12": {
