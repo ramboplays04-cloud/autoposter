@@ -1085,6 +1085,25 @@ def main():
                             done.remove(x)
                     due.append((acc, recent))
             upload_round(ctx, due)
+        elif action == "diag":
+            # Ask Facebook how the last uploads are doing (published? processing? any error?)
+            ver = ctx.cfg.get("graph_version") or "v23.0"
+            for acc in accounts:
+                st = ctx.acc_state(acc)
+                tok = ctx.tokens.get(str(acc.get("page_id") or ""))
+                for v in [x for x in st["videos"] if x.get("status") == "uploaded" and x.get("fb")][-2:]:
+                    try:
+                        d = _fb(requests.get(f"https://graph.facebook.com/{ver}/{v['fb']}", timeout=TIMEOUT, params={
+                            "fields": "status,published,permalink_url,created_time,length", "access_token": tok}))
+                        stt = d.get("status") or {}
+                        pub = (stt.get("publishing_phase") or {})
+                        ctx.log(f"check {v['fb']}: published={d.get('published')} video={stt.get('video_status')} "
+                                f"processing={(stt.get('processing_phase') or {}).get('status')} "
+                                f"publishing={pub.get('status')}/{pub.get('publish_status')} "
+                                f"err={json.dumps(stt.get('error') or (stt.get('processing_phase') or {}).get('errors') or '')[:150]} "
+                                f"url={d.get('permalink_url')}", "info", acc)
+                    except Exception as e:
+                        ctx.log(f"check {v['fb']} failed: {str(e)[:200]}", "info", acc)
         elif action == "notify_test":
             ctx.notes.append(("default", "🔔 Test - notifications are working! You will get a message here when videos upload, fail, or Facebook pauses."))
         else:
