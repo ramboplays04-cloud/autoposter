@@ -900,9 +900,15 @@ def auto(ctx, acc):
     build_page_index(ctx, acc)
 
     passed = [s for s in slots if s <= hhmm]
-    if new_account:  # naya account: aaj ke guzre slots par ek dum upload na karo
-        done.extend(s for s in passed if s not in done)
-        return []
+    if new_account:
+        # New account: skip today's times that are long gone, but still post a time that passed
+        # only a little while ago (you often add accounts right before their time).
+        def mins_ago(x):
+            h, m = map(int, x.split(":"))
+            return (ctx.now - ctx.now.replace(hour=h, minute=m, second=0, microsecond=0)).total_seconds() / 60
+        old = [x for x in passed if x not in done and mins_ago(x) > 90]
+        done.extend(old)
+        passed = [x for x in passed if x not in old]
     pending = [s for s in passed if s not in done]
     if pending and ctx.cfg.get("paused"):
         done.extend(pending)
@@ -1038,6 +1044,32 @@ def main():
                     pending = auto(ctx, acc)
                     if pending:
                         due.append((acc, pending))
+            upload_round(ctx, due)
+        elif action == "catchup":
+            # Post the upload times of the last 3 hours that GitHub missed, for accounts that
+            # have not posted anything today yet (safe: never posts twice for the same day).
+            today = ctx.now.date().isoformat()
+            due = []
+            for acc in accounts:
+                if not acc.get("enabled", True):
+                    continue
+                st = ctx.acc_state(acc)
+                if st["last_checked"] is None:
+                    scan(ctx, acc)
+                if any(str(v.get("uploaded", "")).startswith(today) for v in st["videos"]):
+                    continue
+                done = st["slots"].setdefault(today, [])
+                recent = []
+                for x in parse_times(acc.get("times")):
+                    h, m = map(int, x.split(":"))
+                    ago = (ctx.now - ctx.now.replace(hour=h, minute=m, second=0, microsecond=0)).total_seconds() / 60
+                    if 0 <= ago <= 180:
+                        recent.append(x)
+                if recent:
+                    for x in recent:
+                        if x in done:
+                            done.remove(x)
+                    due.append((acc, recent))
             upload_round(ctx, due)
         elif action == "notify_test":
             ctx.notes.append(("default", "🔔 Test - notifications are working! You will get a message here when videos upload, fail, or Facebook pauses."))
