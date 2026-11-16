@@ -128,6 +128,22 @@
       "extra": "",
       "import_old": true,
       "skip_existing": true
+    },
+    {
+      "id": "amwjqsilru89u",
+      "tiktok": "https://www.tiktok.com/@a_bodyofproof",
+      "enabled": true,
+      "page_id": "1134647646404023",
+      "times": [
+        "02:00"
+      ],
+      "per_slot": 1,
+      "mode": "reel",
+      "use_caption": true,
+      "remove_hashtags": false,
+      "extra": "",
+      "import_old": true,
+      "skip_existing": true
     }
   ],
   "fb_app_id": "2359693014780364",
