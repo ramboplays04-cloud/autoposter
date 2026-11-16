@@ -152,7 +152,7 @@
       "times": [
         "02:00"
       ],
-      "per_slot": 1,
+      "per_slot": 2,
       "mode": "reel",
       "use_caption": true,
       "remove_hashtags": false,
