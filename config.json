@@ -129,14 +129,15 @@
       "enabled": true,
       "page_id": "1298573673334294",
       "times": [
-        "22:05"
+        "04:00"
       ],
       "per_slot": 2,
       "mode": "reel",
       "use_caption": true,
       "remove_hashtags": false,
       "extra": "",
-      "import_old": true
+      "import_old": true,
+      "skip_existing": true
     },
     {
       "id": "amwjqa6cruod7",
