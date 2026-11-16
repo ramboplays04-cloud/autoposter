@@ -232,6 +232,21 @@
       "remove_hashtags": false,
       "extra": "",
       "import_old": true
+    },
+    {
+      "id": "amwjrqd87gqiq",
+      "tiktok": "https://www.tiktok.com/@hosfordhair",
+      "enabled": true,
+      "page_id": "1240403605830778",
+      "times": [
+        "02:25"
+      ],
+      "per_slot": 2,
+      "mode": "reel",
+      "use_caption": true,
+      "remove_hashtags": false,
+      "extra": "",
+      "import_old": true
     }
   ],
   "fb_app_id": "2359693014780364",
