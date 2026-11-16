@@ -149,17 +149,23 @@
      "id": "7684315349625408799",
      "url": "https://www.tiktok.com/@a_biology_teacher/video/7684315349625408799",
      "caption": "MCQ: Plant vs. Animal Cells #cells #biology #science #stem #learnontiktok",
-     "status": "new",
+     "status": "uploaded",
      "attempts": 0,
-     "found": "2026-11-11 22:04"
+     "found": "2026-11-11 22:04",
+     "fb": "2583305582151864",
+     "uploaded": "2026-11-16 23:23",
+     "error": ""
     },
     {
      "id": "7691789093197450526",
      "url": "https://www.tiktok.com/@a_biology_teacher/video/7691789093197450526",
      "caption": "Day 1 #contentcreator #personal #life ",
-     "status": "new",
+     "status": "uploaded",
      "attempts": 0,
-     "found": "2026-11-11 22:04"
+     "found": "2026-11-11 22:04",
+     "fb": "2195265574397616",
+     "uploaded": "2026-11-16 23:25",
+     "error": ""
     },
     {
      "id": "7691827091549048094",
@@ -1836,6 +1842,15 @@
      "status": "new",
      "attempts": 0,
      "found": "2026-11-16 05:56"
+    },
+    {
+     "id": "7700951028635733278",
+     "url": "https://www.tiktok.com/@a_biology_teacher/video/7700951028635733278",
+     "caption": "MCQ: Law of Independent Assortment #genetics #science #stem #biology #learnontiktokcontest ",
+     "dur": 73,
+     "status": "new",
+     "attempts": 0,
+     "found": "2026-11-16 23:23"
     }
    ],
    "seen": [
@@ -2055,21 +2070,54 @@
     "7708085734275648799",
     "7700354792572472607",
     "7700612304081079582",
-    "7700354780232830238"
+    "7700354780232830238",
+    "7700951028635733278"
    ],
    "slots": {
     "2026-11-14": [
      "22:05"
     ],
     "2026-11-15": [],
-    "2026-11-16": []
+    "2026-11-16": [
+     "22:05"
+    ]
    },
-   "last_checked": "2026-11-16 12:53",
+   "last_checked": "2026-11-16 23:23",
    "first_done": true,
    "scan_fail": 0
   }
  },
  "log": [
+  {
+   "t": "2026-11-16 23:25",
+   "l": "success",
+   "a": "amwcd8ml6ywwg",
+   "m": "video 450526 -> Hidden Badge uploaded (reel)"
+  },
+  {
+   "t": "2026-11-16 23:23",
+   "l": "success",
+   "a": "amwcd8ml6ywwg",
+   "m": "video 408799 -> Hidden Badge uploaded (reel)"
+  },
+  {
+   "t": "2026-11-16 23:23",
+   "l": "info",
+   "a": "amwcd8ml6ywwg",
+   "m": "22:05 slot - starting upload"
+  },
+  {
+   "t": "2026-11-16 23:23",
+   "l": "info",
+   "a": "amwcd8ml6ywwg",
+   "m": "check done: 1 new videos added to queue"
+  },
+  {
+   "t": "2026-11-16 23:23",
+   "l": "info",
+   "a": "",
+   "m": "GitHub skipped runs for 10.5 hours (now running again)"
+  },
   {
    "t": "2026-11-16 12:53",
    "l": "info",
@@ -2425,13 +2473,15 @@
    "m": "check done: 200 new videos added to queue"
   }
  ],
- "last_run": "2026-11-16 12:53",
+ "last_run": "2026-11-16 23:25",
  "last_action": "auto",
  "fb_conn": "92cc7902cef0a19b",
  "posted_ids": [
   "7691386794499132703",
   "7691438191701740831",
   "7684303326086843678",
-  "7691673707273587998"
+  "7691673707273587998",
+  "7684315349625408799",
+  "7691789093197450526"
  ]
 }
