@@ -786,6 +786,10 @@ def process(ctx, acc, video):
         ctx.log(f"skipped - Facebook is paused until {h.get('until') if h.get('kind') != 'auth' else 'you Reconnect Facebook'}",
                 "info", acc)
         return None
+    ph = (ctx.state.get("page_hold") or {}).get(page_id)
+    if ph and ph.get("until", "") > ctx.ts():
+        ctx.log(f"skipped - this Page is paused by Facebook until {ph['until']} ({ph.get('reason', '')[:80]})", "info", acc)
+        return None
     token = ctx.tokens.get(page_id)
     if not token and ctx.user_token and not ctx.pages_refreshed:
         refresh_pages(ctx)          # brand-new Page: look it up once (only when actually needed)
@@ -834,6 +838,16 @@ def process(ctx, acc, video):
                 # Facebook said stop. The video is fine - keep it in the queue without using up a try.
                 video["status"] = "new"
                 video["error"] = ""
+                if kind == "block" and "this page" in str(e).lower():
+                    # Problem with ONE Page (e.g. "confirm your identity to publish as this Page"):
+                    # pause only that Page for 12 hours, the other Pages keep posting.
+                    until = (datetime.datetime.now(ctx.tz) + datetime.timedelta(hours=12)).strftime("%Y-%m-%d %H:%M")
+                    ctx.state.setdefault("page_hold", {})[page_id] = {"until": until, "reason": str(e)[:200]}
+                    ctx.log(f"{page_name}: Facebook blocked posting on this Page - paused only this Page until {until}: {e}",
+                            "error", acc)
+                    ctx.notes.append(("high", f"⚠️ {page_name}: Facebook wants you to confirm your identity for this Page. "
+                                              "Only this Page is paused; the others keep posting."))
+                    return None
                 ctx.set_hold(kind, e)
                 return None
             video["attempts"] = int(video.get("attempts") or 0) + 1

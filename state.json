@@ -15719,12 +15719,5 @@
   "7334636547255373089",
   "7662480652377345310",
   "7662516115007917343"
- ],
- "fb_hold": {
-  "kind": "block",
-  "until": "2026-11-17 15:21",
-  "reason": "Confirm your identity before you can publish as this Page. Open the Facebook app on your phone and follow the instructions. (code 368)",
-  "since": "2026-11-17 03:21"
- },
- "fb_error": "Facebook paused uploads (access limited). The tool is waiting safely until 2026-11-17 15:21 and will not retry before that, so the block does not get worse. No videos are lost."
+ ]
 }
