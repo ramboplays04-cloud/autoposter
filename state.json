@@ -15139,7 +15139,79 @@
  },
  "log": [
   {
-   "t": "2026-11-17 05:17",
+   "t": "2026-11-17 05:18",
+   "l": "info",
+   "a": "amwjr264mgsn0",
+   "m": "check 28573501035662539: published=True video=ready processing=complete publishing=complete/published err=\"\" url=/reel/28573501035662539/"
+  },
+  {
+   "t": "2026-11-17 05:18",
+   "l": "info",
+   "a": "amwjr264mgsn0",
+   "m": "check 1455570286658861: published=True video=ready processing=complete publishing=complete/published err=\"\" url=/reel/1455570286658861/"
+  },
+  {
+   "t": "2026-11-17 05:18",
+   "l": "info",
+   "a": "amwjqyrg9oct3",
+   "m": "check 3785007861637506: published=True video=ready processing=complete publishing=complete/published err=\"\" url=/reel/3785007861637506/"
+  },
+  {
+   "t": "2026-11-17 05:18",
+   "l": "info",
+   "a": "amwjqyrg9oct3",
+   "m": "check 1148217051132737: published=True video=ready processing=complete publishing=complete/published err=\"\" url=/reel/1148217051132737/"
+  },
+  {
+   "t": "2026-11-17 05:18",
+   "l": "info",
+   "a": "amwjqxz5jin1q",
+   "m": "check 1528962392620156: published=True video=ready processing=complete publishing=complete/published err=\"\" url=/reel/1528962392620156/"
+  },
+  {
+   "t": "2026-11-17 05:18",
+   "l": "info",
+   "a": "amwjqxz5jin1q",
+   "m": "check 1825218842028115: published=True video=ready processing=complete publishing=complete/published err=\"\" url=/reel/1825218842028115/"
+  },
+  {
+   "t": "2026-11-17 05:18",
+   "l": "info",
+   "a": "amwjqsilru89u",
+   "m": "check 1001967139014648: published=True video=ready processing=complete publishing=complete/published err=\"\" url=/reel/1001967139014648/"
+  },
+  {
+   "t": "2026-11-17 05:18",
+   "l": "info",
+   "a": "amwjqsilru89u",
+   "m": "check 4501259953521473: published=True video=ready processing=complete publishing=complete/published err=\"\" url=/reel/4501259953521473/"
+  },
+  {
+   "t": "2026-11-17 05:18",
+   "l": "info",
+   "a": "amwjqa6cruod7",
+   "m": "check 1461657986107346: published=True video=ready processing=complete publishing=complete/published err=\"\" url=/reel/1461657986107346/"
+  },
+  {
+   "t": "2026-11-17 05:18",
+   "l": "info",
+   "a": "amwjqa6cruod7",
+   "m": "check 1163452353213509: published=True video=ready processing=complete publishing=complete/published err=\"\" url=/reel/1163452353213509/"
+  },
+  {
+   "t": "2026-11-17 05:18",
+   "l": "info",
+   "a": "amwcd8ml6ywwg",
+   "m": "check 2462584620939284: published=True video=ready processing=complete publishing=complete/published err=\"\" url=/reel/2462584620939284/"
+  },
+  {
+   "t": "2026-11-17 05:18",
+   "l": "info",
+   "a": "amwcd8ml6ywwg",
+   "m": "check 4532214046992193: published=True video=ready processing=complete publishing=complete/published err=\"\" url=/reel/4532214046992193/"
+  },
+  {
+   "t": "2026-11-17 04:39",
    "l": "error",
    "a": "",
    "m": "Engine error: cannot access local variable 'page_name' where it is not associated with a value | er/work/autoposter/autoposter/autopost.py\", line 846, in process\n    ctx.log(f\"{page_name}: Facebook blocked posting on this Page - paused only this Page until {until}: {e}\",\n               ^^^^^^^^^\nUnboundLocalError: cannot access local variable 'page_name' where it is not associated with a value\n"
@@ -15919,8 +15991,8 @@
    "m": "check done: 200 new videos added to queue"
   }
  ],
- "last_run": "2026-11-17 05:17",
- "last_action": "auto",
+ "last_run": "2026-11-17 05:18",
+ "last_action": "diag",
  "fb_conn": "b486622699c168b0",
  "posted_ids": [
   "7691386794499132703",
