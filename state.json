@@ -174,8 +174,8 @@
      "status": "uploaded",
      "attempts": 0,
      "found": "2026-11-11 22:04",
-     "fb": "4532214046992193",
-     "uploaded": "2026-11-17 04:02",
+     "fb": "1186879290570944",
+     "uploaded": "2026-11-17 04:40",
      "error": ""
     },
     {
@@ -185,8 +185,8 @@
      "status": "uploaded",
      "attempts": 0,
      "found": "2026-11-11 22:04",
-     "fb": "2462584620939284",
-     "uploaded": "2026-11-17 04:03",
+     "fb": "1090551540703716",
+     "uploaded": "2026-11-17 04:41",
      "error": ""
     },
     {
@@ -1866,6 +1866,15 @@
      "status": "new",
      "attempts": 0,
      "found": "2026-11-17 02:09"
+    },
+    {
+     "id": "7708916741019127070",
+     "url": "https://www.tiktok.com/@a_biology_teacher/video/7708916741019127070",
+     "caption": "Extraplot 11-16-26 #science #stem #graph #dailygames #extraplot ",
+     "dur": 81,
+     "status": "new",
+     "attempts": 0,
+     "found": "2026-11-17 04:39"
     }
    ],
    "seen": [
@@ -2087,7 +2096,8 @@
     "7700612304081079582",
     "7700354780232830238",
     "7700951028635733278",
-    "7700952115174329631"
+    "7700952115174329631",
+    "7708916741019127070"
    ],
    "slots": {
     "2026-11-15": [],
@@ -2098,7 +2108,7 @@
      "04:00"
     ]
    },
-   "last_checked": "2026-11-17 04:01",
+   "last_checked": "2026-11-17 04:39",
    "first_done": true,
    "scan_fail": 0
   },
@@ -2136,8 +2146,8 @@
      "status": "uploaded",
      "attempts": 0,
      "found": "2026-11-17 02:09",
-     "fb": "1163452353213509",
-     "uploaded": "2026-11-17 04:07",
+     "fb": "2054155041927999",
+     "uploaded": "2026-11-17 04:46",
      "error": ""
     },
     {
@@ -2148,8 +2158,8 @@
      "status": "uploaded",
      "attempts": 0,
      "found": "2026-11-17 02:09",
-     "fb": "1461657986107346",
-     "uploaded": "2026-11-17 04:08",
+     "fb": "1657635246020784",
+     "uploaded": "2026-11-17 04:48",
      "error": ""
     },
     {
@@ -4125,7 +4135,7 @@
      "04:00"
     ]
    },
-   "last_checked": "2026-11-17 04:01",
+   "last_checked": "2026-11-17 04:39",
    "first_done": true,
    "scan_fail": 0
   },
@@ -4163,8 +4173,8 @@
      "status": "uploaded",
      "attempts": 0,
      "found": "2026-11-17 02:11",
-     "fb": "4501259953521473",
-     "uploaded": "2026-11-17 04:14",
+     "fb": "1914886786614829",
+     "uploaded": "2026-11-17 04:53",
      "error": ""
     },
     {
@@ -4175,8 +4185,8 @@
      "status": "uploaded",
      "attempts": 0,
      "found": "2026-11-17 02:11",
-     "fb": "1001967139014648",
-     "uploaded": "2026-11-17 04:15",
+     "fb": "1146535054440758",
+     "uploaded": "2026-11-17 04:55",
      "error": ""
     },
     {
@@ -6152,7 +6162,7 @@
      "04:00"
     ]
    },
-   "last_checked": "2026-11-17 04:01",
+   "last_checked": "2026-11-17 04:39",
    "first_done": true,
    "scan_fail": 0
   },
@@ -6190,8 +6200,8 @@
      "status": "uploaded",
      "attempts": 0,
      "found": "2026-11-17 02:13",
-     "fb": "1825218842028115",
-     "uploaded": "2026-11-17 04:21",
+     "fb": "2093443584635883",
+     "uploaded": "2026-11-17 05:00",
      "error": ""
     },
     {
@@ -6202,8 +6212,8 @@
      "status": "uploaded",
      "attempts": 0,
      "found": "2026-11-17 02:13",
-     "fb": "1528962392620156",
-     "uploaded": "2026-11-17 04:23",
+     "fb": "2051918555462938",
+     "uploaded": "2026-11-17 05:01",
      "error": ""
     },
     {
@@ -7449,7 +7459,7 @@
      "04:00"
     ]
    },
-   "last_checked": "2026-11-17 04:01",
+   "last_checked": "2026-11-17 04:40",
    "first_done": true,
    "scan_fail": 0
   },
@@ -7487,8 +7497,8 @@
      "status": "uploaded",
      "attempts": 0,
      "found": "2026-11-17 02:15",
-     "fb": "1148217051132737",
-     "uploaded": "2026-11-17 04:27",
+     "fb": "1667381074926051",
+     "uploaded": "2026-11-17 05:06",
      "error": ""
     },
     {
@@ -7499,8 +7509,8 @@
      "status": "uploaded",
      "attempts": 0,
      "found": "2026-11-17 02:15",
-     "fb": "3785007861637506",
-     "uploaded": "2026-11-17 04:28",
+     "fb": "1174803455021008",
+     "uploaded": "2026-11-17 05:07",
      "error": ""
     },
     {
@@ -9096,7 +9106,7 @@
      "04:00"
     ]
    },
-   "last_checked": "2026-11-17 04:01",
+   "last_checked": "2026-11-17 04:40",
    "first_done": true,
    "scan_fail": 0
   },
@@ -9134,8 +9144,8 @@
      "status": "uploaded",
      "attempts": 0,
      "found": "2026-11-17 02:08",
-     "fb": "1455570286658861",
-     "uploaded": "2026-11-17 04:34",
+     "fb": "1305666695034029",
+     "uploaded": "2026-11-17 05:11",
      "error": ""
     },
     {
@@ -9146,8 +9156,8 @@
      "status": "uploaded",
      "attempts": 0,
      "found": "2026-11-17 02:08",
-     "fb": "28573501035662539",
-     "uploaded": "2026-11-17 04:35",
+     "fb": "1646919930262645",
+     "uploaded": "2026-11-17 05:13",
      "error": ""
     },
     {
@@ -11096,7 +11106,7 @@
      "04:00"
     ]
    },
-   "last_checked": "2026-11-17 04:01",
+   "last_checked": "2026-11-17 04:40",
    "first_done": true,
    "scan_fail": 0
   },
@@ -15129,166 +15139,166 @@
  },
  "log": [
   {
-   "t": "2026-11-17 04:39",
+   "t": "2026-11-17 05:17",
    "l": "error",
    "a": "",
    "m": "Engine error: cannot access local variable 'page_name' where it is not associated with a value | er/work/autoposter/autoposter/autopost.py\", line 846, in process\n    ctx.log(f\"{page_name}: Facebook blocked posting on this Page - paused only this Page until {until}: {e}\",\n               ^^^^^^^^^\nUnboundLocalError: cannot access local variable 'page_name' where it is not associated with a value\n"
   },
   {
-   "t": "2026-11-17 04:39",
+   "t": "2026-11-17 05:16",
    "l": "info",
    "a": "amwjrmh1ckfrk",
    "m": "04:00 slot - starting upload"
   },
   {
-   "t": "2026-11-17 04:35",
+   "t": "2026-11-17 05:13",
    "l": "success",
    "a": "amwjr264mgsn0",
    "m": "video 656990 -> doriasglam uploaded (reel)"
   },
   {
-   "t": "2026-11-17 04:34",
+   "t": "2026-11-17 05:11",
    "l": "success",
    "a": "amwjr264mgsn0",
    "m": "video 773023 -> doriasglam uploaded (reel)"
   },
   {
-   "t": "2026-11-17 04:34",
+   "t": "2026-11-17 05:11",
    "l": "info",
    "a": "amwjr264mgsn0",
    "m": "04:00 slot - starting upload"
   },
   {
-   "t": "2026-11-17 04:28",
+   "t": "2026-11-17 05:07",
    "l": "success",
    "a": "amwjqyrg9oct3",
    "m": "video 294432 -> studygermandaily uploaded (reel)"
   },
   {
-   "t": "2026-11-17 04:27",
+   "t": "2026-11-17 05:06",
    "l": "success",
    "a": "amwjqyrg9oct3",
    "m": "video 402592 -> studygermandaily uploaded (reel)"
   },
   {
-   "t": "2026-11-17 04:26",
+   "t": "2026-11-17 05:06",
    "l": "info",
    "a": "amwjqyrg9oct3",
    "m": "04:00 slot - starting upload"
   },
   {
-   "t": "2026-11-17 04:23",
+   "t": "2026-11-17 05:01",
    "l": "success",
    "a": "amwjqxz5jin1q",
    "m": "video 201694 -> shootingcanons uploaded (reel)"
   },
   {
-   "t": "2026-11-17 04:21",
+   "t": "2026-11-17 05:00",
    "l": "success",
    "a": "amwjqxz5jin1q",
    "m": "video 654175 -> shootingcanons uploaded (reel)"
   },
   {
-   "t": "2026-11-17 04:20",
+   "t": "2026-11-17 05:00",
    "l": "info",
    "a": "amwjqxz5jin1q",
    "m": "04:00 slot - starting upload"
   },
   {
-   "t": "2026-11-17 04:15",
+   "t": "2026-11-17 04:55",
    "l": "success",
    "a": "amwjqsilru89u",
    "m": "video 106206 -> abodyofproof uploaded (reel)"
   },
   {
-   "t": "2026-11-17 04:14",
+   "t": "2026-11-17 04:53",
    "l": "success",
    "a": "amwjqsilru89u",
    "m": "video 925343 -> abodyofproof uploaded (reel)"
   },
   {
-   "t": "2026-11-17 04:13",
+   "t": "2026-11-17 04:53",
    "l": "info",
    "a": "amwjqsilru89u",
    "m": "04:00 slot - starting upload"
   },
   {
-   "t": "2026-11-17 04:08",
+   "t": "2026-11-17 04:48",
    "l": "success",
    "a": "amwjqa6cruod7",
    "m": "video 183574 -> justacrystallovinghomo uploaded (reel)"
   },
   {
-   "t": "2026-11-17 04:07",
+   "t": "2026-11-17 04:46",
    "l": "success",
    "a": "amwjqa6cruod7",
    "m": "video 674262 -> justacrystallovinghomo uploaded (reel)"
   },
   {
-   "t": "2026-11-17 04:07",
+   "t": "2026-11-17 04:46",
    "l": "info",
    "a": "amwjqa6cruod7",
    "m": "04:00 slot - starting upload"
   },
   {
-   "t": "2026-11-17 04:03",
+   "t": "2026-11-17 04:41",
    "l": "success",
    "a": "amwcd8ml6ywwg",
    "m": "video 232798 -> Hidden Badge uploaded (reel)"
   },
   {
-   "t": "2026-11-17 04:02",
+   "t": "2026-11-17 04:40",
    "l": "success",
    "a": "amwcd8ml6ywwg",
    "m": "video 048094 -> Hidden Badge uploaded (reel)"
   },
   {
-   "t": "2026-11-17 04:02",
+   "t": "2026-11-17 04:40",
    "l": "info",
    "a": "amwcd8ml6ywwg",
    "m": "04:00 slot - starting upload"
   },
   {
-   "t": "2026-11-17 04:02",
+   "t": "2026-11-17 04:40",
    "l": "info",
    "a": "amwjrmh1ckfrk",
    "m": "looked at 11 video(s) already on the Page - 11 known"
   },
   {
-   "t": "2026-11-17 04:01",
+   "t": "2026-11-17 04:40",
    "l": "info",
    "a": "amwjr264mgsn0",
    "m": "check done: 0 new videos added to queue"
   },
   {
-   "t": "2026-11-17 04:01",
+   "t": "2026-11-17 04:40",
    "l": "info",
    "a": "amwjqyrg9oct3",
    "m": "check done: 0 new videos added to queue"
   },
   {
-   "t": "2026-11-17 04:01",
+   "t": "2026-11-17 04:40",
    "l": "info",
    "a": "amwjqxz5jin1q",
    "m": "check done: 0 new videos added to queue"
   },
   {
-   "t": "2026-11-17 04:01",
+   "t": "2026-11-17 04:39",
    "l": "info",
    "a": "amwjqsilru89u",
    "m": "check done: 0 new videos added to queue"
   },
   {
-   "t": "2026-11-17 04:01",
+   "t": "2026-11-17 04:39",
    "l": "info",
    "a": "amwjqa6cruod7",
    "m": "check done: 0 new videos added to queue"
   },
   {
-   "t": "2026-11-17 04:01",
+   "t": "2026-11-17 04:39",
    "l": "info",
    "a": "amwcd8ml6ywwg",
-   "m": "check done: 0 new videos added to queue"
+   "m": "check done: 1 new videos added to queue"
   },
   {
    "t": "2026-11-17 03:48",
@@ -15909,7 +15919,7 @@
    "m": "check done: 200 new videos added to queue"
   }
  ],
- "last_run": "2026-11-17 04:39",
+ "last_run": "2026-11-17 05:17",
  "last_action": "auto",
  "fb_conn": "b486622699c168b0",
  "posted_ids": [
@@ -15944,7 +15954,7 @@
  ],
  "page_hold": {
   "1072471055960911": {
-   "until": "2026-11-17 16:39",
+   "until": "2026-11-17 17:17",
    "reason": "Confirm your identity before you can publish as this Page. Open the Facebook app on your phone and follow the instructions. (code 368)"
   }
  }
