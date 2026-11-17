@@ -2108,7 +2108,7 @@
      "04:00"
     ]
    },
-   "last_checked": "2026-11-17 04:39",
+   "last_checked": "2026-11-17 07:02",
    "first_done": true,
    "scan_fail": 0
   },
@@ -4135,7 +4135,7 @@
      "04:00"
     ]
    },
-   "last_checked": "2026-11-17 04:39",
+   "last_checked": "2026-11-17 07:02",
    "first_done": true,
    "scan_fail": 0
   },
@@ -6162,7 +6162,7 @@
      "04:00"
     ]
    },
-   "last_checked": "2026-11-17 04:39",
+   "last_checked": "2026-11-17 07:02",
    "first_done": true,
    "scan_fail": 0
   },
@@ -7459,7 +7459,7 @@
      "04:00"
     ]
    },
-   "last_checked": "2026-11-17 04:40",
+   "last_checked": "2026-11-17 07:02",
    "first_done": true,
    "scan_fail": 0
   },
@@ -9106,7 +9106,7 @@
      "04:00"
     ]
    },
-   "last_checked": "2026-11-17 04:40",
+   "last_checked": "2026-11-17 07:02",
    "first_done": true,
    "scan_fail": 0
   },
@@ -10923,6 +10923,24 @@
      "status": "new",
      "attempts": 0,
      "found": "2026-11-17 02:16"
+    },
+    {
+     "id": "7708934236576681246",
+     "url": "https://www.tiktok.com/@thatvegancowgirl/video/7708934236576681246",
+     "caption": "really opening up here #homebirth #birthtrauma #stillborn #fyp #birth ",
+     "dur": 143,
+     "status": "new",
+     "attempts": 0,
+     "found": "2026-11-17 07:02"
+    },
+    {
+     "id": "7708943747806973214",
+     "url": "https://www.tiktok.com/@thatvegancowgirl/video/7708943747806973214",
+     "caption": "Do we like seeing what our vegan family eats?  @Glacier Fresh #WaterPurifier #TikTokShopBlackFriday #veganeats #familydinner #momsoftiktok ",
+     "dur": 51,
+     "status": "new",
+     "attempts": 0,
+     "found": "2026-11-17 07:02"
     }
    ],
    "seen": [
@@ -11098,7 +11116,9 @@
     "7708228433725181215",
     "7708231154150821150",
     "7708503192635542797",
-    "7708806640098692383"
+    "7708806640098692383",
+    "7708934236576681246",
+    "7708943747806973214"
    ],
    "slots": {
     "2026-11-17": [
@@ -11106,7 +11126,7 @@
      "04:00"
     ]
    },
-   "last_checked": "2026-11-17 04:40",
+   "last_checked": "2026-11-17 07:02",
    "first_done": true,
    "scan_fail": 0
   },
@@ -15132,12 +15152,54 @@
      "04:00"
     ]
    },
-   "last_checked": "2026-11-17 03:48",
+   "last_checked": "2026-11-17 07:02",
    "first_done": true,
    "scan_fail": 0
   }
  },
  "log": [
+  {
+   "t": "2026-11-17 07:02",
+   "l": "info",
+   "a": "amwjrmh1ckfrk",
+   "m": "check done: 0 new videos added to queue"
+  },
+  {
+   "t": "2026-11-17 07:02",
+   "l": "info",
+   "a": "amwjr264mgsn0",
+   "m": "check done: 2 new videos added to queue"
+  },
+  {
+   "t": "2026-11-17 07:02",
+   "l": "info",
+   "a": "amwjqyrg9oct3",
+   "m": "check done: 0 new videos added to queue"
+  },
+  {
+   "t": "2026-11-17 07:02",
+   "l": "info",
+   "a": "amwjqxz5jin1q",
+   "m": "check done: 0 new videos added to queue"
+  },
+  {
+   "t": "2026-11-17 07:02",
+   "l": "info",
+   "a": "amwjqsilru89u",
+   "m": "check done: 0 new videos added to queue"
+  },
+  {
+   "t": "2026-11-17 07:02",
+   "l": "info",
+   "a": "amwjqa6cruod7",
+   "m": "check done: 0 new videos added to queue"
+  },
+  {
+   "t": "2026-11-17 07:02",
+   "l": "info",
+   "a": "amwcd8ml6ywwg",
+   "m": "check done: 0 new videos added to queue"
+  },
   {
    "t": "2026-11-17 05:18",
    "l": "info",
@@ -15991,8 +16053,8 @@
    "m": "check done: 200 new videos added to queue"
   }
  ],
- "last_run": "2026-11-17 05:18",
- "last_action": "diag",
+ "last_run": "2026-11-17 07:02",
+ "last_action": "auto",
  "fb_conn": "b486622699c168b0",
  "posted_ids": [
   "7691386794499132703",
