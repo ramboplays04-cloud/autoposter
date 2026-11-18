@@ -215,17 +215,23 @@
      "id": "7684330252729994526",
      "url": "https://www.tiktok.com/@a_biology_teacher/video/7684330252729994526",
      "caption": "MCQ: Plant vs. Animal Cells #biology #cells #stem #science #learnontiktok",
-     "status": "new",
+     "status": "uploaded",
      "attempts": 0,
-     "found": "2026-11-11 22:04"
+     "found": "2026-11-11 22:04",
+     "fb": "2242894306605323",
+     "uploaded": "2026-11-18 23:01",
+     "error": ""
     },
     {
      "id": "7692202120270974239",
      "url": "https://www.tiktok.com/@a_biology_teacher/video/7692202120270974239",
      "caption": "Metazooa Day 1159 #science #stem #biology #metazooa #animald ",
-     "status": "new",
+     "status": "uploaded",
      "attempts": 0,
-     "found": "2026-11-11 22:04"
+     "found": "2026-11-11 22:04",
+     "fb": "4625485921020208",
+     "uploaded": "2026-11-18 23:02",
+     "error": ""
     },
     {
      "id": "7692260552415907102",
@@ -1917,6 +1923,33 @@
      "status": "new",
      "attempts": 0,
      "found": "2026-11-18 05:41"
+    },
+    {
+     "id": "7709476564815187231",
+     "url": "https://www.tiktok.com/@a_biology_teacher/video/7709476564815187231",
+     "caption": "#funny #immunesystem #biology #science #stem ",
+     "dur": 8,
+     "status": "new",
+     "attempts": 0,
+     "found": "2026-11-18 23:00"
+    },
+    {
+     "id": "7701689787257720094",
+     "url": "https://www.tiktok.com/@a_biology_teacher/video/7701689787257720094",
+     "caption": "MCQ: Pedigree #genetics #science #stem #biology #learnbiologyontiktok",
+     "dur": 59,
+     "status": "new",
+     "attempts": 0,
+     "found": "2026-11-18 23:00"
+    },
+    {
+     "id": "7701368188600110366",
+     "url": "https://www.tiktok.com/@a_biology_teacher/video/7701368188600110366",
+     "caption": "MCQ: Nondisjunction #meiosis #biology #science #stem #learnbiologyontiktok",
+     "dur": 75,
+     "status": "new",
+     "attempts": 0,
+     "found": "2026-11-18 23:00"
     }
    ],
    "seen": [
@@ -2143,7 +2176,10 @@
     "7701689783126347038",
     "7709165312826035487",
     "7701368190160375070",
-    "7709297711496924447"
+    "7709297711496924447",
+    "7709476564815187231",
+    "7701689787257720094",
+    "7701368188600110366"
    ],
    "slots": {
     "2026-11-16": [
@@ -2153,10 +2189,11 @@
      "04:00"
     ],
     "2026-11-18": [
-     "04:00"
+     "04:00",
+     "23:00"
     ]
    },
-   "last_checked": "2026-11-18 15:02",
+   "last_checked": "2026-11-18 23:00",
    "first_done": true,
    "scan_fail": 0
   },
@@ -2239,18 +2276,24 @@
      "url": "https://www.tiktok.com/@mariabourne.ugc/video/7640092255914560790",
      "caption": "#lifestyleblogger #londonblogger #singlemomlife #eatingvideo #foodvideo ",
      "dur": 178,
-     "status": "new",
+     "status": "uploaded",
      "attempts": 0,
-     "found": "2026-11-17 02:09"
+     "found": "2026-11-17 02:09",
+     "fb": "2681385218999722",
+     "uploaded": "2026-11-18 23:08",
+     "error": ""
     },
     {
      "id": "7640143817223654678",
      "url": "https://www.tiktok.com/@mariabourne.ugc/video/7640143817223654678",
      "caption": "#lifestyleblogger #londonblogger #singlemomlife ",
      "dur": 132,
-     "status": "new",
+     "status": "uploaded",
      "attempts": 0,
-     "found": "2026-11-17 02:09"
+     "found": "2026-11-17 02:09",
+     "fb": "2208343390109565",
+     "uploaded": "2026-11-18 23:10",
+     "error": ""
     },
     {
      "id": "7640491000825122070",
@@ -4189,10 +4232,11 @@
      "04:00"
     ],
     "2026-11-18": [
-     "04:00"
+     "04:00",
+     "23:00"
     ]
    },
-   "last_checked": "2026-11-18 15:02",
+   "last_checked": "2026-11-18 23:00",
    "first_done": true,
    "scan_fail": 0
   },
@@ -4275,18 +4319,24 @@
      "url": "https://www.tiktok.com/@a_bodyofproof/video/7496620449531514142",
      "caption": "Having Ringo, the therapy dog in my life has brought me more joy than I could have ever imagined. He is one of the most gentle and kind spirits I have ever known. The happiness he brings to other people is immeasurable. #Love #Therapy #TherapyDog #Pet #Dog #Puppy ",
      "dur": 207,
-     "status": "new",
+     "status": "uploaded",
      "attempts": 0,
-     "found": "2026-11-17 02:11"
+     "found": "2026-11-17 02:11",
+     "fb": "1441565277577107",
+     "uploaded": "2026-11-18 23:14",
+     "error": ""
     },
     {
      "id": "7496990664601783583",
      "url": "https://www.tiktok.com/@a_bodyofproof/video/7496990664601783583",
      "caption": "IT WORKED!!!! I can’t wait to go out to lunch with my handsome fella. #Love #Happy #Stroller #Tortoise #Turtle #Reptile #Cute #Adorable #Pet ",
      "dur": 137,
-     "status": "new",
+     "status": "uploaded",
      "attempts": 0,
-     "found": "2026-11-17 02:11"
+     "found": "2026-11-17 02:11",
+     "fb": "1071611899232714",
+     "uploaded": "2026-11-18 23:16",
+     "error": ""
     },
     {
      "id": "7497063301893999903",
@@ -6225,10 +6275,11 @@
      "04:00"
     ],
     "2026-11-18": [
-     "04:00"
+     "04:00",
+     "23:00"
     ]
    },
-   "last_checked": "2026-11-18 15:02",
+   "last_checked": "2026-11-18 23:00",
    "first_done": true,
    "scan_fail": 0
   },
@@ -6311,18 +6362,24 @@
      "url": "https://www.tiktok.com/@tina.lexa/video/7629565831340363022",
      "caption": "She actually did it!! #tinalexa ",
      "dur": 34,
-     "status": "new",
+     "status": "uploaded",
      "attempts": 0,
-     "found": "2026-11-17 02:13"
+     "found": "2026-11-17 02:13",
+     "fb": "1662253599029724",
+     "uploaded": "2026-11-18 23:20",
+     "error": ""
     },
     {
      "id": "7630296622575963405",
      "url": "https://www.tiktok.com/@tina.lexa/video/7630296622575963405",
      "caption": "What an outfit! #tinalexa ",
      "dur": 23,
-     "status": "new",
+     "status": "uploaded",
      "attempts": 0,
-     "found": "2026-11-17 02:13"
+     "found": "2026-11-17 02:13",
+     "fb": "2104424346947043",
+     "uploaded": "2026-11-18 23:22",
+     "error": ""
     },
     {
      "id": "7631370105208835359",
@@ -7531,10 +7588,11 @@
      "04:00"
     ],
     "2026-11-18": [
-     "04:00"
+     "04:00",
+     "23:00"
     ]
    },
-   "last_checked": "2026-11-18 15:02",
+   "last_checked": "2026-11-18 23:00",
    "first_done": true,
    "scan_fail": 0
   },
@@ -7617,18 +7675,24 @@
      "url": "https://www.tiktok.com/@studygermandaily/video/7342485699020459296",
      "caption": "Verben in Aktion #deutschlernen #fyp #studygerman #learngerman ",
      "dur": 28,
-     "status": "new",
+     "status": "uploaded",
      "attempts": 0,
-     "found": "2026-11-17 02:15"
+     "found": "2026-11-17 02:15",
+     "fb": "1151853563887492",
+     "uploaded": "2026-11-18 23:25",
+     "error": ""
     },
     {
      "id": "7343216454457707808",
      "url": "https://www.tiktok.com/@studygermandaily/video/7343216454457707808",
      "caption": "Kennst du diese Alternativen?🇩🇪 #learngerman #studygerman #fyp #deutschlernen ",
      "dur": 33,
-     "status": "new",
+     "status": "uploaded",
      "attempts": 0,
-     "found": "2026-11-17 02:15"
+     "found": "2026-11-17 02:15",
+     "fb": "1151009770672301",
+     "uploaded": "2026-11-18 23:26",
+     "error": ""
     },
     {
      "id": "7346604011107159329",
@@ -9187,10 +9251,11 @@
      "04:00"
     ],
     "2026-11-18": [
-     "04:00"
+     "04:00",
+     "23:00"
     ]
    },
-   "last_checked": "2026-11-18 15:02",
+   "last_checked": "2026-11-18 23:01",
    "first_done": true,
    "scan_fail": 0
   },
@@ -9273,18 +9338,24 @@
      "url": "https://www.tiktok.com/@thatvegancowgirl/video/7663266720789859615",
      "caption": "Why am I the way that I am lol, does anyone else do this? #pregnancytest #pregnancyafterloss #2monthsold #2monthspostpartum #motherhood ",
      "dur": 62,
-     "status": "new",
+     "status": "uploaded",
      "attempts": 0,
-     "found": "2026-11-17 02:08"
+     "found": "2026-11-17 02:08",
+     "fb": "2168544897384406",
+     "uploaded": "2026-11-18 23:31",
+     "error": ""
     },
     {
      "id": "7663609677992774943",
      "url": "https://www.tiktok.com/@thatvegancowgirl/video/7663609677992774943",
      "caption": "To say thank you to you all for being here AND to help rescued animals, we’re giving away a pair of cowgirl boots from @Desertbloomboots all you need to do is following them, myself and @Sleepy Pig Farm and donate $5 to the animals of sleepy pig farm for an extra entry!!!! Venmo: sleepypigfarm & oth",
      "dur": 28,
-     "status": "new",
+     "status": "uploaded",
      "attempts": 0,
-     "found": "2026-11-17 02:08"
+     "found": "2026-11-17 02:08",
+     "fb": "2233455574218216",
+     "uploaded": "2026-11-18 23:32",
+     "error": ""
     },
     {
      "id": "7663631861402324254",
@@ -11246,10 +11317,11 @@
      "04:00"
     ],
     "2026-11-18": [
-     "04:00"
+     "04:00",
+     "23:00"
     ]
    },
-   "last_checked": "2026-11-18 15:02",
+   "last_checked": "2026-11-18 23:01",
    "first_done": true,
    "scan_fail": 0
   },
@@ -15275,15 +15347,184 @@
      "04:00"
     ],
     "2026-11-18": [
-     "04:00"
+     "04:00",
+     "23:00"
     ]
    },
-   "last_checked": "2026-11-18 15:02",
+   "last_checked": "2026-11-18 23:01",
    "first_done": true,
    "scan_fail": 0
   }
  },
  "log": [
+  {
+   "t": "2026-11-18 23:38",
+   "l": "error",
+   "a": "",
+   "m": "Engine error: cannot access local variable 'page_name' where it is not associated with a value | er/work/autoposter/autoposter/autopost.py\", line 846, in process\n    ctx.log(f\"{page_name}: Facebook blocked posting on this Page - paused only this Page until {until}: {e}\",\n               ^^^^^^^^^\nUnboundLocalError: cannot access local variable 'page_name' where it is not associated with a value\n"
+  },
+  {
+   "t": "2026-11-18 23:38",
+   "l": "info",
+   "a": "amwjrmh1ckfrk",
+   "m": "23:00 slot - starting upload"
+  },
+  {
+   "t": "2026-11-18 23:32",
+   "l": "success",
+   "a": "amwjr264mgsn0",
+   "m": "video 774943 -> doriasglam uploaded (reel)"
+  },
+  {
+   "t": "2026-11-18 23:31",
+   "l": "success",
+   "a": "amwjr264mgsn0",
+   "m": "video 859615 -> doriasglam uploaded (reel)"
+  },
+  {
+   "t": "2026-11-18 23:30",
+   "l": "info",
+   "a": "amwjr264mgsn0",
+   "m": "23:00 slot - starting upload"
+  },
+  {
+   "t": "2026-11-18 23:26",
+   "l": "success",
+   "a": "amwjqyrg9oct3",
+   "m": "video 707808 -> studygermandaily uploaded (reel)"
+  },
+  {
+   "t": "2026-11-18 23:25",
+   "l": "success",
+   "a": "amwjqyrg9oct3",
+   "m": "video 459296 -> studygermandaily uploaded (reel)"
+  },
+  {
+   "t": "2026-11-18 23:25",
+   "l": "info",
+   "a": "amwjqyrg9oct3",
+   "m": "23:00 slot - starting upload"
+  },
+  {
+   "t": "2026-11-18 23:22",
+   "l": "success",
+   "a": "amwjqxz5jin1q",
+   "m": "video 963405 -> shootingcanons uploaded (reel)"
+  },
+  {
+   "t": "2026-11-18 23:20",
+   "l": "success",
+   "a": "amwjqxz5jin1q",
+   "m": "video 363022 -> shootingcanons uploaded (reel)"
+  },
+  {
+   "t": "2026-11-18 23:20",
+   "l": "info",
+   "a": "amwjqxz5jin1q",
+   "m": "23:00 slot - starting upload"
+  },
+  {
+   "t": "2026-11-18 23:16",
+   "l": "success",
+   "a": "amwjqsilru89u",
+   "m": "video 783583 -> abodyofproof uploaded (reel)"
+  },
+  {
+   "t": "2026-11-18 23:14",
+   "l": "success",
+   "a": "amwjqsilru89u",
+   "m": "video 514142 -> abodyofproof uploaded (reel)"
+  },
+  {
+   "t": "2026-11-18 23:14",
+   "l": "info",
+   "a": "amwjqsilru89u",
+   "m": "23:00 slot - starting upload"
+  },
+  {
+   "t": "2026-11-18 23:10",
+   "l": "success",
+   "a": "amwjqa6cruod7",
+   "m": "video 654678 -> justacrystallovinghomo uploaded (reel)"
+  },
+  {
+   "t": "2026-11-18 23:08",
+   "l": "success",
+   "a": "amwjqa6cruod7",
+   "m": "video 560790 -> justacrystallovinghomo uploaded (reel)"
+  },
+  {
+   "t": "2026-11-18 23:08",
+   "l": "info",
+   "a": "amwjqa6cruod7",
+   "m": "23:00 slot - starting upload"
+  },
+  {
+   "t": "2026-11-18 23:02",
+   "l": "success",
+   "a": "amwcd8ml6ywwg",
+   "m": "video 974239 -> Hidden Badge uploaded (reel)"
+  },
+  {
+   "t": "2026-11-18 23:01",
+   "l": "success",
+   "a": "amwcd8ml6ywwg",
+   "m": "video 994526 -> Hidden Badge uploaded (reel)"
+  },
+  {
+   "t": "2026-11-18 23:01",
+   "l": "info",
+   "a": "amwcd8ml6ywwg",
+   "m": "23:00 slot - starting upload"
+  },
+  {
+   "t": "2026-11-18 23:01",
+   "l": "info",
+   "a": "amwjrmh1ckfrk",
+   "m": "check done: 0 new videos added to queue"
+  },
+  {
+   "t": "2026-11-18 23:01",
+   "l": "info",
+   "a": "amwjr264mgsn0",
+   "m": "check done: 0 new videos added to queue"
+  },
+  {
+   "t": "2026-11-18 23:01",
+   "l": "info",
+   "a": "amwjqyrg9oct3",
+   "m": "check done: 0 new videos added to queue"
+  },
+  {
+   "t": "2026-11-18 23:00",
+   "l": "info",
+   "a": "amwjqxz5jin1q",
+   "m": "check done: 0 new videos added to queue"
+  },
+  {
+   "t": "2026-11-18 23:00",
+   "l": "info",
+   "a": "amwjqsilru89u",
+   "m": "check done: 0 new videos added to queue"
+  },
+  {
+   "t": "2026-11-18 23:00",
+   "l": "info",
+   "a": "amwjqa6cruod7",
+   "m": "check done: 0 new videos added to queue"
+  },
+  {
+   "t": "2026-11-18 23:00",
+   "l": "info",
+   "a": "amwcd8ml6ywwg",
+   "m": "check done: 3 new videos added to queue"
+  },
+  {
+   "t": "2026-11-18 23:00",
+   "l": "info",
+   "a": "",
+   "m": "GitHub skipped runs for 8.0 hours (now running again)"
+  },
   {
    "t": "2026-11-18 15:02",
    "l": "info",
@@ -16533,7 +16774,7 @@
    "m": "check done: 200 new videos added to queue"
   }
  ],
- "last_run": "2026-11-18 15:02",
+ "last_run": "2026-11-18 23:38",
  "last_action": "auto",
  "fb_conn": "b486622699c168b0",
  "posted_ids": [
@@ -16576,11 +16817,23 @@
   "7337704680040041760",
   "7338034002873404704",
   "7662935971775728926",
-  "7663218462520642846"
+  "7663218462520642846",
+  "7684330252729994526",
+  "7692202120270974239",
+  "7640092255914560790",
+  "7640143817223654678",
+  "7496620449531514142",
+  "7496990664601783583",
+  "7629565831340363022",
+  "7630296622575963405",
+  "7342485699020459296",
+  "7343216454457707808",
+  "7663266720789859615",
+  "7663609677992774943"
  ],
  "page_hold": {
   "1072471055960911": {
-   "until": "2026-11-18 18:17",
+   "until": "2026-11-19 11:38",
    "reason": "Confirm your identity before you can publish as this Page. Open the Facebook app on your phone and follow the instructions. (code 368)"
   }
  }
