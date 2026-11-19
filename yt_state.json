@@ -478,9 +478,12 @@
      "url": "https://www.tiktok.com/@freakbobivy/video/7619248605022440717",
      "caption": "my favorite dance ngl",
      "views": 132900,
-     "status": "new",
+     "status": "uploaded",
      "attempts": 0,
-     "found": "2026-11-12 00:48"
+     "found": "2026-11-12 00:48",
+     "yt": "8gVs2kVWw1c",
+     "uploaded": "2026-11-20 04:47",
+     "error": ""
     },
     {
      "id": "7621758553098931470",
@@ -631,9 +634,12 @@
      "url": "https://www.tiktok.com/@freakbobivy/video/7679339775005920526",
      "caption": "#vietnam i swear this place is healing me ",
      "views": 157300,
-     "status": "new",
+     "status": "uploaded",
      "attempts": 0,
-     "found": "2026-11-12 00:48"
+     "found": "2026-11-12 00:48",
+     "yt": "VQ5cqNAh-No",
+     "uploaded": "2026-11-20 04:47",
+     "error": ""
     },
     {
      "id": "7692355639565208846",
@@ -764,18 +770,18 @@
     "7701242487184067853"
    ],
    "slots": {
-    "2026-11-17": [
-     "00:55"
-    ],
     "2026-11-18": [
      "00:55"
     ],
     "2026-11-19": [
      "00:55"
+    ],
+    "2026-11-20": [
+     "00:55"
     ]
    },
    "owed": 0,
-   "last_checked": "2026-11-19 22:38",
+   "last_checked": "2026-11-20 04:47",
    "first_done": true
   }
  },
@@ -795,9 +801,35 @@
   "7612101846097874190",
   "7646890200899046670",
   "7692355639565208846",
-  "7695124253091400974"
+  "7695124253091400974",
+  "7679339775005920526",
+  "7619248605022440717"
  ],
  "log": [
+  {
+   "t": "2026-11-20 04:47",
+   "l": "success",
+   "a": "ymwcj6ohxpfxo",
+   "m": "video 440717 -> freakbobivy uploaded (youtu.be/8gVs2kVWw1c)"
+  },
+  {
+   "t": "2026-11-20 04:47",
+   "l": "success",
+   "a": "ymwcj6ohxpfxo",
+   "m": "video 920526 -> freakbobivy uploaded (youtu.be/VQ5cqNAh-No)"
+  },
+  {
+   "t": "2026-11-20 04:47",
+   "l": "info",
+   "a": "ymwcj6ohxpfxo",
+   "m": "00:55 slot - 2 video(s) to upload"
+  },
+  {
+   "t": "2026-11-20 04:47",
+   "l": "info",
+   "a": "ymwcj6ohxpfxo",
+   "m": "check done: 0 new videos added to queue"
+  },
   {
    "t": "2026-11-19 22:38",
    "l": "info",
@@ -1123,23 +1155,23 @@
    "m": "check done: 71 new videos added to queue"
   }
  ],
- "last_run": "2026-11-19 22:38",
+ "last_run": "2026-11-20 04:47",
  "last_action": "auto",
  "daily": {
-  "2026-11-17": {
-   "UCuHYwTa4Mr6Bnp8Pqfc3HIA": 2
-  },
   "2026-11-18": {
    "UCuHYwTa4Mr6Bnp8Pqfc3HIA": 2
   },
   "2026-11-19": {
+   "UCuHYwTa4Mr6Bnp8Pqfc3HIA": 2
+  },
+  "2026-11-20": {
    "UCuHYwTa4Mr6Bnp8Pqfc3HIA": 2
   }
  },
  "channels_status": {
   "UCuHYwTa4Mr6Bnp8Pqfc3HIA": {
    "ok": true,
-   "t": "2026-11-19 06:08"
+   "t": "2026-11-20 04:47"
   }
  }
 }
