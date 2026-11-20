@@ -469,9 +469,12 @@
      "url": "https://www.tiktok.com/@freakbobivy/video/7619150302444293390",
      "caption": "tell me why im lagging behind the audio 🥲",
      "views": 110700,
-     "status": "new",
+     "status": "uploaded",
      "attempts": 0,
-     "found": "2026-11-12 00:48"
+     "found": "2026-11-12 00:48",
+     "yt": "vIz2K2vlxFg",
+     "uploaded": "2026-11-21 03:38",
+     "error": ""
     },
     {
      "id": "7619248605022440717",
@@ -691,9 +694,12 @@
      "url": "https://www.tiktok.com/@freakbobivy/video/7701242487184067853",
      "caption": "last thing my ex finna see is these hands 💥 Mode nail bar in silverlake @Lanicure Nail Bar",
      "views": 122600,
-     "status": "new",
+     "status": "uploaded",
      "attempts": 0,
-     "found": "2026-11-12 00:48"
+     "found": "2026-11-12 00:48",
+     "yt": "eVCv6bSH2gM",
+     "uploaded": "2026-11-21 03:38",
+     "error": ""
     },
     {
      "id": "7710091228464844045",
@@ -780,18 +786,18 @@
     "7710091228464844045"
    ],
    "slots": {
-    "2026-11-18": [
-     "00:55"
-    ],
     "2026-11-19": [
      "00:55"
     ],
     "2026-11-20": [
      "00:55"
+    ],
+    "2026-11-21": [
+     "00:55"
     ]
    },
    "owed": 0,
-   "last_checked": "2026-11-20 21:05",
+   "last_checked": "2026-11-21 03:38",
    "first_done": true
   }
  },
@@ -813,9 +819,35 @@
   "7692355639565208846",
   "7695124253091400974",
   "7679339775005920526",
-  "7619248605022440717"
+  "7619248605022440717",
+  "7701242487184067853",
+  "7619150302444293390"
  ],
  "log": [
+  {
+   "t": "2026-11-21 03:38",
+   "l": "success",
+   "a": "ymwcj6ohxpfxo",
+   "m": "video 293390 -> freakbobivy uploaded (youtu.be/vIz2K2vlxFg)"
+  },
+  {
+   "t": "2026-11-21 03:38",
+   "l": "success",
+   "a": "ymwcj6ohxpfxo",
+   "m": "video 067853 -> freakbobivy uploaded (youtu.be/eVCv6bSH2gM)"
+  },
+  {
+   "t": "2026-11-21 03:38",
+   "l": "info",
+   "a": "ymwcj6ohxpfxo",
+   "m": "00:55 slot - 2 video(s) to upload"
+  },
+  {
+   "t": "2026-11-21 03:38",
+   "l": "info",
+   "a": "ymwcj6ohxpfxo",
+   "m": "check done: 0 new videos added to queue"
+  },
   {
    "t": "2026-11-20 21:05",
    "l": "info",
@@ -1177,23 +1209,23 @@
    "m": "check done: 71 new videos added to queue"
   }
  ],
- "last_run": "2026-11-20 21:05",
+ "last_run": "2026-11-21 03:38",
  "last_action": "auto",
  "daily": {
-  "2026-11-18": {
-   "UCuHYwTa4Mr6Bnp8Pqfc3HIA": 2
-  },
   "2026-11-19": {
    "UCuHYwTa4Mr6Bnp8Pqfc3HIA": 2
   },
   "2026-11-20": {
+   "UCuHYwTa4Mr6Bnp8Pqfc3HIA": 2
+  },
+  "2026-11-21": {
    "UCuHYwTa4Mr6Bnp8Pqfc3HIA": 2
   }
  },
  "channels_status": {
   "UCuHYwTa4Mr6Bnp8Pqfc3HIA": {
    "ok": true,
-   "t": "2026-11-20 04:47"
+   "t": "2026-11-21 03:38"
   }
  }
 }
