@@ -460,9 +460,12 @@
      "url": "https://www.tiktok.com/@freakbobivy/video/7618800183760932109",
      "caption": "stealing my roomates clothes",
      "views": 107800,
-     "status": "new",
+     "status": "uploaded",
      "attempts": 0,
-     "found": "2026-11-12 00:48"
+     "found": "2026-11-12 00:48",
+     "yt": "ih3r83p0Q7Q",
+     "uploaded": "2026-11-22 04:14",
+     "error": ""
     },
     {
      "id": "7619150302444293390",
@@ -685,9 +688,12 @@
      "url": "https://www.tiktok.com/@freakbobivy/video/7695327938861960461",
      "caption": "love dih song",
      "views": 94800,
-     "status": "new",
+     "status": "uploaded",
      "attempts": 0,
-     "found": "2026-11-12 00:48"
+     "found": "2026-11-12 00:48",
+     "yt": "zDA-hjCUFpk",
+     "uploaded": "2026-11-22 04:14",
+     "error": ""
     },
     {
      "id": "7701242487184067853",
@@ -786,18 +792,18 @@
     "7710091228464844045"
    ],
    "slots": {
-    "2026-11-19": [
-     "00:55"
-    ],
     "2026-11-20": [
      "00:55"
     ],
     "2026-11-21": [
      "00:55"
+    ],
+    "2026-11-22": [
+     "00:55"
     ]
    },
    "owed": 0,
-   "last_checked": "2026-11-21 23:13",
+   "last_checked": "2026-11-22 04:14",
    "first_done": true
   }
  },
@@ -821,9 +827,35 @@
   "7679339775005920526",
   "7619248605022440717",
   "7701242487184067853",
-  "7619150302444293390"
+  "7619150302444293390",
+  "7618800183760932109",
+  "7695327938861960461"
  ],
  "log": [
+  {
+   "t": "2026-11-22 04:14",
+   "l": "success",
+   "a": "ymwcj6ohxpfxo",
+   "m": "video 960461 -> freakbobivy uploaded (youtu.be/zDA-hjCUFpk)"
+  },
+  {
+   "t": "2026-11-22 04:14",
+   "l": "success",
+   "a": "ymwcj6ohxpfxo",
+   "m": "video 932109 -> freakbobivy uploaded (youtu.be/ih3r83p0Q7Q)"
+  },
+  {
+   "t": "2026-11-22 04:14",
+   "l": "info",
+   "a": "ymwcj6ohxpfxo",
+   "m": "00:55 slot - 2 video(s) to upload"
+  },
+  {
+   "t": "2026-11-22 04:14",
+   "l": "info",
+   "a": "ymwcj6ohxpfxo",
+   "m": "check done: 0 new videos added to queue"
+  },
   {
    "t": "2026-11-21 23:13",
    "l": "info",
@@ -1227,23 +1259,23 @@
    "m": "check done: 71 new videos added to queue"
   }
  ],
- "last_run": "2026-11-21 23:13",
+ "last_run": "2026-11-22 04:14",
  "last_action": "auto",
  "daily": {
-  "2026-11-19": {
-   "UCuHYwTa4Mr6Bnp8Pqfc3HIA": 2
-  },
   "2026-11-20": {
    "UCuHYwTa4Mr6Bnp8Pqfc3HIA": 2
   },
   "2026-11-21": {
+   "UCuHYwTa4Mr6Bnp8Pqfc3HIA": 2
+  },
+  "2026-11-22": {
    "UCuHYwTa4Mr6Bnp8Pqfc3HIA": 2
   }
  },
  "channels_status": {
   "UCuHYwTa4Mr6Bnp8Pqfc3HIA": {
    "ok": true,
-   "t": "2026-11-21 03:38"
+   "t": "2026-11-22 04:14"
   }
  }
 }
