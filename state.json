@@ -2304,17 +2304,15 @@
     "7702435271039634719"
    ],
    "slots": {
-    "2026-11-19": [
-     "23:00"
-    ],
     "2026-11-20": [
      "23:00"
     ],
     "2026-11-21": [
      "23:00"
-    ]
+    ],
+    "2026-11-22": []
    },
-   "last_checked": "2026-11-21 23:00",
+   "last_checked": "2026-11-22 01:02",
    "first_done": true,
    "scan_fail": 0
   },
@@ -4360,17 +4358,15 @@
     "7707741493896793366"
    ],
    "slots": {
-    "2026-11-19": [
-     "23:00"
-    ],
     "2026-11-20": [
      "23:00"
     ],
     "2026-11-21": [
      "23:00"
-    ]
+    ],
+    "2026-11-22": []
    },
-   "last_checked": "2026-11-21 23:00",
+   "last_checked": "2026-11-22 01:02",
    "first_done": true,
    "scan_fail": 0
   },
@@ -6416,17 +6412,15 @@
     "7705073056397462814"
    ],
    "slots": {
-    "2026-11-19": [
-     "23:00"
-    ],
     "2026-11-20": [
      "23:00"
     ],
     "2026-11-21": [
      "23:00"
-    ]
+    ],
+    "2026-11-22": []
    },
-   "last_checked": "2026-11-21 23:00",
+   "last_checked": "2026-11-22 01:02",
    "first_done": true,
    "scan_fail": 0
   },
@@ -7742,17 +7736,15 @@
     "7707414020541664526"
    ],
    "slots": {
-    "2026-11-19": [
-     "23:00"
-    ],
     "2026-11-20": [
      "23:00"
     ],
     "2026-11-21": [
      "23:00"
-    ]
+    ],
+    "2026-11-22": []
    },
-   "last_checked": "2026-11-21 23:00",
+   "last_checked": "2026-11-22 01:02",
    "first_done": true,
    "scan_fail": 0
   },
@@ -9418,17 +9410,15 @@
     "7678358693699767585"
    ],
    "slots": {
-    "2026-11-19": [
-     "23:00"
-    ],
     "2026-11-20": [
      "23:00"
     ],
     "2026-11-21": [
      "23:00"
-    ]
+    ],
+    "2026-11-22": []
    },
-   "last_checked": "2026-11-21 23:00",
+   "last_checked": "2026-11-22 01:03",
    "first_done": true,
    "scan_fail": 0
   },
@@ -11567,17 +11557,15 @@
     "7710421827411070239"
    ],
    "slots": {
-    "2026-11-19": [
-     "23:00"
-    ],
     "2026-11-20": [
      "23:00"
     ],
     "2026-11-21": [
      "23:00"
-    ]
+    ],
+    "2026-11-22": []
    },
-   "last_checked": "2026-11-21 23:01",
+   "last_checked": "2026-11-22 01:03",
    "first_done": true,
    "scan_fail": 0
   },
@@ -15599,22 +15587,62 @@
     "7704048412794080534"
    ],
    "slots": {
-    "2026-11-19": [
-     "23:00"
-    ],
     "2026-11-20": [
      "23:00"
     ],
     "2026-11-21": [
      "23:00"
-    ]
+    ],
+    "2026-11-22": []
    },
-   "last_checked": "2026-11-21 23:01",
+   "last_checked": "2026-11-22 01:03",
    "first_done": true,
    "scan_fail": 0
   }
  },
  "log": [
+  {
+   "t": "2026-11-22 01:03",
+   "l": "info",
+   "a": "amwjrmh1ckfrk",
+   "m": "check done: 0 new videos added to queue"
+  },
+  {
+   "t": "2026-11-22 01:03",
+   "l": "info",
+   "a": "amwjr264mgsn0",
+   "m": "check done: 0 new videos added to queue"
+  },
+  {
+   "t": "2026-11-22 01:03",
+   "l": "info",
+   "a": "amwjqyrg9oct3",
+   "m": "check done: 0 new videos added to queue"
+  },
+  {
+   "t": "2026-11-22 01:02",
+   "l": "info",
+   "a": "amwjqxz5jin1q",
+   "m": "check done: 0 new videos added to queue"
+  },
+  {
+   "t": "2026-11-22 01:02",
+   "l": "info",
+   "a": "amwjqsilru89u",
+   "m": "check done: 0 new videos added to queue"
+  },
+  {
+   "t": "2026-11-22 01:02",
+   "l": "info",
+   "a": "amwjqa6cruod7",
+   "m": "check done: 0 new videos added to queue"
+  },
+  {
+   "t": "2026-11-22 01:02",
+   "l": "info",
+   "a": "amwcd8ml6ywwg",
+   "m": "check done: 0 new videos added to queue"
+  },
   {
    "t": "2026-11-21 23:37",
    "l": "error",
@@ -17372,51 +17400,9 @@
    "l": "info",
    "a": "amwjqsilru89u",
    "m": "02:00 slot - starting upload"
-  },
-  {
-   "t": "2026-11-17 02:20",
-   "l": "success",
-   "a": "amwjqa6cruod7",
-   "m": "video 356758 -> justacrystallovinghomo uploaded (reel)"
-  },
-  {
-   "t": "2026-11-17 02:19",
-   "l": "success",
-   "a": "amwjqa6cruod7",
-   "m": "video 576598 -> justacrystallovinghomo uploaded (reel)"
-  },
-  {
-   "t": "2026-11-17 02:19",
-   "l": "info",
-   "a": "amwjqa6cruod7",
-   "m": "02:00 slot - starting upload"
-  },
-  {
-   "t": "2026-11-17 02:08",
-   "l": "info",
-   "a": "amwjr264mgsn0",
-   "m": "looked at 41 video(s) already on the Page - 41 known"
-  },
-  {
-   "t": "2026-11-17 02:16",
-   "l": "info",
-   "a": "amwjr264mgsn0",
-   "m": "check done: 173 new videos added to queue"
-  },
-  {
-   "t": "2026-11-17 02:16",
-   "l": "info",
-   "a": "amwjqyrg9oct3",
-   "m": "looked at 85 video(s) already on the Page - 85 known"
-  },
-  {
-   "t": "2026-11-17 02:15",
-   "l": "info",
-   "a": "amwjqyrg9oct3",
-   "m": "check done: 162 new videos added to queue"
   }
  ],
- "last_run": "2026-11-21 23:37",
+ "last_run": "2026-11-22 01:03",
  "last_action": "auto",
  "fb_conn": "b486622699c168b0",
  "posted_ids": [
