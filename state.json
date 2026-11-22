@@ -2061,6 +2061,15 @@
      "status": "new",
      "attempts": 0,
      "found": "2026-11-21 23:00"
+    },
+    {
+     "id": "7703374299419135262",
+     "url": "https://www.tiktok.com/@a_biology_teacher/video/7703374299419135262",
+     "caption": "MCQ: Gregor Mendel#Genetics #science#biology#stem #learnbiologyontiktok",
+     "dur": 94,
+     "status": "new",
+     "attempts": 0,
+     "found": "2026-11-22 12:23"
     }
    ],
    "seen": [
@@ -2301,7 +2310,8 @@
     "7710260913080683806",
     "7710369010776345886",
     "7703374282067299614",
-    "7702435271039634719"
+    "7702435271039634719",
+    "7703374299419135262"
    ],
    "slots": {
     "2026-11-20": [
@@ -2312,7 +2322,7 @@
     ],
     "2026-11-22": []
    },
-   "last_checked": "2026-11-22 05:17",
+   "last_checked": "2026-11-22 12:23",
    "first_done": true,
    "scan_fail": 0
   },
@@ -4366,7 +4376,7 @@
     ],
     "2026-11-22": []
    },
-   "last_checked": "2026-11-22 05:17",
+   "last_checked": "2026-11-22 12:23",
    "first_done": true,
    "scan_fail": 0
   },
@@ -6420,7 +6430,7 @@
     ],
     "2026-11-22": []
    },
-   "last_checked": "2026-11-22 05:17",
+   "last_checked": "2026-11-22 12:23",
    "first_done": true,
    "scan_fail": 0
   },
@@ -7744,7 +7754,7 @@
     ],
     "2026-11-22": []
    },
-   "last_checked": "2026-11-22 05:17",
+   "last_checked": "2026-11-22 12:23",
    "first_done": true,
    "scan_fail": 0
   },
@@ -9418,7 +9428,7 @@
     ],
     "2026-11-22": []
    },
-   "last_checked": "2026-11-22 05:17",
+   "last_checked": "2026-11-22 12:23",
    "first_done": true,
    "scan_fail": 0
   },
@@ -11367,6 +11377,24 @@
      "status": "new",
      "attempts": 0,
      "found": "2026-11-21 09:15"
+    },
+    {
+     "id": "7710797740904582414",
+     "url": "https://www.tiktok.com/@thatvegancowgirl/video/7710797740904582414",
+     "caption": "I hope no other mom has had a similar experience bc this was terrible. #loss #stillbirth #bereavedmother #homebirth #birthtrauma @Wildbird ",
+     "dur": 111,
+     "status": "new",
+     "attempts": 0,
+     "found": "2026-11-22 12:23"
+    },
+    {
+     "id": "7710816707522137375",
+     "url": "https://www.tiktok.com/@thatvegancowgirl/video/7710816707522137375",
+     "caption": "LEAVE ME ALONE, jk i love you @Bella’s dad #fyp #husbandandwife #funnyvideo #viral #motherhood ",
+     "dur": 5,
+     "status": "new",
+     "attempts": 0,
+     "found": "2026-11-22 12:23"
     }
    ],
    "seen": [
@@ -11554,7 +11582,9 @@
     "7709950462014901535",
     "7709997824389254413",
     "7710047838968810783",
-    "7710421827411070239"
+    "7710421827411070239",
+    "7710797740904582414",
+    "7710816707522137375"
    ],
    "slots": {
     "2026-11-20": [
@@ -11565,7 +11595,7 @@
     ],
     "2026-11-22": []
    },
-   "last_checked": "2026-11-22 05:17",
+   "last_checked": "2026-11-22 12:23",
    "first_done": true,
    "scan_fail": 0
   },
@@ -15595,12 +15625,66 @@
     ],
     "2026-11-22": []
    },
-   "last_checked": "2026-11-22 05:17",
+   "last_checked": "2026-11-22 12:23",
    "first_done": true,
    "scan_fail": 0
   }
  },
  "log": [
+  {
+   "t": "2026-11-22 12:23",
+   "l": "info",
+   "a": "amwjrmh1ckfrk",
+   "m": "check done: 0 new videos added to queue"
+  },
+  {
+   "t": "2026-11-22 12:23",
+   "l": "info",
+   "a": "amwjr264mgsn0",
+   "m": "check done: 2 new videos added to queue"
+  },
+  {
+   "t": "2026-11-22 12:23",
+   "l": "info",
+   "a": "amwjqyrg9oct3",
+   "m": "check done: 0 new videos added to queue"
+  },
+  {
+   "t": "2026-11-22 12:23",
+   "l": "info",
+   "a": "amwjqxz5jin1q",
+   "m": "check done: 0 new videos added to queue"
+  },
+  {
+   "t": "2026-11-22 12:23",
+   "l": "info",
+   "a": "amwjqsilru89u",
+   "m": "check done: 0 new videos added to queue"
+  },
+  {
+   "t": "2026-11-22 12:23",
+   "l": "info",
+   "a": "amwjqa6cruod7",
+   "m": "check done: 0 new videos added to queue"
+  },
+  {
+   "t": "2026-11-22 12:23",
+   "l": "info",
+   "a": "amwcd8ml6ywwg",
+   "m": "looked at 6 video(s) already on the Page - 42 known"
+  },
+  {
+   "t": "2026-11-22 12:23",
+   "l": "info",
+   "a": "amwcd8ml6ywwg",
+   "m": "check done: 1 new videos added to queue"
+  },
+  {
+   "t": "2026-11-22 12:23",
+   "l": "info",
+   "a": "",
+   "m": "GitHub skipped runs for 7.1 hours (now running again)"
+  },
   {
    "t": "2026-11-22 05:17",
    "l": "info",
@@ -17346,63 +17430,9 @@
    "l": "info",
    "a": "amwjqsilru89u",
    "m": "skipped - Facebook is paused until 2026-11-17 15:21"
-  },
-  {
-   "t": "2026-11-17 03:47",
-   "l": "info",
-   "a": "amwjqa6cruod7",
-   "m": "skipped - Facebook is paused until 2026-11-17 15:21"
-  },
-  {
-   "t": "2026-11-17 03:47",
-   "l": "info",
-   "a": "amwcd8ml6ywwg",
-   "m": "skipped - Facebook is paused until 2026-11-17 15:21"
-  },
-  {
-   "t": "2026-11-17 03:21",
-   "l": "error",
-   "a": "",
-   "m": "Facebook block - all uploads paused until 2026-11-17 15:21: Confirm your identity before you can publish as this Page. Open the Facebook app on your phone and follow the instructions. (code 368)"
-  },
-  {
-   "t": "2026-11-17 03:21",
-   "l": "info",
-   "a": "amwjrqd87gqiq",
-   "m": "looked at 6 video(s) already on the Page - 6 known"
-  },
-  {
-   "t": "2026-11-17 03:20",
-   "l": "info",
-   "a": "amwjrqd87gqiq",
-   "m": "check done: 200 new videos added to queue"
-  },
-  {
-   "t": "2026-11-17 02:47",
-   "l": "success",
-   "a": "amwjr264mgsn0",
-   "m": "video 917343 -> doriasglam uploaded (reel)"
-  },
-  {
-   "t": "2026-11-17 02:46",
-   "l": "success",
-   "a": "amwjr264mgsn0",
-   "m": "video 345310 -> doriasglam uploaded (reel)"
-  },
-  {
-   "t": "2026-11-17 02:46",
-   "l": "info",
-   "a": "amwjr264mgsn0",
-   "m": "02:05 slot - starting upload"
-  },
-  {
-   "t": "2026-11-17 02:41",
-   "l": "success",
-   "a": "amwjqyrg9oct3",
-   "m": "video 373089 -> studygermandaily uploaded (reel)"
   }
  ],
- "last_run": "2026-11-22 05:17",
+ "last_run": "2026-11-22 12:23",
  "last_action": "auto",
  "fb_conn": "b486622699c168b0",
  "posted_ids": [
