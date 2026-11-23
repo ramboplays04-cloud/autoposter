@@ -33,6 +33,7 @@ h1{font-size:22px;margin:4px 0 4px}h2{font-size:17px;margin:24px 0 10px}
 .row{display:flex;gap:8px;flex-wrap:wrap}
 .name{font-weight:700;font-size:16px}.meta{color:var(--muted);font-size:13px}
 .pills{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0}
+.today{margin:8px 0 2px;padding:7px 10px;border-radius:10px;background:var(--panel2);border:1px solid var(--line);font-size:13px}.today.ok b{color:var(--ok)}.today.ok{border-color:#24553a}.today.bad b{color:var(--bad)}.today.bad{border-color:#5a2a2a}
 .pill{font-size:12px;padding:2px 9px;border-radius:99px;background:var(--panel2);border:1px solid var(--line);color:var(--muted)}
 .pill.ok{color:var(--ok);border-color:#24553a}.pill.bad{color:var(--bad);border-color:#5a2a2a}.pill.warn{color:var(--warn);border-color:#5a4520}.pill.info{color:var(--accent2);border-color:#1f4e57}
 .off{opacity:.55}
@@ -223,6 +224,20 @@ function accStats(id){
   return { queue: v.filter(x=>x.status==="new"||x.status==="retry").length, up: v.filter(x=>x.status==="uploaded").length,
            fail: v.filter(x=>x.status==="failed").length, last: ((STATE.accounts||{})[id]||{}).last_checked };
 }
+// Today upload status per account (Pakistan time, same as the tool's timestamps)
+const DAYS = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+function pkToday(){ return new Date(Date.now() + 5*36e5).toISOString().slice(0,10); }
+function dayName(ymd){ const d = new Date(ymd + "T12:00:00Z"); return isNaN(d) ? ymd : DAYS[d.getUTCDay()]; }
+function todayUpload(id){
+  const v = (((STATE.accounts||{})[id]||{}).videos || []).filter(x => x.status==="uploaded" && x.uploaded);
+  const td = pkToday(), now = v.filter(x => x.uploaded.startsWith(td)).map(x => x.uploaded.slice(11,16)).sort();
+  if (now.length) return `<div class="today ok"><b>Today (${dayName(td)}): ${now.length} video${now.length>1?"s":""} uploaded ✓</b><div class="meta">${dayName(td)} · ${now.join(", ")}</div></div>`;
+  const last = v.map(x => x.uploaded).sort().pop();
+  let prev = "";
+  if (last){ const ld = last.slice(0,10), ts = v.filter(x => x.uploaded.startsWith(ld)).map(x => x.uploaded.slice(11,16)).sort();
+    prev = `<div class="meta">Last upload: ${dayName(ld)} (${ld.slice(8)}/${ld.slice(5,7)}) · ${ts.length} video${ts.length>1?"s":""} · ${ts.join(", ")}</div>`; }
+  return `<div class="today bad"><b>Today (${dayName(td)}): 0 uploaded</b>${prev}</div>`;
+}
 function allPages(){ const out = [], seen = new Set(); (CFG.pages||[]).concat(STATE.fb_pages||[]).forEach(p => { const k = String(p.id); if (!seen.has(k)) { seen.add(k); out.push(p); } }); return out; }
 function pageName(id){ const p = allPages().find(p => String(p.id)===String(id)); return p ? p.name : ""; }
 
@@ -283,6 +298,7 @@ V.home = () => {
       <div class="name"><a href="#acc/${a.id}">@${esc(userOf(a.tiktok))}</a> ${a.enabled===false?'<span class="pill warn">Paused</span>':""}</div>
       <div class="meta">→ ${esc(pageName(a.page_id) || "⚠ No Page selected")} · ${a.mode==="video"?"Video":"Reel"} · ${esc((a.times||[]).join(", "))} (${a.per_slot||1} per time)</div>
       <div class="pills"><span class="pill info">Queue ${s.queue}</span><span class="pill ok">Uploaded ${s.up}</span>${s.fail?`<span class="pill bad">Failed ${s.fail}</span>`:""}<span class="pill">Checked: ${esc(s.last ? s.last.slice(5) : "not yet")}</span></div>
+      ${todayUpload(a.id)}
       <div class="row">
         <button class="btn small primary" data-up="${a.id}">Upload Now</button>
         <button class="btn small" data-scan="${a.id}">Check Now</button>
