@@ -406,9 +406,12 @@
      "url": "https://www.tiktok.com/@freakbobivy/video/7581957410722450702",
      "caption": "wanna tell u that i like you",
      "views": 44100,
-     "status": "new",
+     "status": "uploaded",
      "attempts": 0,
-     "found": "2026-11-12 00:48"
+     "found": "2026-11-12 00:48",
+     "yt": "cCap_EwZRVk",
+     "uploaded": "2026-11-24 09:26",
+     "error": ""
     },
     {
      "id": "7582705858409270583",
@@ -433,9 +436,12 @@
      "url": "https://www.tiktok.com/@freakbobivy/video/7610742528668716302",
      "caption": "drafts @.@",
      "views": 48600,
-     "status": "new",
+     "status": "uploaded",
      "attempts": 0,
-     "found": "2026-11-12 00:48"
+     "found": "2026-11-12 00:48",
+     "yt": "KLYqEr_KtVY",
+     "uploaded": "2026-11-24 09:26",
+     "error": ""
     },
     {
      "id": "7610743223060876558",
@@ -804,10 +810,12 @@
     "2026-11-23": [
      "00:55"
     ],
-    "2026-11-24": []
+    "2026-11-24": [
+     "00:55"
+    ]
    },
    "owed": 0,
-   "last_checked": "2026-11-24 00:28",
+   "last_checked": "2026-11-24 09:26",
    "first_done": true
   }
  },
@@ -835,9 +843,35 @@
   "7618800183760932109",
   "7695327938861960461",
   "7610743223060876558",
-  "7533755656927497486"
+  "7533755656927497486",
+  "7610742528668716302",
+  "7581957410722450702"
  ],
  "log": [
+  {
+   "t": "2026-11-24 09:26",
+   "l": "success",
+   "a": "ymwcj6ohxpfxo",
+   "m": "video 450702 -> freakbobivy uploaded (youtu.be/cCap_EwZRVk)"
+  },
+  {
+   "t": "2026-11-24 09:26",
+   "l": "success",
+   "a": "ymwcj6ohxpfxo",
+   "m": "video 716302 -> freakbobivy uploaded (youtu.be/KLYqEr_KtVY)"
+  },
+  {
+   "t": "2026-11-24 09:26",
+   "l": "info",
+   "a": "ymwcj6ohxpfxo",
+   "m": "00:55 slot - 2 video(s) to upload"
+  },
+  {
+   "t": "2026-11-24 09:26",
+   "l": "info",
+   "a": "ymwcj6ohxpfxo",
+   "m": "check done: 0 new videos added to queue"
+  },
   {
    "t": "2026-11-24 00:28",
    "l": "info",
@@ -1319,23 +1353,23 @@
    "m": "check done: 71 new videos added to queue"
   }
  ],
- "last_run": "2026-11-24 00:28",
+ "last_run": "2026-11-24 09:26",
  "last_action": "auto",
  "daily": {
-  "2026-11-21": {
-   "UCuHYwTa4Mr6Bnp8Pqfc3HIA": 2
-  },
   "2026-11-22": {
    "UCuHYwTa4Mr6Bnp8Pqfc3HIA": 2
   },
   "2026-11-23": {
+   "UCuHYwTa4Mr6Bnp8Pqfc3HIA": 2
+  },
+  "2026-11-24": {
    "UCuHYwTa4Mr6Bnp8Pqfc3HIA": 2
   }
  },
  "channels_status": {
   "UCuHYwTa4Mr6Bnp8Pqfc3HIA": {
    "ok": true,
-   "t": "2026-11-23 04:48"
+   "t": "2026-11-24 09:26"
   }
  }
 }
