@@ -347,17 +347,23 @@
      "id": "7685730473166867742",
      "url": "https://www.tiktok.com/@a_biology_teacher/video/7685730473166867742",
      "caption": "MCQ: Enzyme Equation #enzymes #biology #apbiology #science #stem",
-     "status": "new",
+     "status": "uploaded",
      "attempts": 0,
-     "found": "2026-11-11 22:04"
+     "found": "2026-11-11 22:04",
+     "fb": "1121500757359907",
+     "uploaded": "2026-11-25 23:01",
+     "error": ""
     },
     {
      "id": "7693200404556942622",
      "url": "https://www.tiktok.com/@a_biology_teacher/video/7693200404556942622",
      "caption": "Bad Graph Monday: Part 18 #graph #science #stem #badgraphmonday ",
-     "status": "new",
+     "status": "uploaded",
      "attempts": 0,
-     "found": "2026-11-11 22:04"
+     "found": "2026-11-11 22:04",
+     "fb": "1503980448286519",
+     "uploaded": "2026-11-25 23:02",
+     "error": ""
     },
     {
      "id": "7693247669845708062",
@@ -2196,6 +2202,15 @@
      "status": "new",
      "attempts": 0,
      "found": "2026-11-25 17:39"
+    },
+    {
+     "id": "7712142046944939294",
+     "url": "https://www.tiktok.com/@a_biology_teacher/video/7712142046944939294",
+     "caption": "Extraplot 11-25 #science #stem #graph #extraplot #dailygames ",
+     "dur": 78,
+     "status": "new",
+     "attempts": 0,
+     "found": "2026-11-25 23:00"
     }
    ],
    "seen": [
@@ -2449,7 +2464,8 @@
     "7702516800046533919",
     "7711845743954300191",
     "7711899977437515039",
-    "7703542478040861983"
+    "7703542478040861983",
+    "7712142046944939294"
    ],
    "slots": {
     "2026-11-23": [
@@ -2458,9 +2474,11 @@
     "2026-11-24": [
      "23:00"
     ],
-    "2026-11-25": []
+    "2026-11-25": [
+     "23:00"
+    ]
    },
-   "last_checked": "2026-11-25 17:39",
+   "last_checked": "2026-11-25 23:00",
    "first_done": true,
    "scan_fail": 0
   },
@@ -2687,18 +2705,24 @@
      "url": "https://www.tiktok.com/@mariabourne.ugc/video/7641940873860713750",
      "caption": "All my thanks and gratitude to beautiful mother @RabeyaKhatun  for inspiration and influence 🙏💗 #lifestyleblogger #londonblogger #singlemomlife #eatingvideo #foodvideo ",
      "dur": 179,
-     "status": "new",
+     "status": "uploaded",
      "attempts": 0,
-     "found": "2026-11-17 02:09"
+     "found": "2026-11-17 02:09",
+     "fb": "2681954522277544",
+     "uploaded": "2026-11-25 23:06",
+     "error": ""
     },
     {
      "id": "7641947441482288406",
      "url": "https://www.tiktok.com/@mariabourne.ugc/video/7641947441482288406",
      "caption": "#lifestyleblogger #londonblogger #singlemomlife #personalgrowth ",
      "dur": 69,
-     "status": "new",
+     "status": "uploaded",
      "attempts": 0,
-     "found": "2026-11-17 02:09"
+     "found": "2026-11-17 02:09",
+     "fb": "1160362620251471",
+     "uploaded": "2026-11-25 23:07",
+     "error": ""
     },
     {
      "id": "7641992758693055766",
@@ -4550,9 +4574,11 @@
     "2026-11-24": [
      "23:00"
     ],
-    "2026-11-25": []
+    "2026-11-25": [
+     "23:00"
+    ]
    },
-   "last_checked": "2026-11-25 17:39",
+   "last_checked": "2026-11-25 23:00",
    "first_done": true,
    "scan_fail": 0
   },
@@ -4779,18 +4805,24 @@
      "url": "https://www.tiktok.com/@a_bodyofproof/video/7498192325399678239",
      "caption": "IDLIS!!!!! Kinda 😜LOL #LOL #LOVE #happy #idli #idlibatter #indiancuisine #IndianFood #Food #Cooking #Kitchen #Learning #Steaming ",
      "dur": 292,
-     "status": "new",
+     "status": "uploaded",
      "attempts": 0,
-     "found": "2026-11-17 02:11"
+     "found": "2026-11-17 02:11",
+     "fb": "1687034429679142",
+     "uploaded": "2026-11-25 23:12",
+     "error": ""
     },
     {
      "id": "7498429544622492958",
      "url": "https://www.tiktok.com/@a_bodyofproof/video/7498429544622492958",
      "caption": "I love learning new things. #love #idli #indiancuisine ",
      "dur": 139,
-     "status": "new",
+     "status": "uploaded",
      "attempts": 0,
-     "found": "2026-11-17 02:11"
+     "found": "2026-11-17 02:11",
+     "fb": "1169994918803431",
+     "uploaded": "2026-11-25 23:14",
+     "error": ""
     },
     {
      "id": "7498432481058721055",
@@ -6622,9 +6654,11 @@
     "2026-11-24": [
      "23:00"
     ],
-    "2026-11-25": []
+    "2026-11-25": [
+     "23:00"
+    ]
    },
-   "last_checked": "2026-11-25 17:39",
+   "last_checked": "2026-11-25 23:00",
    "first_done": true,
    "scan_fail": 0
   },
@@ -6851,27 +6885,34 @@
      "url": "https://www.tiktok.com/@tina.lexa/video/7636828184209657101",
      "caption": "Every second they listen without interrupting = +1 tip. They don’t know that #socialexperiment ",
      "dur": 51,
-     "status": "new",
+     "status": "uploaded",
      "attempts": 0,
-     "found": "2026-11-17 02:13"
+     "found": "2026-11-17 02:13",
+     "fb": "1681497623608668",
+     "uploaded": "2026-11-25 23:20",
+     "error": ""
     },
     {
      "id": "7636907344059731213",
      "url": "https://www.tiktok.com/@tina.lexa/video/7636907344059731213",
      "caption": "Every second they listen without interrupting = +1 tip. They don’t know that #socialexperiment ",
      "dur": 63,
-     "status": "new",
+     "status": "skipped",
      "attempts": 0,
-     "found": "2026-11-17 02:13"
+     "found": "2026-11-17 02:13",
+     "error": "Already on the Facebook Page (same video found)"
     },
     {
      "id": "7637219443373870350",
      "url": "https://www.tiktok.com/@tina.lexa/video/7637219443373870350",
      "caption": "Every second they listen without interrupting = +$1 tip. They don’t know that. #socialexperiment ",
      "dur": 68,
-     "status": "new",
+     "status": "uploaded",
      "attempts": 0,
-     "found": "2026-11-17 02:13"
+     "found": "2026-11-17 02:13",
+     "fb": "2146514509572159",
+     "uploaded": "2026-11-25 23:23",
+     "error": ""
     },
     {
      "id": "7637296741133356302",
@@ -7974,9 +8015,11 @@
     "2026-11-24": [
      "23:00"
     ],
-    "2026-11-25": []
+    "2026-11-25": [
+     "23:00"
+    ]
    },
-   "last_checked": "2026-11-25 17:39",
+   "last_checked": "2026-11-25 23:00",
    "first_done": true,
    "scan_fail": 0
   },
@@ -8203,18 +8246,24 @@
      "url": "https://www.tiktok.com/@studygermandaily/video/7355512195515436321",
      "caption": "Schimpfen, ausschimpfen oder beschimpfen? #deutsch #studygerman #learngerman #fyp ",
      "dur": 40,
-     "status": "new",
+     "status": "uploaded",
      "attempts": 0,
-     "found": "2026-11-17 02:15"
+     "found": "2026-11-17 02:15",
+     "fb": "1153448447091293",
+     "uploaded": "2026-11-25 23:26",
+     "error": ""
     },
     {
      "id": "7356155970814348577",
      "url": "https://www.tiktok.com/@studygermandaily/video/7356155970814348577",
      "caption": "Kennst du diese Verben?#fyp #learngerman #studygerman #deutsch ",
      "dur": 34,
-     "status": "new",
+     "status": "uploaded",
      "attempts": 0,
-     "found": "2026-11-17 02:15"
+     "found": "2026-11-17 02:15",
+     "fb": "1162813159537840",
+     "uploaded": "2026-11-25 23:28",
+     "error": ""
     },
     {
      "id": "7356931797369802016",
@@ -9666,9 +9715,11 @@
     "2026-11-24": [
      "23:00"
     ],
-    "2026-11-25": []
+    "2026-11-25": [
+     "23:00"
+    ]
    },
-   "last_checked": "2026-11-25 17:39",
+   "last_checked": "2026-11-25 23:00",
    "first_done": true,
    "scan_fail": 0
   },
@@ -9895,18 +9946,24 @@
      "url": "https://www.tiktok.com/@thatvegancowgirl/video/7665015184729050399",
      "caption": "things we did different and we MIGHT actually consider blackout curtains??? #cosleeping #toddlersleep #toddlersoftiktok #2under2 #motherhood ",
      "dur": 168,
-     "status": "new",
+     "status": "uploaded",
      "attempts": 0,
-     "found": "2026-11-17 02:08"
+     "found": "2026-11-17 02:08",
+     "fb": "1147356747900077",
+     "uploaded": "2026-11-25 23:33",
+     "error": ""
     },
     {
      "id": "7665110722925333791",
      "url": "https://www.tiktok.com/@thatvegancowgirl/video/7665110722925333791",
      "caption": "anyone else have a forever trigger? #triggers #stillbirth #loss #pregnancyandinfantloss #griefjourney ",
      "dur": 62,
-     "status": "new",
+     "status": "uploaded",
      "attempts": 0,
-     "found": "2026-11-17 02:08"
+     "found": "2026-11-17 02:08",
+     "fb": "1467722788784529",
+     "uploaded": "2026-11-25 23:35",
+     "error": ""
     },
     {
      "id": "7665394802468424991",
@@ -11725,6 +11782,15 @@
      "status": "new",
      "attempts": 0,
      "found": "2026-11-25 08:00"
+    },
+    {
+     "id": "7712163728522743070",
+     "url": "https://www.tiktok.com/@thatvegancowgirl/video/7712163728522743070",
+     "caption": "Replying to @lindscurated 🫶🫶🫶 #homebirth #crunchymom #birth #firsttimemom #laboranddelivery ",
+     "dur": 69,
+     "status": "new",
+     "attempts": 0,
+     "found": "2026-11-25 23:00"
     }
    ],
    "seen": [
@@ -11922,7 +11988,8 @@
     "7711534537985019167",
     "7711853526141439262",
     "7711889187762457886",
-    "7711908760477846815"
+    "7711908760477846815",
+    "7712163728522743070"
    ],
    "slots": {
     "2026-11-23": [
@@ -11931,9 +11998,11 @@
     "2026-11-24": [
      "23:00"
     ],
-    "2026-11-25": []
+    "2026-11-25": [
+     "23:00"
+    ]
    },
-   "last_checked": "2026-11-25 17:39",
+   "last_checked": "2026-11-25 23:00",
    "first_done": true,
    "scan_fail": 0
   },
@@ -15963,12 +16032,180 @@
     ],
     "2026-11-25": []
    },
-   "last_checked": "2026-11-25 17:39",
+   "last_checked": "2026-11-25 23:00",
    "first_done": true,
    "scan_fail": 0
   }
  },
  "log": [
+  {
+   "t": "2026-11-25 23:35",
+   "l": "info",
+   "a": "",
+   "m": "1 Page(s) left - they will upload in the next run (keeps the gaps safe)"
+  },
+  {
+   "t": "2026-11-25 23:35",
+   "l": "success",
+   "a": "amwjr264mgsn0",
+   "m": "video 333791 -> doriasglam uploaded (reel)"
+  },
+  {
+   "t": "2026-11-25 23:33",
+   "l": "success",
+   "a": "amwjr264mgsn0",
+   "m": "video 050399 -> doriasglam uploaded (reel)"
+  },
+  {
+   "t": "2026-11-25 23:33",
+   "l": "info",
+   "a": "amwjr264mgsn0",
+   "m": "23:00 slot - starting upload"
+  },
+  {
+   "t": "2026-11-25 23:28",
+   "l": "success",
+   "a": "amwjqyrg9oct3",
+   "m": "video 348577 -> studygermandaily uploaded (reel)"
+  },
+  {
+   "t": "2026-11-25 23:26",
+   "l": "success",
+   "a": "amwjqyrg9oct3",
+   "m": "video 436321 -> studygermandaily uploaded (reel)"
+  },
+  {
+   "t": "2026-11-25 23:26",
+   "l": "info",
+   "a": "amwjqyrg9oct3",
+   "m": "23:00 slot - starting upload"
+  },
+  {
+   "t": "2026-11-25 23:23",
+   "l": "success",
+   "a": "amwjqxz5jin1q",
+   "m": "video 870350 -> shootingcanons uploaded (reel)"
+  },
+  {
+   "t": "2026-11-25 23:21",
+   "l": "info",
+   "a": "amwjqxz5jin1q",
+   "m": "video 731213 skipped - the same video is already on the Page"
+  },
+  {
+   "t": "2026-11-25 23:20",
+   "l": "success",
+   "a": "amwjqxz5jin1q",
+   "m": "video 657101 -> shootingcanons uploaded (reel)"
+  },
+  {
+   "t": "2026-11-25 23:20",
+   "l": "info",
+   "a": "amwjqxz5jin1q",
+   "m": "23:00 slot - starting upload"
+  },
+  {
+   "t": "2026-11-25 23:14",
+   "l": "success",
+   "a": "amwjqsilru89u",
+   "m": "video 492958 -> abodyofproof uploaded (reel)"
+  },
+  {
+   "t": "2026-11-25 23:12",
+   "l": "success",
+   "a": "amwjqsilru89u",
+   "m": "video 678239 -> abodyofproof uploaded (reel)"
+  },
+  {
+   "t": "2026-11-25 23:12",
+   "l": "info",
+   "a": "amwjqsilru89u",
+   "m": "23:00 slot - starting upload"
+  },
+  {
+   "t": "2026-11-25 23:07",
+   "l": "success",
+   "a": "amwjqa6cruod7",
+   "m": "video 288406 -> justacrystallovinghomo uploaded (reel)"
+  },
+  {
+   "t": "2026-11-25 23:06",
+   "l": "success",
+   "a": "amwjqa6cruod7",
+   "m": "video 713750 -> justacrystallovinghomo uploaded (reel)"
+  },
+  {
+   "t": "2026-11-25 23:06",
+   "l": "info",
+   "a": "amwjqa6cruod7",
+   "m": "23:00 slot - starting upload"
+  },
+  {
+   "t": "2026-11-25 23:02",
+   "l": "success",
+   "a": "amwcd8ml6ywwg",
+   "m": "video 942622 -> Hidden Badge uploaded (reel)"
+  },
+  {
+   "t": "2026-11-25 23:01",
+   "l": "success",
+   "a": "amwcd8ml6ywwg",
+   "m": "video 867742 -> Hidden Badge uploaded (reel)"
+  },
+  {
+   "t": "2026-11-25 23:00",
+   "l": "info",
+   "a": "amwcd8ml6ywwg",
+   "m": "23:00 slot - starting upload"
+  },
+  {
+   "t": "2026-11-25 23:00",
+   "l": "info",
+   "a": "amwjrmh1ckfrk",
+   "m": "check done: 0 new videos added to queue"
+  },
+  {
+   "t": "2026-11-25 23:00",
+   "l": "info",
+   "a": "amwjr264mgsn0",
+   "m": "check done: 1 new videos added to queue"
+  },
+  {
+   "t": "2026-11-25 23:00",
+   "l": "info",
+   "a": "amwjqyrg9oct3",
+   "m": "check done: 0 new videos added to queue"
+  },
+  {
+   "t": "2026-11-25 23:00",
+   "l": "info",
+   "a": "amwjqxz5jin1q",
+   "m": "check done: 0 new videos added to queue"
+  },
+  {
+   "t": "2026-11-25 23:00",
+   "l": "info",
+   "a": "amwjqsilru89u",
+   "m": "check done: 0 new videos added to queue"
+  },
+  {
+   "t": "2026-11-25 23:00",
+   "l": "info",
+   "a": "amwjqa6cruod7",
+   "m": "check done: 0 new videos added to queue"
+  },
+  {
+   "t": "2026-11-25 23:00",
+   "l": "info",
+   "a": "amwcd8ml6ywwg",
+   "m": "check done: 1 new videos added to queue"
+  },
+  {
+   "t": "2026-11-25 23:00",
+   "l": "info",
+   "a": "",
+   "m": "GitHub skipped runs for 5.4 hours (now running again)"
+  },
   {
    "t": "2026-11-25 17:39",
    "l": "info",
@@ -17600,177 +17837,9 @@
    "l": "info",
    "a": "amwcd8ml6ywwg",
    "m": "check done: 3 new videos added to queue"
-  },
-  {
-   "t": "2026-11-20 22:14",
-   "l": "info",
-   "a": "",
-   "m": "GitHub skipped runs for 8.8 hours (now running again)"
-  },
-  {
-   "t": "2026-11-20 13:26",
-   "l": "info",
-   "a": "amwjrmh1ckfrk",
-   "m": "check done: 0 new videos added to queue"
-  },
-  {
-   "t": "2026-11-20 13:26",
-   "l": "info",
-   "a": "amwjr264mgsn0",
-   "m": "check done: 0 new videos added to queue"
-  },
-  {
-   "t": "2026-11-20 13:25",
-   "l": "info",
-   "a": "amwjqyrg9oct3",
-   "m": "check done: 0 new videos added to queue"
-  },
-  {
-   "t": "2026-11-20 13:25",
-   "l": "info",
-   "a": "amwjqxz5jin1q",
-   "m": "check done: 0 new videos added to queue"
-  },
-  {
-   "t": "2026-11-20 13:25",
-   "l": "info",
-   "a": "amwjqsilru89u",
-   "m": "check done: 0 new videos added to queue"
-  },
-  {
-   "t": "2026-11-20 13:25",
-   "l": "info",
-   "a": "amwjqa6cruod7",
-   "m": "check done: 0 new videos added to queue"
-  },
-  {
-   "t": "2026-11-20 13:25",
-   "l": "info",
-   "a": "amwcd8ml6ywwg",
-   "m": "check done: 1 new videos added to queue"
-  },
-  {
-   "t": "2026-11-20 13:25",
-   "l": "info",
-   "a": "",
-   "m": "GitHub skipped runs for 7.5 hours (now running again)"
-  },
-  {
-   "t": "2026-11-20 05:54",
-   "l": "info",
-   "a": "amwjrmh1ckfrk",
-   "m": "looked at 0 video(s) already on the Page - 11 known"
-  },
-  {
-   "t": "2026-11-20 05:54",
-   "l": "info",
-   "a": "amwjrmh1ckfrk",
-   "m": "check done: 0 new videos added to queue"
-  },
-  {
-   "t": "2026-11-20 05:54",
-   "l": "info",
-   "a": "amwjr264mgsn0",
-   "m": "looked at 8 video(s) already on the Page - 57 known"
-  },
-  {
-   "t": "2026-11-20 05:54",
-   "l": "info",
-   "a": "amwjr264mgsn0",
-   "m": "check done: 3 new videos added to queue"
-  },
-  {
-   "t": "2026-11-20 05:54",
-   "l": "info",
-   "a": "amwjqyrg9oct3",
-   "m": "looked at 8 video(s) already on the Page - 101 known"
-  },
-  {
-   "t": "2026-11-20 05:54",
-   "l": "info",
-   "a": "amwjqyrg9oct3",
-   "m": "check done: 0 new videos added to queue"
-  },
-  {
-   "t": "2026-11-20 05:54",
-   "l": "info",
-   "a": "amwjqxz5jin1q",
-   "m": "looked at 8 video(s) already on the Page - 76 known"
-  },
-  {
-   "t": "2026-11-20 05:53",
-   "l": "info",
-   "a": "amwjqxz5jin1q",
-   "m": "check done: 0 new videos added to queue"
-  },
-  {
-   "t": "2026-11-20 05:53",
-   "l": "info",
-   "a": "amwjqsilru89u",
-   "m": "looked at 8 video(s) already on the Page - 112 known"
-  },
-  {
-   "t": "2026-11-20 05:53",
-   "l": "info",
-   "a": "amwjqsilru89u",
-   "m": "check done: 0 new videos added to queue"
-  },
-  {
-   "t": "2026-11-20 05:53",
-   "l": "info",
-   "a": "amwjqa6cruod7",
-   "m": "looked at 8 video(s) already on the Page - 74 known"
-  },
-  {
-   "t": "2026-11-20 05:53",
-   "l": "info",
-   "a": "amwjqa6cruod7",
-   "m": "check done: 0 new videos added to queue"
-  },
-  {
-   "t": "2026-11-20 05:53",
-   "l": "info",
-   "a": "amwcd8ml6ywwg",
-   "m": "check done: 1 new videos added to queue"
-  },
-  {
-   "t": "2026-11-20 05:53",
-   "l": "info",
-   "a": "",
-   "m": "GitHub skipped runs for 6.7 hours (now running again)"
-  },
-  {
-   "t": "2026-11-19 23:01",
-   "l": "error",
-   "a": "",
-   "m": "Facebook block - all uploads paused until 2026-11-20 11:01: For security reasons, your account has limited access to the site for a few days. If you have any questions, please contact our Help Center. (code 368)"
-  },
-  {
-   "t": "2026-11-19 23:01",
-   "l": "info",
-   "a": "amwcd8ml6ywwg",
-   "m": "23:00 slot - starting upload"
-  },
-  {
-   "t": "2026-11-19 23:01",
-   "l": "info",
-   "a": "amwjrmh1ckfrk",
-   "m": "check done: 0 new videos added to queue"
-  },
-  {
-   "t": "2026-11-19 23:01",
-   "l": "info",
-   "a": "amwjr264mgsn0",
-   "m": "check done: 0 new videos added to queue"
-  },
-  {
-   "t": "2026-11-19 23:01",
-   "l": "info",
-   "a": "amwjqyrg9oct3",
-   "m": "check done: 0 new videos added to queue"
   }
  ],
- "last_run": "2026-11-25 17:39",
+ "last_run": "2026-11-25 23:35",
  "last_action": "auto",
  "fb_conn": "b486622699c168b0",
  "posted_ids": [
@@ -17885,7 +17954,19 @@
   "7354837243959233824",
   "7355198060344954145",
   "7664747217579707679",
-  "7664776543297621278"
+  "7664776543297621278",
+  "7685730473166867742",
+  "7693200404556942622",
+  "7641940873860713750",
+  "7641947441482288406",
+  "7498192325399678239",
+  "7498429544622492958",
+  "7636828184209657101",
+  "7637219443373870350",
+  "7355512195515436321",
+  "7356155970814348577",
+  "7665015184729050399",
+  "7665110722925333791"
  ],
  "page_hold": {
   "1072471055960911": {
