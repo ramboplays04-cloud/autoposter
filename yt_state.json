@@ -391,18 +391,24 @@
      "url": "https://www.tiktok.com/@freakbobivy/video/7581039216872656141",
      "caption": "guys?",
      "views": 27200,
-     "status": "new",
+     "status": "uploaded",
      "attempts": 0,
-     "found": "2026-11-12 00:48"
+     "found": "2026-11-12 00:48",
+     "yt": "Tkz7w7yE69I",
+     "uploaded": "2026-11-26 07:10",
+     "error": ""
     },
     {
      "id": "7581039858211163447",
      "url": "https://www.tiktok.com/@freakbobivy/video/7581039858211163447",
      "caption": "filmed in jungkooks wifes house",
      "views": 27900,
-     "status": "new",
+     "status": "uploaded",
      "attempts": 0,
-     "found": "2026-11-12 00:48"
+     "found": "2026-11-12 00:48",
+     "yt": "6_McViGJ0YM",
+     "uploaded": "2026-11-26 07:10",
+     "error": ""
     },
     {
      "id": "7581957410722450702",
@@ -810,18 +816,18 @@
     "7710091228464844045"
    ],
    "slots": {
-    "2026-11-23": [
-     "00:55"
-    ],
     "2026-11-24": [
      "00:55"
     ],
     "2026-11-25": [
      "00:55"
+    ],
+    "2026-11-26": [
+     "00:55"
     ]
    },
    "owed": 0,
-   "last_checked": "2026-11-25 23:49",
+   "last_checked": "2026-11-26 07:10",
    "first_done": true
   }
  },
@@ -853,9 +859,35 @@
   "7610742528668716302",
   "7581957410722450702",
   "7606504010647948558",
-  "7352775872945982766"
+  "7352775872945982766",
+  "7581039858211163447",
+  "7581039216872656141"
  ],
  "log": [
+  {
+   "t": "2026-11-26 07:10",
+   "l": "success",
+   "a": "ymwcj6ohxpfxo",
+   "m": "video 656141 -> freakbobivy uploaded (youtu.be/Tkz7w7yE69I)"
+  },
+  {
+   "t": "2026-11-26 07:10",
+   "l": "success",
+   "a": "ymwcj6ohxpfxo",
+   "m": "video 163447 -> freakbobivy uploaded (youtu.be/6_McViGJ0YM)"
+  },
+  {
+   "t": "2026-11-26 07:10",
+   "l": "info",
+   "a": "ymwcj6ohxpfxo",
+   "m": "00:55 slot - 2 video(s) to upload"
+  },
+  {
+   "t": "2026-11-26 07:10",
+   "l": "info",
+   "a": "ymwcj6ohxpfxo",
+   "m": "check done: 0 new videos added to queue"
+  },
   {
    "t": "2026-11-25 23:49",
    "l": "info",
@@ -1403,23 +1435,23 @@
    "m": "check done: 71 new videos added to queue"
   }
  ],
- "last_run": "2026-11-25 23:49",
+ "last_run": "2026-11-26 07:10",
  "last_action": "auto",
  "daily": {
-  "2026-11-23": {
-   "UCuHYwTa4Mr6Bnp8Pqfc3HIA": 2
-  },
   "2026-11-24": {
    "UCuHYwTa4Mr6Bnp8Pqfc3HIA": 2
   },
   "2026-11-25": {
+   "UCuHYwTa4Mr6Bnp8Pqfc3HIA": 2
+  },
+  "2026-11-26": {
    "UCuHYwTa4Mr6Bnp8Pqfc3HIA": 2
   }
  },
  "channels_status": {
   "UCuHYwTa4Mr6Bnp8Pqfc3HIA": {
    "ok": true,
-   "t": "2026-11-25 05:06"
+   "t": "2026-11-26 07:10"
   }
  }
 }
